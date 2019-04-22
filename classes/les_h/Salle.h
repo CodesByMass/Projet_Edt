@@ -16,16 +16,16 @@ class Matiere;
 class Cours;
 class Salle : public Ressource
 {
-	public:
+	private:
 		Batiment* batiment;
 		list <Matiere*> materiels;
 		int effectif;
 		Type type;
 		
-	private:
+	public:
 		Salle();
 
-		Salle(Universite*, string, int, int, int, list <Cours*>, Batiment*, list <Matiere*>, int, Type);
+		Salle(Universite*, string, int, int**, list <Cours*>, Batiment*, list <Matiere*>, int, Type);
 		
 		Salle(Salle const&);
 		

@@ -15,12 +15,12 @@ class Cours;
 class Enseignant: public Ressource
 {
 	private:
-		Matiere* specialite;
+		list<Matiere*> specialites;
 		
 	public:
 		Enseignant();
 		
-		Enseignant(Universite*, string, int, int, int, list<Cours*>, list<Matiere*>);
+		Enseignant(Universite*, string, int, int**, list<Cours*>, list<Matiere*>);
 		
 		Enseignant(Enseignant const&);
 		
@@ -28,11 +28,11 @@ class Enseignant: public Ressource
 		
 		~Enseignant();
 		
-		Matiere* get_specialite();
+		list <Matiere*> get_specialites();
 		
 		string to_string();
 		
-		void set_specialite(Matiere*);
+		void set_specialites(list<Matiere*>);
 };
 
 #endif

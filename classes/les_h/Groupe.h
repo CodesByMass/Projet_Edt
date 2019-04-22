@@ -20,7 +20,7 @@ class Groupe : public Ressource
 	public:
 		Groupe();
 		
-		Groupe(Universite*, string, int, int, int, list <Cours*>, list <Filiere*>);
+		Groupe(Universite*, string, int, int**, list <Cours*>, list <Filiere*>);
 		
 		Groupe(Groupe const&);
 		

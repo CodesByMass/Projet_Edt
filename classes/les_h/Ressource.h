@@ -21,7 +21,7 @@ class Ressource
 	public:
 		Ressource();
 		
-		Ressource(Universite*, string, int, int, int, list <Cours*>);
+		Ressource(Universite*, string, int, int**, list <Cours*>);
 		
 		Ressource(Ressource const&);
 		
@@ -44,10 +44,6 @@ class Ressource
 		void set_identifiant(string );
 		
 		void set_Vhoraire(int );
-		
-		void set_Hmin(int );
-		
-		void set_Hmax(int );
 		
 		void set_cours(list <Cours*> );
 		

@@ -14,7 +14,7 @@ class EDT
 {
 	private:	
 		list <Cours*>** cours;
-		Universite* universite;
+		Filiere* filiere;
 		int dureeCreneau;
 		int nbJours;
 		int nbCreneau;	
@@ -22,7 +22,7 @@ class EDT
 	public:
 		EDT();
 		
-		EDT(list <Cours*>**, Universite*, int, int, int*);
+		EDT(list <Cours*>**, Filiere*, int, int, int);
 		
 		EDT(EDT const&);
 		
@@ -32,7 +32,7 @@ class EDT
 		
 		list <Cours*>** get_cours();
 		
-		Universite* get_universite();
+		Filiere* get_filiere();
 		
 		int get_dureeCreneau();
 		
@@ -42,9 +42,9 @@ class EDT
 		
 		string to_string();
 		
-		void set_cours(list <Cours*>**);
+		void set_cours(list <Cours*>, int x, int y);
 		
-		void set_universite(Universite* );
+		void set_filiere(Filiere* );
 		
 		void set_dureeCreneau(int);
 		

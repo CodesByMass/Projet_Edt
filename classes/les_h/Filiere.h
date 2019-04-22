@@ -8,6 +8,7 @@
 #include <iostream>
 using namespace std;
 
+class Groupe;
 class Matiere;
 class Universite;
 class EDT;
@@ -15,6 +16,7 @@ class Filiere
 {
 	private:
 		list <Matiere*> matieres;
+		list <Groupe*> groupes;
 		string nom;
 		Universite* universite;
 		EDT* edt;
@@ -22,7 +24,7 @@ class Filiere
 	public:
 		Filiere();
 		
-		Filiere(list <Matiere*>, Universite*, string, EDT*);
+		Filiere(list <Matiere*>, list<Groupe*>, Universite*, string, EDT*);
 		
 		Filiere(Filiere const&);
 		
@@ -38,11 +40,15 @@ class Filiere
 		
 		EDT* get_edt();
 		
+		list<Groupe*> get_groupes();
+		
 		string to_string();
 		
 		void set_matieres(list <Matiere*>);
 		
 		void set_nom(string );
+		
+		void set_groupes(list<Groupe*>);
 		
 		void set_universite(Universite*);
 		
