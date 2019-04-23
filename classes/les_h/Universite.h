@@ -29,6 +29,8 @@ class Universite
 		
 		Universite(list <Filiere*>, list <Groupe*>, list <Salle*>, list <Enseignant*> , string);
 		
+		Universite(	int new_fermeture, int new_ouverture, int new_interclasse, int new_pauseDejeuner, string new_nom);
+		
 		Universite(Universite const&);
 		
 		Universite(string);
@@ -55,13 +57,21 @@ class Universite
 		
 		int get_pauseDejeuner();
 		
-		void set_filieres(list <Filiere*> );
+		void add_filiere(Filiere*);	
 		
-		void set_groupes(list <Groupe*>);
+		void del_filiere(Filiere*);
 		
-		void set_salles(list <Salle*> );
+		void add_groupe(Groupe*);
 		
-		void set_enseignants(list <Enseignant*> );
+		void del_groupe(Groupe*);
+		
+		void add_salle(Salle*);
+		
+		void del_salle(Salle*);
+		
+		void add_enseignant(Enseignant*);
+		
+		void del_enseignant(Enseignant*);
 
 		void set_fermeture(int);
 		

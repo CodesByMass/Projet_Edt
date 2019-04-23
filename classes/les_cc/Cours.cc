@@ -12,13 +12,12 @@ Cours::Cours()
 	salle = NULL;
 	enseignant = NULL;
 	matiere = NULL;
-	edt = NULL;
 	duree = -1;
 	emplacement[0] = -1;
 	emplacement[1] = -1;
 }
 
-Cours::Cours(Salle* s, list <Groupe*> g, Enseignant* e, Type t, Matiere* m, EDT* new_edt, int du, int emplacementJour, int emplacementHeure)
+Cours::Cours(Salle* s, list <Groupe*> g, Enseignant* e, Type t, Matiere* m, list <EDT*> new_edt, int du, int emplacementJour, int emplacementHeure)
 {
 	salle = s;
 	groupes = g;
@@ -31,12 +30,11 @@ Cours::Cours(Salle* s, list <Groupe*> g, Enseignant* e, Type t, Matiere* m, EDT*
 	emplacement[1] = emplacementHeure;
 }
 
-Cours::Cours(int d)
+Cours::Cours(int d, Matiere* m)
 {
 	salle = NULL;
 	enseignant = NULL;
-	matiere = NULL;
-	edt = NULL;
+	matiere = m;
 	duree = d;
 	emplacement[0] = -1;
 	emplacement[1] = -1;
@@ -65,19 +63,20 @@ Cours::~Cours()
 	cout << "Destruction Cours" << endl;
 	// On le supprime de la liste de cours de la salle
 	if(salle != NULL)
-		salle->get_cours().remove(this);
+		salle->del_cours(this);
 	// On le supprime de la liste de cours de l'enseignant
 	if(enseignant != NULL)
-		enseignant->get_cours().remove(this);
+		enseignant->del_cours(this);;
 	// On le supprime de la liste de cours du groupe
 	for(list<Groupe*>::iterator it = groupes.begin(); it!= groupes.end(); ++it){
-		(*it)->get_cours().remove(this);}
+		(*it)->del_cours(this);}
 	// On le supprime de la liste de cours de la matiere
 	if(matiere != NULL)
-		matiere->get_cours().remove(this);
+		matiere->del_cours(this);
 	// On le supprime de la liste de cours de l'edt
-	if(emplacement[0] != -1 && emplacement[1] != -1){
-		edt->get_cours()[emplacement[0]][emplacement[1]].remove(this);}
+	for(list<EDT*>::iterator it = edt.begin(); it!= edt.end(); ++it){
+		if(emplacement[0] != -1 && emplacement[1] != -1){
+		(*it)->del_cours(this,emplacement[0],emplacement[1]);}}
 }
 
 Salle* Cours::get_salle()
@@ -105,7 +104,7 @@ Matiere* Cours::get_matiere()
 	return matiere;
 }
 
-EDT* Cours::get_edt()
+list <EDT*> Cours::get_edt()
 {
 	return edt;
 }
@@ -131,9 +130,14 @@ void Cours::set_salle(Salle* s)
 	salle = s;
 }
 
-void Cours::set_groupes(list <Groupe*> g)
+void Cours::add_groupe(Groupe* g)
 {
-	groupes = g;
+	groupes.push_front(g);
+}
+		
+void Cours::del_groupe(Groupe* g)
+{
+	groupes.remove(g);
 }
 
 void Cours::set_enseignant(Enseignant* e)
@@ -151,9 +155,14 @@ void Cours::set_matiere(Matiere* m)
 	matiere = m;
 }
 
-void Cours::set_edt(EDT* new_edt)
+void Cours::del_edt(EDT* e)
 {
-	edt = new_edt;
+	edt.remove(e);
+}
+		
+void Cours::add_edt(EDT* e)
+{
+	edt.push_front(e);
 }
 
 void Cours::set_duree(int d)

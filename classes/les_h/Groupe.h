@@ -22,6 +22,8 @@ class Groupe : public Ressource
 		
 		Groupe(Universite*, string, int, int**, list <Cours*>, list <Filiere*>);
 		
+		Groupe(Universite*, string, int, int**);
+		
 		Groupe(Groupe const&);
 		
 		Groupe(string);
@@ -32,7 +34,9 @@ class Groupe : public Ressource
 		
 		string to_string();
 		
-		void set_filieres(list <Filiere*>);
+		void add_filiere(Filiere*);
+		
+		void del_filiere(Filiere* f);
 };
 
 #endif

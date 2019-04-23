@@ -24,6 +24,8 @@ class EDT
 		
 		EDT(list <Cours*>**, Filiere*, int, int, int);
 		
+		EDT(Filiere*, int, int, int);
+		
 		EDT(EDT const&);
 		
 		EDT(string);
@@ -42,7 +44,9 @@ class EDT
 		
 		string to_string();
 		
-		void set_cours(list <Cours*>, int x, int y);
+		void add_cours(Cours*, int x, int y);
+		
+		void del_cours(Cours*, int x, int y);
 		
 		void set_filiere(Filiere* );
 		

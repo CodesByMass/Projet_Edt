@@ -16,11 +16,23 @@ Ressource::Ressource()
 
 Ressource::Ressource(Universite* u, string id, int vh, int** h, list <Cours*> c)
 {
+	cout << "Construction Ressource" << endl;
 	universite = u;
 	identifiant = id;
 	Vhoraire = vh;
-	copy(&h[0][0],&h[0][0]+6*2,&horaires[0][0]);
+	if(h != NULL)
+		copy(&h[0][0],&h[0][0]+6*2,&horaires[0][0]);
 	cours = c;
+}
+
+Ressource::Ressource(Universite* u, string id, int vh, int** h)
+{
+	cout << "Construction Ressource" << endl;
+	universite = u;
+	identifiant = id;
+	Vhoraire = vh;
+	if(h != NULL)
+		copy(&h[0][0],&h[0][0]+6*2,&horaires[0][0]);
 }
 
 Ressource::Ressource(Ressource const& autre)
@@ -42,7 +54,7 @@ Ressource::~Ressource()
 			(*it)->set_salle(NULL);
 		for(list<Groupe*>::iterator iit = (*it)->get_groupes().begin(); iit!=(*it)->get_groupes().end(); ++iit){
 			if((*iit)->get_identifiant() == identifiant)
-				(*it)->get_groupes().erase(iit);}}
+				(*it)->del_groupe(*iit);}}
 }
 
 Universite* Ressource::get_universite()
@@ -91,9 +103,14 @@ void Ressource::set_Vhoraire(int vh)
 	Vhoraire = vh;
 }
 
-void Ressource::set_cours(list <Cours*> )
+void Ressource::add_cours(Cours* c)
 {
+	cours.push_front(c);
+}
 
+void Ressource::del_cours(Cours* c)
+{
+	cours.remove(c);
 }
 
 void Ressource::set_horaires(int** h)

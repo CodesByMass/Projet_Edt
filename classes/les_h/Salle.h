@@ -27,6 +27,8 @@ class Salle : public Ressource
 
 		Salle(Universite*, string, int, int**, list <Cours*>, Batiment*, list <Matiere*>, int, Type);
 		
+		Salle(Universite* u, string id, int vh, int** h, Batiment*, int, Type);
+		
 		Salle(Salle const&);
 		
 		Salle(string);
@@ -45,7 +47,9 @@ class Salle : public Ressource
 		
 		void set_batiment(Batiment* );
 		
-		void set_materiels(list <Matiere*> );
+		void add_materiel(Matiere*);
+
+		void del_materiel(Matiere*);
 		
 		void set_effectif(int );
 		
@@ -54,6 +58,7 @@ class Salle : public Ressource
 
 struct Batiment
 {
+	string nom;
 	list<Salle*> salles;
 };
 

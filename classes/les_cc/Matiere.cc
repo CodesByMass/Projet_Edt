@@ -20,6 +20,12 @@ Matiere::Matiere(list <Cours*> c, list <Filiere*> f, list <Salle*> s, int v, lis
 		enseignants = e;
 }
 
+Matiere::Matiere(int v, string n)
+{
+		nom = n;
+		volume = v;
+}
+
 Matiere::Matiere(Matiere const& autre)
 {
 		filieres = autre.filieres;
@@ -40,16 +46,16 @@ Matiere::~Matiere()
 	cout << "Destruction Matiere" << endl;
 	// supprimer la matiere des filieres
 	for(list<Filiere*>::iterator it = filieres.begin(); it!= filieres.end(); ++it){
-		(*it)->get_matieres().remove(this);}
+		(*it)->del_matiere(this);}
 	// supprimer les cours qui lui sont associés
 	for(list<Cours*>::iterator it = cours.begin(); it!= cours.end(); ++it){
-		delete[] (*it);}
+		(*it)->set_matiere(NULL);}
 	// supprimer la matiere des salles
 	for(list<Salle*>::iterator it = salles.begin(); it!= salles.end(); ++it){
-		(*it)->get_materiels().remove(this);}
+		(*it)->del_materiel(this);}
 	// supprimer la qualification des professeurs 
 	for(list<Enseignant*>::iterator it = enseignants.begin(); it!= enseignants.end(); ++it){
-		(*it)->get_specialites().remove(this);}
+		(*it)->del_specialite(this);}
 }
 
 list <Filiere*> Matiere::get_filieres()
@@ -88,24 +94,44 @@ string Matiere::to_string()
 	return "rien";
 }
 
-void Matiere::set_filieres(list <Filiere*> f)
+void Matiere::add_filiere(Filiere* f)
 {
-	filieres = f;
+	filieres.push_front(f);
 }
 
-void Matiere::set_cours(list <Cours*> c)
+void Matiere::del_filiere(Filiere* f)
 {
-	cours = c;
+	filieres.remove(f);
 }
 
-void Matiere::set_salles(list<Salle*> s)
+void Matiere::add_cours(Cours* c)
 {
-	salles = s;
+	cours.push_front(c);
 }
 
-void Matiere::set_enseignants(list <Enseignant*> e)
+void Matiere::del_cours(Cours* c)
 {
-	enseignants = e;
+	cours.remove(c);
+}
+
+void Matiere::add_salle(Salle* s)
+{
+	salles.push_front(s);
+}
+
+void Matiere::del_salle(Salle* s)
+{
+	salles.remove(s);
+}
+
+void Matiere::add_enseignant(Enseignant* e)
+{
+	enseignants.push_front(e);
+}
+
+void Matiere::del_enseignant(Enseignant* e)
+{
+	enseignants.remove(e);
 }
 
 void Matiere::set_nom(string n)

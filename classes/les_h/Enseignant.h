@@ -22,6 +22,8 @@ class Enseignant: public Ressource
 		
 		Enseignant(Universite*, string, int, int**, list<Cours*>, list<Matiere*>);
 		
+		Enseignant(Universite*, string, int, int**);
+		
 		Enseignant(Enseignant const&);
 		
 		Enseignant(string);
@@ -32,7 +34,9 @@ class Enseignant: public Ressource
 		
 		string to_string();
 		
-		void set_specialites(list<Matiere*>);
+		void add_specialite(Matiere*);
+		
+		void del_specialite(Matiere*);	
 };
 
 #endif

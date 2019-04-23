@@ -23,16 +23,16 @@ class Cours
 		Enseignant* enseignant;
 		Type type;
 		Matiere* matiere;
-		EDT* edt;
+		list<EDT*> edt;
 		int duree;
 		int emplacement[2];
 		
 	public:
 		Cours();
 		
-		Cours(Salle*, list <Groupe*>, Enseignant*, Type, Matiere*, EDT*, int, int emplacementJour, int emplacementHeure);
+		Cours(Salle*, list <Groupe*>, Enseignant*, Type, Matiere*, list <EDT*>, int, int emplacementJour, int emplacementHeure);
 		
-		Cours(int);
+		Cours(int, Matiere*);
 		
 		Cours(Cours const& );
 		
@@ -50,7 +50,7 @@ class Cours
 		
 		Matiere* get_matiere();
 		
-		EDT* get_edt();
+		list <EDT*> get_edt();
 		
 		int get_duree();
 		
@@ -60,7 +60,9 @@ class Cours
 		
 		void set_salle(Salle*);
 		
-		void set_groupes(list <Groupe*>);
+		void add_groupe(Groupe*);
+		
+		void del_groupe(Groupe*);
 		
 		void set_enseignant(Enseignant*);
 		
@@ -68,7 +70,9 @@ class Cours
 		
 		void set_matiere(Matiere*);
 		
-		void set_edt(EDT*);
+		void del_edt(EDT*);
+		
+		void add_edt(EDT*);
 		
 		void set_duree(int);
 		

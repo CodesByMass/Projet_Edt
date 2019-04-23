@@ -10,9 +10,19 @@ Groupe::Groupe(Universite* u, string id, int vh, int** h, list <Cours*> c, list 
 	universite = u;
 	identifiant = id;
 	Vhoraire = vh;
-	copy(&h[0][0],&h[0][0]+6*2,&horaires[0][0]);
+	if(h!= NULL)
+		copy(&h[0][0],&h[0][0]+6*2,&horaires[0][0]);
 	cours = c;
 	filieres = f;
+}
+
+Groupe::Groupe(Universite* u, string id, int vh, int** h)
+{
+	universite = u;
+	identifiant = id;
+	Vhoraire = vh;
+	if(h!= NULL)
+		copy(&h[0][0],&h[0][0]+6*2,&horaires[0][0]);
 }
 
 Groupe::Groupe(Groupe const& autre)
@@ -34,7 +44,7 @@ Groupe::~Groupe()
 {
 	cout << "Destruction Groupe" << endl;
 	for(list<Filiere*>::iterator it = filieres.begin(); it!=filieres.end(); ++it){
-		(*it)->get_groupes().remove(this);}
+		(*it)->del_groupe(this);}
 }
 
 list <Filiere*> Groupe::get_filieres()
@@ -47,7 +57,12 @@ string Groupe::to_string()
 	return "rien";
 }
 
-void Groupe::set_filieres(list <Filiere*> f)
+void Groupe::add_filiere(Filiere* f)
 {
-	filieres = f;
+	filieres.push_front(f);
+}
+		
+void Groupe::del_filiere(Filiere* f)
+{
+	filieres.remove(f);
 }

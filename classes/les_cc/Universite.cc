@@ -28,6 +28,15 @@ Universite::Universite(list <Filiere*> f, list <Groupe*> g, list <Salle*> s, lis
 	pauseDejeuner = -1;
 	nom = new_nom;
 }
+
+Universite::Universite(int new_fermeture, int new_ouverture, int new_interclasse, int new_pauseDejeuner, string new_nom)
+{
+	fermeture = new_fermeture;
+	ouverture = new_ouverture;
+	interclasse = new_interclasse;
+	pauseDejeuner = new_pauseDejeuner;
+	nom = new_nom;
+}
 		
 Universite::Universite(Universite const& autre)
 {
@@ -61,7 +70,7 @@ Universite::~Universite()
 		(*it)->set_universite(NULL);}
 	// On supprime les filieres qui lui sont associées
 	for(list<Filiere*>::iterator it = filieres.begin(); it!=filieres.end(); ++it){
-		delete[] *it;}
+		(*it)->set_universite(NULL);}
 }
 
 list <Filiere*> Universite::get_filieres()
@@ -114,25 +123,45 @@ int Universite::get_pauseDejeuner()
 {
 	return pauseDejeuner;
 }
-		
-void Universite::set_filieres(list <Filiere*> f)
+
+void Universite::add_filiere(Filiere* f)
 {
-	filieres = f;
+	filieres.push_front(f);
+}	
+
+void Universite::del_filiere(Filiere* f)
+{
+	filieres.remove(f);
 }
-		
-void Universite::set_groupes(list <Groupe*> g)
+
+void Universite::add_groupe(Groupe* g)
 {
-	groupes = g;
+	groupes.push_front(g);
 }
-		
-void Universite::set_salles(list <Salle*> s)
+
+void Universite::del_groupe(Groupe* g)
 {
-	salles = s;
+	groupes.remove(g);
 }
-		
-void Universite::set_enseignants(list <Enseignant*> e)
+
+void Universite::add_salle(Salle* s)
 {
-	enseignants = e;
+	salles.push_front(s);
+}
+
+void Universite::del_salle(Salle* s)
+{
+	salles.remove(s);
+}
+
+void Universite::add_enseignant(Enseignant* e)
+{
+	enseignants.push_front(e);
+}
+
+void Universite::del_enseignant(Enseignant* e)
+{
+	enseignants.remove(e);
 }
 
 void Universite::set_fermeture(int new_fermeture)

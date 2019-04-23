@@ -23,6 +23,8 @@ class Ressource
 		
 		Ressource(Universite*, string, int, int**, list <Cours*>);
 		
+		Ressource(Universite*, string, int, int**);
+		
 		Ressource(Ressource const&);
 		
 		virtual ~Ressource();
@@ -45,7 +47,9 @@ class Ressource
 		
 		void set_Vhoraire(int );
 		
-		void set_cours(list <Cours*> );
+		void add_cours(Cours* );
+		
+		void del_cours(Cours* );
 		
 		void set_horaires(int**);
 		

@@ -20,6 +20,13 @@ Filiere::Filiere(list <Matiere*> m, list<Groupe*> g, Universite* u, string new_n
 	edt = e;
 }
 
+Filiere::Filiere(string new_nom, Universite* u, EDT* e)
+{
+	nom = new_nom;
+	universite = u;
+	edt = e;
+}
+
 Filiere::Filiere(Filiere const& autre)
 {
 	matieres = autre.matieres;
@@ -29,7 +36,7 @@ Filiere::Filiere(Filiere const& autre)
 	edt = autre.edt;
 }
 
-Filiere::Filiere(string)
+Filiere::Filiere(string to_construct)
 {
 	// pour abdou et ali
 }
@@ -39,19 +46,16 @@ Filiere::~Filiere()
 	cout << "Destruction Filiere" << endl;
 	// Supprimer la filiere des groupe et si le groupe n'a plus de filiere le supprimer
 	for(list<Groupe*>::iterator it = groupes.begin(); it!=groupes.end(); ++it){
-		(*it)->get_filieres().remove(this);
-		if ((*it)->get_filieres().size() == 0)
-			delete (*it);}
+		(*it)->del_filiere(this);}
 	// Supprimer la filiere des matieres qui lui sont associés et si elle n'est plus associé a aucune filiere l'a supprimer
 	for(list<Matiere*>::iterator it = matieres.begin(); it!=matieres.end(); ++it){
-		(*it)->get_filieres().remove(this);
-		if ((*it)->get_filieres().size() == 0)
-			delete (*it);}
+		(*it)->del_filiere(this);}
 	// Supprimer la filiere dans l'universite 
 	if(universite != NULL)
-		universite->get_filieres().remove(this);
+		universite->del_filiere(this);
 	// sans filiere plus d'edt de filiere
-	delete[] edt;
+	if(edt != NULL){
+		edt->set_filiere(NULL);}
 }
 
 list <Matiere*> Filiere::get_matieres()
@@ -85,9 +89,14 @@ string Filiere::to_string()
 	return "rien";
 }
 
-void Filiere::set_matieres(list <Matiere*> m)
+void Filiere::add_matiere(Matiere* m)
 {
-	matieres = m;
+	matieres.push_front(m);
+}
+		
+void Filiere::del_matiere(Matiere* m)
+{
+	matieres.remove(m);
 }
 
 void Filiere::set_nom(string new_nom)
@@ -95,9 +104,14 @@ void Filiere::set_nom(string new_nom)
 	nom = new_nom;
 }
 
-void Filiere::set_groupes(list<Groupe*> g)
+void Filiere::add_groupe(Groupe* g)
 {
-	groupes = g;
+	groupes.push_front(g);
+}
+
+void Filiere::del_groupe(Groupe* g)
+{
+	groupes.remove(g);
 }
 
 void Filiere::set_universite(Universite* u)

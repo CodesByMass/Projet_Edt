@@ -27,6 +27,8 @@ class Matiere
 		
 		Matiere(list <Cours*>, list <Filiere*>, list <Salle*>,int, list <Enseignant*>, string);
 		
+		Matiere(int, string);
+		
 		Matiere(Matiere const&);
 				
 		Matiere(string);
@@ -47,13 +49,21 @@ class Matiere
 		
 		string to_string();
 		
-		void set_filieres(list <Filiere*> );
+		void add_filiere(Filiere*);
 		
-		void set_cours(list <Cours*> );
+		void del_filiere(Filiere*);
 		
-		void set_salles(list<Salle*>);
+		void add_cours(Cours*);
 		
-		void set_enseignants(list <Enseignant*>);
+		void del_cours(Cours*);
+		
+		void add_salle(Salle*);
+		
+		void del_salle(Salle*);
+		
+		void add_enseignant(Enseignant*);
+		
+		void del_enseignant(Enseignant*);
 		
 		void set_nom(string );
 		

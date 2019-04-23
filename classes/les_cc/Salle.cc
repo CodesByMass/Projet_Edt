@@ -12,10 +12,22 @@ Salle::Salle(Universite* u, string id, int vh, int** h, list <Cours*> c, Batimen
 	universite = u;
 	identifiant = id;
 	Vhoraire = vh;
-	copy(&h[0][0],&h[0][0]+6*2,&horaires[0][0]);
+	if(h!= NULL)
+		copy(&h[0][0],&h[0][0]+6*2,&horaires[0][0]);
 	cours = c;
 	batiment = b;
 	materiels = l;
+	effectif = eff;
+	type = t;
+}
+
+Salle::Salle(Universite* u, string id, int vh, int** h, Batiment* b, int eff, Type t){
+	universite = u;
+	identifiant = id;
+	Vhoraire = vh;
+	if(h!= NULL)
+		copy(&h[0][0],&h[0][0]+6*2,&horaires[0][0]);
+	batiment = b;
 	effectif = eff;
 	type = t;
 }
@@ -42,7 +54,7 @@ Salle::~Salle()
 {
 	cout << "Destruction Salle" << endl;
 	for(list<Matiere*>::iterator it = materiels.begin(); it!=materiels.end(); ++it){
-		(*it)->get_salles().remove(this);}
+		(*it)->del_salle(this);}
 }
 
 Batiment* Salle::get_batiment()
@@ -76,9 +88,14 @@ void Salle::set_batiment(Batiment* b)
 	batiment = b;
 }
 
-void Salle::set_materiels(list <Matiere*> l)
+void Salle::add_materiel(Matiere* m)
 {
-	materiels = l;
+	materiels.push_front(m);
+}
+
+void Salle::del_materiel(Matiere* m)
+{
+	materiels.remove(m);
 }
 
 void Salle::set_effectif(int eff)

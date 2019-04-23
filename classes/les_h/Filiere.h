@@ -26,9 +26,11 @@ class Filiere
 		
 		Filiere(list <Matiere*>, list<Groupe*>, Universite*, string, EDT*);
 		
+		Filiere(string new_nom, Universite*, EDT*);
+		
 		Filiere(Filiere const&);
 		
-		Filiere(string);
+		Filiere(string to_construct);
 		
 		~Filiere();
 		
@@ -44,11 +46,15 @@ class Filiere
 		
 		string to_string();
 		
-		void set_matieres(list <Matiere*>);
+		void add_matiere(Matiere*);
+		
+		void del_matiere(Matiere*);
 		
 		void set_nom(string );
 		
-		void set_groupes(list<Groupe*>);
+		void add_groupe(Groupe*);
+
+		void del_groupe(Groupe*);
 		
 		void set_universite(Universite*);
 		
