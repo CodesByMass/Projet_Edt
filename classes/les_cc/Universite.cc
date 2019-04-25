@@ -1,8 +1,8 @@
-#include "Universite.h"
-#include "Groupe.h"
-#include "Salle.h"
-#include "Enseignant.h"
-#include "Filiere.h"
+#include "../les_h/Universite.h"
+#include "../les_h/Groupe.h"
+#include "../les_h/Salle.h"
+#include "../les_h/Enseignant.h"
+#include "../les_h/Filiere.h"
 
 
 Universite::Universite()

@@ -1,4 +1,4 @@
-#include "Salle.h"
+#include "../les_h/Salle.h"
 
 Salle::Salle()
 {

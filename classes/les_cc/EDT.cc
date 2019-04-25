@@ -1,6 +1,6 @@
-#include "EDT.h"
-#include "Filiere.h"
-#include "Cours.h"
+#include "../les_h/EDT.h"
+#include "../les_h/Filiere.h"
+#include "../les_h/Cours.h"
 
 
 EDT::EDT()

@@ -1,10 +1,10 @@
-#include "Cours.h"
-#include "Groupe.h"
-#include "Enseignant.h"
-#include "Salle.h"
-#include "Ressource.h"
-#include "EDT.h"
-#include "Matiere.h"
+#include "../les_h/Cours.h"
+#include "../les_h/Groupe.h"
+#include "../les_h/Enseignant.h"
+#include "../les_h/Salle.h"
+#include "../les_h/Ressource.h"
+#include "../les_h/EDT.h"
+#include "../les_h/Matiere.h"
 
 Cours::Cours()
 {

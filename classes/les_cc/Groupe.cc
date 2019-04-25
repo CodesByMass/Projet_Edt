@@ -1,4 +1,4 @@
-#include "Groupe.h"
+#include "../les_h/Groupe.h"
 
 Groupe::Groupe()
 {

@@ -1,5 +1,5 @@
-#include "Enseignant.h"
-#include "Matiere.h"
+#include "../les_h/Enseignant.h"
+#include "../les_h/Matiere.h"
 
 Enseignant::Enseignant()
 {

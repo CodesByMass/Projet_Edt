@@ -1,7 +1,7 @@
-#include "Filiere.h"
-#include "Groupe.h"
-#include "Matiere.h"
-#include "Universite.h"
+#include "../les_h/Filiere.h"
+#include "../les_h/Groupe.h"
+#include "../les_h/Matiere.h"
+#include "../les_h/Universite.h"
 
 Filiere::Filiere()
 {

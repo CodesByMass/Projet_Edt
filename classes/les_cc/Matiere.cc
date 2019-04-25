@@ -1,7 +1,7 @@
-#include "Matiere.h"
-#include "Enseignant.h"
-#include "Salle.h"
-#include "Cours.h"
+#include "../les_h/Matiere.h"
+#include "../les_h/Enseignant.h"
+#include "../les_h/Salle.h"
+#include "../les_h/Cours.h"
 
 Matiere::Matiere()
 {

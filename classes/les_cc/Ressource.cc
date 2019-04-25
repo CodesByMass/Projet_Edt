@@ -1,8 +1,8 @@
-#include "Ressource.h"
-#include "Cours.h"
-#include "Groupe.h"
-#include "Enseignant.h"
-#include "Salle.h"
+#include "../les_h/Ressource.h"
+#include "../les_h/Cours.h"
+#include "../les_h/Groupe.h"
+#include "../les_h/Enseignant.h"
+#include "../les_h/Salle.h"
 
 Ressource::Ressource()
 {
