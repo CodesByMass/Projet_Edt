@@ -37,7 +37,9 @@ class Salle : public Ressource
 		
 		Batiment* get_batiment();
 		
-		list <Matiere*> get_materiels();
+		list <Matiere*>* get_materiels();
+		
+		Matiere* get_materiels(string);
 		
 		int get_effectif();
 		

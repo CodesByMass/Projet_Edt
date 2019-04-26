@@ -32,7 +32,7 @@ class Cours
 		
 		Cours(Salle*, list <Groupe*>, Enseignant*, Type, Matiere*, list <EDT*>, int, int emplacementJour, int emplacementHeure);
 		
-		Cours(int, Matiere*);
+		Cours(int, Matiere*, list <Groupe*>);
 		
 		Cours(Cours const& );
 		
@@ -42,7 +42,9 @@ class Cours
 		
 		Salle* get_salle();
 		
-		list <Groupe*> get_groupes();
+		list <Groupe*>* get_groupes();
+		
+		Groupe* get_groupes(string);
 		
 		Enseignant* get_enseignant();
 		
@@ -50,7 +52,9 @@ class Cours
 		
 		Matiere* get_matiere();
 		
-		list <EDT*> get_edt();
+		list <EDT*>* get_edt();
+		
+		EDT* get_edt(string);
 		
 		int get_duree();
 		

@@ -37,7 +37,9 @@ class Ressource
 		
 		int** get_horaires();
 		
-		list <Cours*> get_cours();
+		list <Cours*>* get_cours();
+		
+		Cours* get_cours(string);
 		
 		string to_string();
 		

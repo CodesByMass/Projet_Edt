@@ -1,10 +1,10 @@
-#include "Cours.h"
-#include "Groupe.h"
-#include "Enseignant.h"
-#include "Salle.h"
-#include "Ressource.h"
-#include "EDT.h"
-#include "Matiere.h"
+#include "../les_h/Cours.h"
+#include "../les_h/Groupe.h"
+#include "../les_h/Enseignant.h"
+#include "../les_h/Salle.h"
+#include "../les_h/Ressource.h"
+#include "../les_h/EDT.h"
+#include "../les_h/Matiere.h"
 
 Cours::Cours()
 {
@@ -15,10 +15,13 @@ Cours::Cours()
 	duree = -1;
 	emplacement[0] = -1;
 	emplacement[1] = -1;
+	groupes = {};
+	enseignant = {};
 }
 
 Cours::Cours(Salle* s, list <Groupe*> g, Enseignant* e, Type t, Matiere* m, list <EDT*> new_edt, int du, int emplacementJour, int emplacementHeure)
 {
+	cout << "Construction Cours" << endl;
 	salle = s;
 	groupes = g;
 	enseignant = e;
@@ -30,18 +33,23 @@ Cours::Cours(Salle* s, list <Groupe*> g, Enseignant* e, Type t, Matiere* m, list
 	emplacement[1] = emplacementHeure;
 }
 
-Cours::Cours(int d, Matiere* m)
+Cours::Cours(int d, Matiere* m, list <Groupe*> g)
 {
+	cout << "Construction Cours" << endl;
 	salle = NULL;
 	enseignant = NULL;
+	groupes = g;
 	matiere = m;
 	duree = d;
 	emplacement[0] = -1;
 	emplacement[1] = -1;
+	groupes = {};
+	enseignant = {};
 }
 
 Cours::Cours(Cours const& autre)
 {
+	cout << "Construction Cours" << endl;
 	salle = autre.salle;
 	groupes = autre.groupes;
 	enseignant = autre.enseignant;
@@ -61,22 +69,6 @@ Cours::Cours(string)
 Cours::~Cours()
 {
 	cout << "Destruction Cours" << endl;
-	// On le supprime de la liste de cours de la salle
-	if(salle != NULL)
-		salle->del_cours(this);
-	// On le supprime de la liste de cours de l'enseignant
-	if(enseignant != NULL)
-		enseignant->del_cours(this);;
-	// On le supprime de la liste de cours du groupe
-	for(list<Groupe*>::iterator it = groupes.begin(); it!= groupes.end(); ++it){
-		(*it)->del_cours(this);}
-	// On le supprime de la liste de cours de la matiere
-	if(matiere != NULL)
-		matiere->del_cours(this);
-	// On le supprime de la liste de cours de l'edt
-	for(list<EDT*>::iterator it = edt.begin(); it!= edt.end(); ++it){
-		if(emplacement[0] != -1 && emplacement[1] != -1){
-		(*it)->del_cours(this,emplacement[0],emplacement[1]);}}
 }
 
 Salle* Cours::get_salle()
@@ -84,9 +76,16 @@ Salle* Cours::get_salle()
 	return salle;
 }
 
-list <Groupe*> Cours::get_groupes()
+list <Groupe*>* Cours::get_groupes()
 {
-	return groupes;
+	return &groupes;
+}
+
+Groupe* Cours::get_groupes(string s)
+{
+	for(list<Groupe*>::iterator it = groupes.begin(); it!= groupes.end(); ++it)
+		if((*it)->get_identifiant() == s) return (*it); 
+	return NULL;
 }
 
 Enseignant* Cours::get_enseignant()
@@ -104,9 +103,16 @@ Matiere* Cours::get_matiere()
 	return matiere;
 }
 
-list <EDT*> Cours::get_edt()
+list <EDT*>* Cours::get_edt()
 {
-	return edt;
+	return &edt;
+}
+
+EDT* Cours::get_edt(string s)
+{
+	for(list<EDT*>::iterator it = edt.begin(); it!= edt.end(); ++it){
+		if((*it)->get_filiere() != NULL && (*it)->get_filiere()->get_nom() == s)	return (*it);}
+	return NULL;
 }
 
 int Cours::get_duree()

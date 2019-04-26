@@ -35,13 +35,21 @@ class Matiere
 		
 		~Matiere();
 		
-		list <Filiere*> get_filieres();
+		list <Filiere*>* get_filieres();
 		
-		list <Cours*> get_cours();
+		list <Cours*>* get_cours();
 		
-		list <Enseignant*> get_enseignants();
+		list <Enseignant*>* get_enseignants();
 		
-		list <Salle*> get_salles();
+		list <Salle*>* get_salles();
+		
+		Filiere* get_filieres(string);
+		
+		Cours* get_cours(string);
+		
+		Enseignant* get_enseignants(string);
+		
+		Salle* get_salles(string);
 		
 		string get_nom();
 		

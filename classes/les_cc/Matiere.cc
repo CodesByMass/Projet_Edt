@@ -1,33 +1,44 @@
-#include "Matiere.h"
-#include "Enseignant.h"
-#include "Salle.h"
-#include "Cours.h"
+#include "../les_h/Matiere.h"
+#include "../les_h/Enseignant.h"
+#include "../les_h/Salle.h"
+#include "../les_h/Cours.h"
 
 Matiere::Matiere()
 {
 	cout << "Construction Matiere" << endl;
 	nom = "";
 	volume = -1;
+	filieres = {};
+	cours = {};
+	salles = {};
+	enseignants = {};
 }
 		
 Matiere::Matiere(list <Cours*> c, list <Filiere*> f, list <Salle*> s, int v, list <Enseignant*> e, string n)
 {
-		filieres = f;
-		cours = c;
-		nom = n;
-		volume = v;
-		salles = s;
-		enseignants = e;
+	cout << "Construction Matiere" << endl;
+	filieres = f;
+	cours = c;
+	nom = n;
+	volume = v;
+	salles = s;
+	enseignants = e;
 }
 
 Matiere::Matiere(int v, string n)
 {
-		nom = n;
-		volume = v;
+	cout << "Construction Matiere" << endl;
+	nom = n;
+	volume = v;
+	filieres = {};
+	cours = {};
+	salles = {};
+	enseignants = {};
 }
 
 Matiere::Matiere(Matiere const& autre)
 {
+	cout << "Construction Matiere" << endl;
 		filieres = autre.filieres;
 		cours = autre.cours;
 		nom = autre.nom;
@@ -44,38 +55,57 @@ Matiere::Matiere(string)
 Matiere::~Matiere()
 {
 	cout << "Destruction Matiere" << endl;
-	// supprimer la matiere des filieres
-	for(list<Filiere*>::iterator it = filieres.begin(); it!= filieres.end(); ++it){
-		(*it)->del_matiere(this);}
 	// supprimer les cours qui lui sont associés
 	for(list<Cours*>::iterator it = cours.begin(); it!= cours.end(); ++it){
-		(*it)->set_matiere(NULL);}
-	// supprimer la matiere des salles
-	for(list<Salle*>::iterator it = salles.begin(); it!= salles.end(); ++it){
-		(*it)->del_materiel(this);}
-	// supprimer la qualification des professeurs 
-	for(list<Enseignant*>::iterator it = enseignants.begin(); it!= enseignants.end(); ++it){
-		(*it)->del_specialite(this);}
+		delete (*it);}
 }
 
-list <Filiere*> Matiere::get_filieres()
+list <Filiere*>* Matiere::get_filieres()
 {
-	return filieres;
+	return &filieres;
 }
 
-list <Cours*> Matiere::get_cours()
+list <Cours*>* Matiere::get_cours()
 {
-	return cours;
+	return &cours;
 }
 
-list <Enseignant*> Matiere::get_enseignants()
+list <Enseignant*>* Matiere::get_enseignants()
 {
-	return enseignants;
+	return &enseignants;
 }
 
-list <Salle*> Matiere::get_salles()
+list <Salle*>* Matiere::get_salles()
 {
-	return salles;
+	return &salles;
+}
+
+Filiere* Matiere::get_filieres(string s)
+{
+	for(list<Filiere*>::iterator it = filieres.begin(); it!= filieres.end(); ++it)
+		if((*it)->get_nom() == s) return (*it);
+	return NULL;
+}
+
+Cours* Matiere::get_cours(string s)
+{
+	for(list<Cours*>::iterator it = cours.begin(); it!= cours.end(); ++it){
+		if((*it)->get_groupes(s) != NULL)	return (*it);}
+	return NULL;
+}
+
+Enseignant* Matiere::get_enseignants(string s)
+{
+	for(list<Enseignant*>::iterator it = enseignants.begin(); it!= enseignants.end(); ++it)
+		if((*it)->get_identifiant() == s) return (*it);
+	return NULL;
+}
+
+Salle* Matiere::get_salles(string s)
+{
+	for(list<Salle*>::iterator it = salles.begin(); it!= salles.end(); ++it)
+		if((*it)->get_identifiant() == s) return (*it);
+	return NULL;
 }
 
 string Matiere::get_nom()

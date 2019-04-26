@@ -30,7 +30,9 @@ class Groupe : public Ressource
 		
 		~Groupe();
 
-		list <Filiere*> get_filieres();
+		list <Filiere*>* get_filieres();
+		
+		Filiere* get_filieres(string);
 		
 		string to_string();
 		

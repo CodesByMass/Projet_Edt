@@ -1,4 +1,4 @@
-#include "Salle.h"
+#include "../les_h/Salle.h"
 
 Salle::Salle()
 {
@@ -30,6 +30,7 @@ Salle::Salle(Universite* u, string id, int vh, int** h, Batiment* b, int eff, Ty
 	batiment = b;
 	effectif = eff;
 	type = t;
+	cours = {};
 }
 
 Salle::Salle(Salle const& autre)
@@ -62,9 +63,16 @@ Batiment* Salle::get_batiment()
 	return batiment;
 }
 
-list <Matiere*> Salle::get_materiels()
+list <Matiere*>* Salle::get_materiels()
 {
-	return materiels;
+	return &materiels;
+}
+
+Matiere* Salle::get_materiels(string s)
+{
+	for(list<Matiere*>::iterator it = materiels.begin(); it!=materiels.end(); ++it)
+		if((*it)->get_nom() == s) return *it;
+	return NULL;
 }
 
 int Salle::get_effectif()

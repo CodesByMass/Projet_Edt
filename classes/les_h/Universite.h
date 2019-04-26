@@ -37,13 +37,21 @@ class Universite
 		
 		~Universite();
 		
-		list <Filiere*> get_filieres();
+		list <Filiere*>* get_filieres();
 		
-		list <Groupe*> get_groupes();
+		list <Groupe*>* get_groupes();
 		
-		list <Salle*> get_salles();
+		list <Salle*>* get_salles();
 		
-		list <Enseignant*> get_enseignants();
+		list <Enseignant*>* get_enseignants();
+		
+		Filiere* get_filieres(string);
+		
+		Groupe* get_groupes(string);
+		
+		Salle* get_salles(string);
+		
+		Enseignant* get_enseignants(string);
 		
 		string get_nom();
 

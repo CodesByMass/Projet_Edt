@@ -1,5 +1,5 @@
-#include "Enseignant.h"
-#include "Matiere.h"
+#include "../les_h/Enseignant.h"
+#include "../les_h/Matiere.h"
 
 Enseignant::Enseignant()
 {
@@ -50,9 +50,16 @@ Enseignant::~Enseignant()
 		(*it)->del_enseignant(this);}
 }
 
-list <Matiere*> Enseignant::get_specialites()
+list <Matiere*>* Enseignant::get_specialites()
 {
-	return specialites;
+	return &specialites;
+}
+
+Matiere* Enseignant::get_specialites(string s)
+{
+	for(list<Matiere*>::iterator it = specialites.begin(); it!= specialites.end(); ++it)
+		if((*it)->get_nom() == s) return (*it);
+	return NULL;
 }
 
 string Enseignant::to_string()

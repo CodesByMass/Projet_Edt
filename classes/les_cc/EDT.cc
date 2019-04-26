@@ -1,6 +1,6 @@
-#include "EDT.h"
-#include "Filiere.h"
-#include "Cours.h"
+#include "../les_h/EDT.h"
+#include "../les_h/Filiere.h"
+#include "../les_h/Cours.h"
 
 
 EDT::EDT()
@@ -15,6 +15,7 @@ EDT::EDT()
 
 EDT::EDT(list <Cours*>** c, Filiere* f, int d, int nbJ, int nbC)
 {
+	cout << "Construction EDT" << endl;
 	// creation de l'EDT
 	cours = new list <Cours*>* [nbJ];
 	for(int i = 0; i<nbJ; i++)
@@ -31,6 +32,7 @@ EDT::EDT(list <Cours*>** c, Filiere* f, int d, int nbJ, int nbC)
 
 EDT::EDT(Filiere* f, int d, int nbJ, int nbC)
 {
+	cout << "Construction EDT" << endl;
 	// creation de l'EDT
 	cours = new list <Cours*>* [nbJ];
 	for(int i = 0; i<nbJ; i++)
@@ -44,6 +46,7 @@ EDT::EDT(Filiere* f, int d, int nbJ, int nbC)
 
 EDT::EDT(EDT const& autre)
 {
+	cout << "Construction EDT" << endl;
 	// creation de l'EDT
 	cours = new list <Cours*>* [autre.nbJours];
 	for(int i = 0; i<autre.nbJours; i++)
@@ -66,16 +69,6 @@ EDT::EDT(string)
 EDT::~EDT()
 {
 	cout << "Destruction EDT " << endl;
-	// On efface l'edt de la filiere
-	if(filiere != NULL) 
-		filiere->set_edt(NULL);
-	
-	//on efface l'edt de tous les cours
-	for(int i = 0; i<nbJours; i++){
-			for(int j = 0; j<nbCreneau; j++){
-				for(list<Cours*>::iterator it = cours[i][j].begin(); it!=cours[i][j].end(); ++it){
-					(*it)->del_edt(this);}}}
-	
 	// On supprime toute les listes
 	for(int i = 0; i<nbJours; i++)
 		delete[] cours[i];

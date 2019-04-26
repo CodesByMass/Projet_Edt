@@ -1,4 +1,4 @@
-#include "Groupe.h"
+#include "../les_h/Groupe.h"
 
 Groupe::Groupe()
 {
@@ -47,9 +47,16 @@ Groupe::~Groupe()
 		(*it)->del_groupe(this);}
 }
 
-list <Filiere*> Groupe::get_filieres()
+list <Filiere*>* Groupe::get_filieres()
 {
-	return filieres;
+	return &filieres;
+}
+
+Filiere* Groupe::get_filieres(string s)
+{
+	for(list<Filiere*>::iterator it = filieres.begin(); it!= filieres.end(); ++it)
+		if((*it)->get_nom() == s) return (*it);
+	return NULL;
 }
 
 string Groupe::to_string()

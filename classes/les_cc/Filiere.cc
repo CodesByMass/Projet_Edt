@@ -1,7 +1,7 @@
-#include "Filiere.h"
-#include "Groupe.h"
-#include "Matiere.h"
-#include "Universite.h"
+#include "../les_h/Filiere.h"
+#include "../les_h/Groupe.h"
+#include "../les_h/Matiere.h"
+#include "../les_h/Universite.h"
 
 Filiere::Filiere()
 {
@@ -9,10 +9,13 @@ Filiere::Filiere()
 	nom = "";
 	universite = NULL;
 	edt = NULL;
+	matieres = {};
+	groupes = {};
 }
 
 Filiere::Filiere(list <Matiere*> m, list<Groupe*> g, Universite* u, string new_nom, EDT* e)
 {
+	cout << "Construction Filiere" << endl;
 	matieres = m;
 	groupes = g;
 	universite = u;
@@ -22,13 +25,17 @@ Filiere::Filiere(list <Matiere*> m, list<Groupe*> g, Universite* u, string new_n
 
 Filiere::Filiere(string new_nom, Universite* u, EDT* e)
 {
+	cout << "Construction Filiere" << endl;
 	nom = new_nom;
 	universite = u;
 	edt = e;
+	matieres = {};
+	groupes = {};
 }
 
 Filiere::Filiere(Filiere const& autre)
 {
+	cout << "Construction Filiere" << endl;
 	matieres = autre.matieres;
 	groupes = autre.groupes;
 	universite = autre.universite;
@@ -44,23 +51,24 @@ Filiere::Filiere(string to_construct)
 Filiere::~Filiere()
 {
 	cout << "Destruction Filiere" << endl;
-	// Supprimer la filiere des groupe et si le groupe n'a plus de filiere le supprimer
-	for(list<Groupe*>::iterator it = groupes.begin(); it!=groupes.end(); ++it){
-		(*it)->del_filiere(this);}
 	// Supprimer la filiere des matieres qui lui sont associés et si elle n'est plus associé a aucune filiere l'a supprimer
 	for(list<Matiere*>::iterator it = matieres.begin(); it!=matieres.end(); ++it){
-		(*it)->del_filiere(this);}
-	// Supprimer la filiere dans l'universite 
-	if(universite != NULL)
-		universite->del_filiere(this);
+		if((*it) != NULL)delete (*it);}
 	// sans filiere plus d'edt de filiere
 	if(edt != NULL){
-		edt->set_filiere(NULL);}
+		delete edt;}
 }
 
-list <Matiere*> Filiere::get_matieres()
+list <Matiere*>* Filiere::get_matieres()
 {
-	return matieres;
+	return &matieres;
+}
+
+Matiere* Filiere::get_matieres(string s)
+{
+	for(list<Matiere*>::iterator it = matieres.begin(); it!=matieres.end(); ++it)
+		if((*it)->get_nom() == s) return *it;
+	return NULL;
 }
 
 string Filiere::get_nom()
@@ -78,9 +86,16 @@ EDT* Filiere::get_edt()
 	return edt;
 }
 
-list<Groupe*> Filiere::get_groupes()
+list<Groupe*>* Filiere::get_groupes()
 {
-	return groupes;
+	return &groupes;
+}
+
+Groupe* Filiere::get_groupes(string s)
+{
+	for(list<Groupe*>::iterator it = groupes.begin(); it!= groupes.end(); ++it)
+		if((*it)->get_identifiant() == s) return (*it);
+	return NULL;
 }
 
 string Filiere::to_string()
@@ -91,7 +106,7 @@ string Filiere::to_string()
 
 void Filiere::add_matiere(Matiere* m)
 {
-	matieres.push_front(m);
+	matieres.push_back(m);
 }
 		
 void Filiere::del_matiere(Matiere* m)

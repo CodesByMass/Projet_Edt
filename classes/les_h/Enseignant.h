@@ -30,7 +30,9 @@ class Enseignant: public Ressource
 		
 		~Enseignant();
 		
-		list <Matiere*> get_specialites();
+		list <Matiere*>* get_specialites();
+		
+		Matiere* get_specialites(string);
 		
 		string to_string();
 		

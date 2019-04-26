@@ -34,7 +34,9 @@ class Filiere
 		
 		~Filiere();
 		
-		list <Matiere*> get_matieres();
+		list <Matiere*>* get_matieres();
+		
+		Matiere* get_matieres(string);
 		
 		string get_nom();
 		
@@ -42,7 +44,9 @@ class Filiere
 		
 		EDT* get_edt();
 		
-		list<Groupe*> get_groupes();
+		list<Groupe*>* get_groupes();
+		
+		Groupe* get_groupes(string);
 		
 		string to_string();
 		

@@ -1,8 +1,8 @@
-#include "Universite.h"
-#include "Groupe.h"
-#include "Salle.h"
-#include "Enseignant.h"
-#include "Filiere.h"
+#include "../les_h/Universite.h"
+#include "../les_h/Groupe.h"
+#include "../les_h/Salle.h"
+#include "../les_h/Enseignant.h"
+#include "../les_h/Filiere.h"
 
 
 Universite::Universite()
@@ -13,6 +13,10 @@ Universite::Universite()
 	interclasse = -1;
 	pauseDejeuner = -1;
 	nom = "";
+	filieres = {};
+	groupes = {};
+	salles = {};
+	enseignants = {};
 }
 		
 Universite::Universite(list <Filiere*> f, list <Groupe*> g, list <Salle*> s, list <Enseignant*> e, string new_nom)
@@ -29,13 +33,18 @@ Universite::Universite(list <Filiere*> f, list <Groupe*> g, list <Salle*> s, lis
 	nom = new_nom;
 }
 
-Universite::Universite(int new_fermeture, int new_ouverture, int new_interclasse, int new_pauseDejeuner, string new_nom)
+Universite::Universite(int new_ouverture, int new_fermeture, int new_interclasse, int new_pauseDejeuner, string new_nom)
 {
+	cout << "Construction Universite" << endl;
 	fermeture = new_fermeture;
 	ouverture = new_ouverture;
 	interclasse = new_interclasse;
 	pauseDejeuner = new_pauseDejeuner;
 	nom = new_nom;
+	filieres = {};
+	groupes = {};
+	salles = {};
+	enseignants = {};
 }
 		
 Universite::Universite(Universite const& autre)
@@ -63,34 +72,62 @@ Universite::~Universite()
 	cout << "Destruction Universite" << endl;
 	// On supprime l'université contenu dans les ressources
 	for(list<Groupe*>::iterator it = groupes.begin(); it!=groupes.end(); ++it){
-		(*it)->set_universite(NULL);}
+		if((*it)!=NULL) delete (*it);}
 	for(list<Salle*>::iterator it = salles.begin(); it!=salles.end(); ++it){
-		(*it)->set_universite(NULL);}
+		if((*it)!=NULL) delete (*it);}
 	for(list<Enseignant*>::iterator it = enseignants.begin(); it!=enseignants.end(); ++it){
-		(*it)->set_universite(NULL);}
+		if((*it)!=NULL) delete (*it);}
 	// On supprime les filieres qui lui sont associées
 	for(list<Filiere*>::iterator it = filieres.begin(); it!=filieres.end(); ++it){
-		(*it)->set_universite(NULL);}
+		if((*it)!=NULL) delete (*it);}
 }
 
-list <Filiere*> Universite::get_filieres()
+list <Filiere*>* Universite::get_filieres()
 {
-	return filieres;
+	return &filieres;
 }
 		
-list <Groupe*> Universite::get_groupes()
+list <Groupe*>* Universite::get_groupes()
 {
-	return groupes;
+	return &groupes;
 }
 		
-list <Salle*> Universite::get_salles()
+list <Salle*>* Universite::get_salles()
 {
-	return salles;
+	return &salles;
 }
 		
-list <Enseignant*> Universite::get_enseignants()
+list <Enseignant*>* Universite::get_enseignants()
 {
-	return enseignants;
+	return &enseignants;
+}
+
+Filiere* Universite::get_filieres(string s)
+{
+	for(list<Filiere*>::iterator it = filieres.begin(); it!= filieres.end(); ++it)
+		if((*it)->get_nom() == s) return (*it);
+	return NULL;
+}
+		
+Groupe* Universite::get_groupes(string s)
+{
+	for(list<Groupe*>::iterator it = groupes.begin(); it!= groupes.end(); ++it)
+		if((*it)->get_identifiant() == s) return (*it);
+	return NULL;
+}
+		
+Salle* Universite::get_salles(string s)
+{
+	for(list<Salle*>::iterator it = salles.begin(); it!= salles.end(); ++it)
+		if((*it)->get_identifiant() == s) return (*it);
+	return NULL;
+}
+		
+Enseignant* Universite::get_enseignants(string s)
+{
+	for(list<Enseignant*>::iterator it = enseignants.begin(); it!= enseignants.end(); ++it)
+		if((*it)->get_identifiant() == s) return (*it);
+	return NULL;
 }
 		
 string Universite::get_nom()
