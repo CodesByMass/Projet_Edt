@@ -16,6 +16,9 @@ Enseignant::Enseignant(Universite* u, string id, int vh, int** h, list <Cours*> 
 		copy(&h[0][0],&h[0][0]+6*2,&horaires[0][0]);
 	cours = c;
 	specialites = l;
+	for(list<Matiere*>::iterator it = specialites.begin(); it!=specialites.end(); ++it){
+		(*it)->add_enseignant(this);
+		(*it)->get_enseignants()->unique();}
 }
 
 Enseignant::Enseignant(Universite* u, string id, int vh, int** h)
@@ -46,8 +49,6 @@ Enseignant::Enseignant(string)
 Enseignant::~Enseignant()
 {
 	cout << "Destruction Enseignant" << endl;
-	for(list<Matiere*>::iterator it = specialites.begin(); it!=specialites.end(); ++it){
-		(*it)->del_enseignant(this);}
 }
 
 list <Matiere*>* Enseignant::get_specialites()

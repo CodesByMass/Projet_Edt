@@ -48,12 +48,19 @@ EDT::EDT(EDT const& autre)
 {
 	cout << "Construction EDT" << endl;
 	// creation de l'EDT
+	cout << "creation du tableau" << endl;
 	cours = new list <Cours*>* [autre.nbJours];
 	for(int i = 0; i<autre.nbJours; i++)
 		cours[i] = new list<Cours*> [autre.nbCreneau];
-		
+	
+	
+	cout << "Recopie du tableau" << endl;
 	// remplissage
-	if(autre.cours != NULL)	copy(&autre.cours[0][0],&autre.cours[0][0]+autre.nbJours*autre.nbCreneau,&cours[0][0]);
+	for(int i=0; i<autre.nbJours;i++){
+		for(int j=0; j<autre.nbCreneau; j++){
+				for(list<Cours*>::iterator it = autre.cours[i][j].begin(); it!= autre.cours[i][j].end(); ++it){
+					cours[i][j].push_back(new Cours(**it));
+					(*cours[i][j].begin())->add_edt(this);}}}
 	
 	filiere = autre.filiere;
 	dureeCreneau = autre.dureeCreneau;

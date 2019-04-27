@@ -14,6 +14,10 @@ Groupe::Groupe(Universite* u, string id, int vh, int** h, list <Cours*> c, list 
 		copy(&h[0][0],&h[0][0]+6*2,&horaires[0][0]);
 	cours = c;
 	filieres = f;
+	
+	for(list<Filiere*>::iterator it = filieres.begin(); it!=filieres.end(); ++it){
+		(*it)->add_groupe(this);
+		(*it)->get_groupes()->unique();}
 }
 
 Groupe::Groupe(Universite* u, string id, int vh, int** h)
@@ -43,8 +47,6 @@ Groupe::Groupe(string)
 Groupe::~Groupe()
 {
 	cout << "Destruction Groupe" << endl;
-	for(list<Filiere*>::iterator it = filieres.begin(); it!=filieres.end(); ++it){
-		(*it)->del_groupe(this);}
 }
 
 list <Filiere*>* Groupe::get_filieres()

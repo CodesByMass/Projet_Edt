@@ -48,14 +48,6 @@ Ressource::Ressource(Ressource const& autre)
 Ressource::~Ressource()
 {
 	cout << "Destruction Ressource" << endl;
-	for(list<Cours*>::iterator it = cours.begin(); it!=cours.end(); ++it){
-		if((*it)->get_enseignant()->get_identifiant() == identifiant)
-			(*it)->set_enseignant(NULL);
-		if((*it)->get_salle()->get_identifiant() == identifiant)
-			(*it)->set_salle(NULL);
-		for(list<Groupe*>::iterator iit = (*it)->get_groupes()->begin(); iit!=(*it)->get_groupes()->end(); ++iit){
-			if((*iit)->get_identifiant() == identifiant)
-				(*it)->del_groupe(*iit);}}
 }
 
 Universite* Ressource::get_universite()

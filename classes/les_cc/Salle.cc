@@ -17,6 +17,11 @@ Salle::Salle(Universite* u, string id, int vh, int** h, list <Cours*> c, Batimen
 	cours = c;
 	batiment = b;
 	materiels = l;
+	
+	for(list<Matiere*>::iterator it = materiels.begin(); it!=materiels.end(); ++it){
+		(*it)->add_salle(this);
+		(*it)->get_salles()->unique();}	
+		
 	effectif = eff;
 	type = t;
 }
@@ -54,8 +59,6 @@ Salle::Salle(string)
 Salle::~Salle()
 {
 	cout << "Destruction Salle" << endl;
-	for(list<Matiere*>::iterator it = materiels.begin(); it!=materiels.end(); ++it){
-		(*it)->del_salle(this);}
 }
 
 Batiment* Salle::get_batiment()

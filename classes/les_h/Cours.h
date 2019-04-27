@@ -32,7 +32,7 @@ class Cours
 		
 		Cours(Salle*, list <Groupe*>, Enseignant*, Type, Matiere*, list <EDT*>, int, int emplacementJour, int emplacementHeure);
 		
-		Cours(int, Matiere*, list <Groupe*>);
+		Cours(int, Matiere*, list <Groupe*>, Type t);
 		
 		Cours(Cours const& );
 		

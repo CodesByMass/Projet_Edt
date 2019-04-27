@@ -33,7 +33,7 @@ Cours::Cours(Salle* s, list <Groupe*> g, Enseignant* e, Type t, Matiere* m, list
 	emplacement[1] = emplacementHeure;
 }
 
-Cours::Cours(int d, Matiere* m, list <Groupe*> g)
+Cours::Cours(int d, Matiere* m, list <Groupe*> g, Type t)
 {
 	cout << "Construction Cours" << endl;
 	salle = NULL;
@@ -43,8 +43,8 @@ Cours::Cours(int d, Matiere* m, list <Groupe*> g)
 	duree = d;
 	emplacement[0] = -1;
 	emplacement[1] = -1;
-	groupes = {};
 	enseignant = {};
+	type = t;
 }
 
 Cours::Cours(Cours const& autre)

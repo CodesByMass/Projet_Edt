@@ -70,7 +70,7 @@ Universite::Universite(string)
 Universite::~Universite()
 {
 	cout << "Destruction Universite" << endl;
-	// On supprime l'université contenu dans les ressources
+	// On supprime les ressources contenu dans l'université 
 	for(list<Groupe*>::iterator it = groupes.begin(); it!=groupes.end(); ++it){
 		if((*it)!=NULL) delete (*it);}
 	for(list<Salle*>::iterator it = salles.begin(); it!=salles.end(); ++it){
