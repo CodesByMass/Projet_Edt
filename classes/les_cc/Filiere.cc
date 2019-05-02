@@ -5,42 +5,46 @@
 
 Filiere::Filiere()
 {
-	cout << "Construction Filiere" << endl;
+	//cout << "Construction Filiere" << endl;
 	nom = "";
 	universite = NULL;
 	edt = NULL;
 	matieres = {};
 	groupes = {};
+	semestre = -1;
 }
 
-Filiere::Filiere(list <Matiere*> m, list<Groupe*> g, Universite* u, string new_nom, EDT* e)
+Filiere::Filiere(list <Matiere*> m, list<Groupe*> g, Universite* u, string new_nom, EDT* e, int sem)
 {
-	cout << "Construction Filiere" << endl;
+	//cout << "Construction Filiere" << endl;
 	matieres = m;
 	groupes = g;
 	universite = u;
 	nom = new_nom;
 	edt = e;
+	semestre = sem;
 }
 
-Filiere::Filiere(string new_nom, Universite* u, EDT* e)
+Filiere::Filiere(string new_nom, Universite* u, EDT* e, int sem)
 {
-	cout << "Construction Filiere" << endl;
+	//cout << "Construction Filiere" << endl;
 	nom = new_nom;
 	universite = u;
 	edt = e;
 	matieres = {};
 	groupes = {};
+	semestre = sem;
 }
 
 Filiere::Filiere(Filiere const& autre)
 {
-	cout << "Construction Filiere" << endl;
+	//cout << "Construction Filiere" << endl;
 	matieres = autre.matieres;
 	groupes = autre.groupes;
 	universite = autre.universite;
 	nom = autre.nom;
 	edt = autre.edt;
+	semestre = autre.semestre;
 }
 
 Filiere::Filiere(string to_construct)
@@ -50,7 +54,7 @@ Filiere::Filiere(string to_construct)
 
 Filiere::~Filiere()
 {
-	cout << "Destruction Filiere" << endl;
+	//cout << "Destruction Filiere" << endl;
 	// Supprimer la filiere des matieres qui lui sont associés et si elle n'est plus associé a aucune filiere l'a supprimer
 	for(list<Matiere*>::iterator it = matieres.begin(); it!=matieres.end(); ++it){
 		if((*it) != NULL)delete (*it);}
@@ -98,6 +102,11 @@ Groupe* Filiere::get_groupes(string s)
 	return NULL;
 }
 
+int Filiere::get_semestre()
+{
+	return semestre;
+}
+
 string Filiere::to_string()
 {
 	// pour abdou et ali
@@ -127,6 +136,11 @@ void Filiere::add_groupe(Groupe* g)
 void Filiere::del_groupe(Groupe* g)
 {
 	groupes.remove(g);
+}
+
+void Filiere::set_semestre(int sem)
+{
+	semestre = sem;
 }
 
 void Filiere::set_universite(Universite* u)

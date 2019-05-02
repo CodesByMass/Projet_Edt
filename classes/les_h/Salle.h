@@ -25,9 +25,9 @@ class Salle : public Ressource
 	public:
 		Salle();
 
-		Salle(Universite*, string, int, int**, list <Cours*>, Batiment*, list <Matiere*>, int, Type);
+		Salle(Universite*, string, int, int[6][2], list <Cours*>, Batiment*, list <Matiere*>, int, Type);
 		
-		Salle(Universite* u, string id, int vh, int** h, Batiment*, int, Type);
+		Salle(Universite* u, string id, int vh, int h[6][2], Batiment*, int, Type);
 		
 		Salle(Salle const&);
 		

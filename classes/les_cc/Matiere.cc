@@ -5,7 +5,7 @@
 
 Matiere::Matiere()
 {
-	cout << "Construction Matiere" << endl;
+	//cout << "Construction Matiere" << endl;
 	nom = "";
 	volume = -1;
 	filieres = {};
@@ -16,7 +16,7 @@ Matiere::Matiere()
 		
 Matiere::Matiere(list <Cours*> c, list <Filiere*> f, list <Salle*> s, int v, list <Enseignant*> e, string n)
 {
-	cout << "Construction Matiere" << endl;
+	//cout << "Construction Matiere" << endl;
 	filieres = f;
 	cours = c;
 	nom = n;
@@ -27,7 +27,7 @@ Matiere::Matiere(list <Cours*> c, list <Filiere*> f, list <Salle*> s, int v, lis
 
 Matiere::Matiere(int v, string n)
 {
-	cout << "Construction Matiere" << endl;
+	//cout << "Construction Matiere" << endl;
 	nom = n;
 	volume = v;
 	filieres = {};
@@ -38,7 +38,7 @@ Matiere::Matiere(int v, string n)
 
 Matiere::Matiere(Matiere const& autre)
 {
-	cout << "Construction Matiere" << endl;
+	//cout << "Construction Matiere" << endl;
 		filieres = autre.filieres;
 		cours = autre.cours;
 		nom = autre.nom;
@@ -54,7 +54,7 @@ Matiere::Matiere(string)
 
 Matiere::~Matiere()
 {
-	cout << "Destruction Matiere" << endl;
+	//cout << "Destruction Matiere" << endl;
 	// supprimer les cours qui lui sont associés
 	for(list<Cours*>::iterator it = cours.begin(); it!= cours.end(); ++it){
 		delete (*it);}

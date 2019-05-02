@@ -81,6 +81,8 @@ class Cours
 		void set_duree(int);
 		
 		void set_emplacement(int,int);
+		
+		bool operator ==(Cours const& autre);
 };
 
 #endif

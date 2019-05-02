@@ -21,9 +21,9 @@ class Ressource
 	public:
 		Ressource();
 		
-		Ressource(Universite*, string, int, int**, list <Cours*>);
+		Ressource(Universite*, string, int, int[6][2], list <Cours*>);
 		
-		Ressource(Universite*, string, int, int**);
+		Ressource(Universite*, string, int, int[6][2]);
 		
 		Ressource(Ressource const&);
 		
@@ -35,7 +35,7 @@ class Ressource
 		
 		int get_Vhoraire();
 		
-		int** get_horaires();
+		int get_horaires(int, int);
 		
 		list <Cours*>* get_cours();
 		

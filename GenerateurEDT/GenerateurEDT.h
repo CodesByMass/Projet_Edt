@@ -3,6 +3,7 @@
 
 #include "../classes/les_h/Data.h"
 #include <pthread.h>
+#include <algorithm>
 #include <list> 
 #include <iterator> 
 #include <cmath> 
@@ -42,9 +43,9 @@ float Random_a_b(int a, int b, int debug = 0);
 
 bool Accepte(int Eactuelle, int Evoisin, int temp, int debug = 0);
 
-int Affiche_debug(int debug = 0);
+bool Affiche_debug(int debug = 0);
 
-/*------------- Contraintes Hard ------------------*/
+/*------------- struct contraintes ------------------*/
 
 struct contrainte_arg{
 	Universite* univ;

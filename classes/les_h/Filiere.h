@@ -20,13 +20,14 @@ class Filiere
 		string nom;
 		Universite* universite;
 		EDT* edt;
+		int semestre;
 	
 	public:
 		Filiere();
 		
-		Filiere(list <Matiere*>, list<Groupe*>, Universite*, string, EDT*);
+		Filiere(list <Matiere*>, list<Groupe*>, Universite*, string, EDT*, int);
 		
-		Filiere(string new_nom, Universite*, EDT*);
+		Filiere(string new_nom, Universite*, EDT*, int);
 		
 		Filiere(Filiere const&);
 		
@@ -42,6 +43,8 @@ class Filiere
 		
 		Universite* get_universite();
 		
+		int get_semestre();
+		
 		EDT* get_edt();
 		
 		list<Groupe*>* get_groupes();
@@ -53,6 +56,8 @@ class Filiere
 		void add_matiere(Matiere*);
 		
 		void del_matiere(Matiere*);
+		
+		void set_semestre(int);
 		
 		void set_nom(string );
 		

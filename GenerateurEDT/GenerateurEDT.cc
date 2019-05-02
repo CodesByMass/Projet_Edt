@@ -115,7 +115,6 @@ EDT* GenereVoisin(Filiere* fil, EDT* edt, int debug)
 			if(Affiche_debug(debug))cout << "On change une affectation" << endl;
 			ChangeAffectation(edtVoisin, fil, debug--);
 		}
-	
 
 	//Retourner l'edt copié
 	return edtVoisin;
@@ -125,11 +124,13 @@ EDT* GenereVoisin(Filiere* fil, EDT* edt, int debug)
 int EvalueEDT(Universite* univ, EDT* edt, int debug)
 {
 	//Stocker l'evaluation des contraintes hards
+	if(Affiche_debug(debug))cout << "Evaluation des contraintes hard" << endl;
 	int Ehard = EvalueHard(univ, edt, debug--);
 	
 	//Si levaluation des contraintes hard est egal a 0
 	if(Ehard == 0){
 		//Retourner l'evaluation des contraintes soft
+		if(Affiche_debug(debug))cout << "Evaluation des contraintes hard" << endl;
 		return EvalueSoft(univ, edt, debug--);
 	}
 	//Sinon retourner 0 - l'evaluation des contraintes (en negatif pour qu'on sache si que c les contraintes hard)
@@ -214,6 +215,21 @@ EDT* DeplaceCours(EDT* edt, int debug)
 	//Selectionner un cours aleatoirement dans EDT
 	Cours* cours = SelectionneAleatoirement(edt, debug--);
 	if(Affiche_debug(debug)) cout << cours->get_matiere()->get_nom() << " du " << (*cours->get_groupes()->begin())->get_identifiant() << "du " << cours->get_emplacement()[0]+1 << "eme jour et " << cours->get_emplacement()[1]+1 << "eme creneau" << endl;
+	//Le supprimer de l'emploi du temps
+	edt->get_cours()[cours->get_emplacement()[0]][cours->get_emplacement()[1]].remove(cours);
+	cours->get_enseignant()->get_cours()->remove(cours);
+	cours->get_salle()->get_cours()->remove(cours);
+	for(list<Groupe*>::iterator g = cours->get_groupes()->begin(); g != cours->get_groupes()->begin(); ++g)
+		(*g)->get_cours()->remove(cours);
+	//Le copier
+	cours = new Cours(*cours);
+	//Le remplacer par la copie
+	edt->get_cours()[cours->get_emplacement()[0]][cours->get_emplacement()[1]].push_front(cours);
+	cours->get_enseignant()->get_cours()->push_front(cours);
+	cours->get_salle()->get_cours()->push_front(cours);
+	for(list<Groupe*>::iterator g = cours->get_groupes()->begin(); g != cours->get_groupes()->begin(); ++g)
+		(*g)->get_cours()->push_front(cours);
+
 
 	//emplacemnt actuel du cours
 	int jour = cours->get_emplacement()[0];
@@ -243,8 +259,22 @@ EDT* ChangeAffectation(EDT* edt, Filiere* fil, int debug)
 	if(Affiche_debug(debug)) cout << "Selection aléatoire du cours de "; 
 	//Selectionner un cours aleatoirement dans EDT
 	Cours* cours = SelectionneAleatoirement(edt, debug--);
-	if(Affiche_debug(debug)) cout << cours->get_matiere()->get_nom() << " du " << (*cours->get_groupes()->begin())->get_identifiant() << " du " << cours->get_emplacement()[0]+1 << "eme jour et " << cours->get_emplacement()[1]+1 << "eme creneau" << endl;
-
+	if(Affiche_debug(debug)) cout << cours->get_matiere()->get_nom() << " du " << (*cours->get_groupes()->begin())->get_identifiant() << "du " << cours->get_emplacement()[0]+1 << "eme jour et " << cours->get_emplacement()[1]+1 << "eme creneau" << endl;
+	//Le supprimer de l'emploi du temps
+	edt->get_cours()[cours->get_emplacement()[0]][cours->get_emplacement()[1]].remove(cours);
+	cours->get_enseignant()->get_cours()->remove(cours);
+	cours->get_salle()->get_cours()->remove(cours);
+	for(list<Groupe*>::iterator g = cours->get_groupes()->begin(); g != cours->get_groupes()->begin(); ++g)
+		(*g)->get_cours()->remove(cours);
+	//Le copier
+	cours = new Cours(*cours);
+	//Le remplacer par la copie
+	edt->get_cours()[cours->get_emplacement()[0]][cours->get_emplacement()[1]].push_front(cours);
+	cours->get_enseignant()->get_cours()->push_front(cours);
+	cours->get_salle()->get_cours()->push_front(cours);
+	for(list<Groupe*>::iterator g = cours->get_groupes()->begin(); g != cours->get_groupes()->begin(); ++g)
+		(*g)->get_cours()->push_front(cours);
+		
 	int i = Random_a_b(0,2);
 
 	if(i){
@@ -436,9 +466,9 @@ float Random_a_b(int a, int b, int debug)
 	return rand()%(b-a)+a;
 }
 
-int Affiche_debug(int debug)
+bool Affiche_debug(int debug)
 {
-	return debug;
+	return debug >= 1;
 }
 
 bool Accepte(int Eactuelle, int Evoisin, int temp, int debug)
@@ -472,112 +502,276 @@ bool Accepte(int Eactuelle, int Evoisin, int temp, int debug)
 }
 
 /*------------- Contraintes Hard ------------------*/
-
+/* Attention au moment ou on evalue l'edt n'est pas encore accepté c a dire que les informations sont pas les meme entre celle de l'edt de l'argument et celles de l'universié */
+//Verifié
 void* ressource_par_creneau(void* void_arg)
-{
+{	
+	//recuperation des arguments et initialisation du resultat
 	contrainte_arg* arg = (contrainte_arg*)void_arg;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte ressource_par_creneau \n---------------------\n"  << endl;
+	int* cpt = new int(0);
 	
-	if(Affiche_debug((*arg).debug)) cout << "entrer dans la contrainte ressource_par_creneau "  << endl;
+	//pour chaque groupe concerné
+	for(list<Groupe*>::iterator g = (*arg).edt->get_filiere()->get_groupes()->begin(); g != (*arg).edt->get_filiere()->get_groupes()->end(); ++g){
+		if(Affiche_debug((*arg).debug)) cout << "\nVerification ressource_par_creneau groupe " << (*arg).edt->get_filiere()->get_nom() << " " << (*g)->get_identifiant() << "\n" << endl;
+		for(list<Cours*>::iterator c = (*g)->get_cours()->begin(); c != (*g)->get_cours()->end(); ++c){
+			if(Affiche_debug((*arg).debug)) cout << "Verification cours " <<  (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<endl;
+			for(list<Cours*>::iterator autre = next(c,1); autre != (*g)->get_cours()->end(); ++autre){
+				if((*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0] && (*c)->get_emplacement()[1] == (*autre)->get_emplacement()[1]){
+					if(Affiche_debug((*arg).debug)) cout << "\t" << (*c)->get_matiere()->get_nom() << " utilise le meme groupe que " << (*autre)->get_matiere()->get_nom() << "!!!" << endl;
+					*cpt = *cpt + 1;}}}}
+					
+	//Pour chaque enseignant concerné
+	for(list<Matiere*>::iterator m = (*arg).edt->get_filiere()->get_matieres()->begin(); m != (*arg).edt->get_filiere()->get_matieres()->end(); ++m){
+		for(list<Enseignant*>::iterator e = (*m)->get_enseignants()->begin(); e != (*m)->get_enseignants()->end(); ++e){
+			if(Affiche_debug((*arg).debug)) cout << " \nVerification ressource_par_creneau de l'enseignant de " << (*m)->get_nom() << " " << (*e)->get_identifiant() << "\n" << endl;
+			for(list<Cours*>::iterator c = (*e)->get_cours()->begin(); c != (*e)->get_cours()->end(); ++c){
+			if(Affiche_debug((*arg).debug)) cout << "Verification cours " <<  (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<endl;
+			for(list<Cours*>::iterator autre = next(c,1); autre != (*e)->get_cours()->end(); ++autre){
+				if((*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0] && (*c)->get_emplacement()[1] == (*autre)->get_emplacement()[1]){
+					if(Affiche_debug((*arg).debug)) cout << "\t" << (*c)->get_matiere()->get_nom() << " utilise le meme enseignant que " << (*autre)->get_matiere()->get_nom() << "!!!" << endl;
+					*cpt = *cpt + 1;}}}}}
 	
-	int* cpt = new int(1);
-	
-	if(Affiche_debug((*arg).debug)) cout << "sortie la contrainte ressource_par_creneau "  << endl;
+	//Pour chaque salle concernés
+	for(list<Salle*>::iterator s = (*arg).univ->get_salles()->begin(); s != (*arg).univ->get_salles()->end(); ++s){
+			if(Affiche_debug((*arg).debug)) cout << " \nVerification ressource_par_creneau de la salle " << (*s)->get_identifiant() << "\n" << endl;	
+			for(list<Cours*>::iterator c = (*s)->get_cours()->begin(); c != (*s)->get_cours()->end(); ++c){
+					if(Affiche_debug((*arg).debug)) cout << "Verification cours " <<  (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<endl;
+					for(list<Cours*>::iterator autre = next(c,1); autre != (*s)->get_cours()->end(); ++autre){
+						if((*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0] && (*c)->get_emplacement()[1] == (*autre)->get_emplacement()[1]){
+							if(Affiche_debug((*arg).debug)) cout << "\t" << (*c)->get_matiere()->get_nom() << " utilise la meme salle que " << (*autre)->get_matiere()->get_nom() << "!!!" << endl;
+							*cpt = *cpt + 1;}}}}
+
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte ressource_par_creneau \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
 
+//Verifié
 void* volume_horaire_ressources(void* void_arg)
 {
 	contrainte_arg* arg = (contrainte_arg*)void_arg;
 	
-	if(Affiche_debug((*arg).debug)) cout << "entrer dans la contrainte volume_horaire_ressources "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte volume_horaire_ressources \n---------------------\n"  << endl;
+	int* cpt = new int(0);
+	int vh;
 	
-	int* cpt = new int(1);
+	//Pour chaque groupe concerné
+	for(list<Groupe*>::iterator g = (*arg).edt->get_filiere()->get_groupes()->begin(); g != (*arg).edt->get_filiere()->get_groupes()->end(); ++g){
+		if(Affiche_debug((*arg).debug)) cout << "\nVerification volume_horaire groupe " << (*arg).edt->get_filiere()->get_nom() << " " << (*g)->get_identifiant() << "\n" << endl;
+		vh = 0;
+		for(list<Cours*>::iterator c = (*g)->get_cours()->begin(); c != (*g)->get_cours()->end(); ++c){
+			if(Affiche_debug((*arg).debug)) cout << "\tCours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau dure " << (*c)->get_duree() * (*arg).edt->get_dureeCreneau() << "min" <<  endl;;
+			vh = vh + ((*c)->get_duree() * (*arg).edt->get_dureeCreneau());}
+			if(Affiche_debug((*arg).debug)) cout << "Total de " << vh/60 << "heures pour une limite de " << (*g)->get_Vhoraire() << "heures" << endl;
+			if(vh/60 > (*g)->get_Vhoraire()) *cpt = *cpt + 1;}
 	
-	if(Affiche_debug((*arg).debug)) cout << "sortie la contrainte volume_horaire_ressources "  << endl;
+	//Pour chaque enseignant concerné
+	for(list<Matiere*>::iterator m = (*arg).edt->get_filiere()->get_matieres()->begin(); m != (*arg).edt->get_filiere()->get_matieres()->end(); ++m){
+		for(list<Enseignant*>::iterator e = (*m)->get_enseignants()->begin(); e != (*m)->get_enseignants()->end(); ++e){
+			if(Affiche_debug((*arg).debug)) cout << " \nVerification volume_horaire de l'enseignant de " << (*m)->get_nom() << " " << (*e)->get_identifiant() << "\n" << endl;
+			vh = 0;
+			for(list<Cours*>::iterator c = (*e)->get_cours()->begin(); c != (*e)->get_cours()->end(); ++c){
+				if(Affiche_debug((*arg).debug)) cout << "Cours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau dure " << (*c)->get_duree() * (*arg).edt->get_dureeCreneau() << "min" <<  endl;;
+				vh = vh + ((*c)->get_duree() * (*arg).edt->get_dureeCreneau());}
+				if(Affiche_debug((*arg).debug)) cout << "Total de " << vh/60 << "heures pour une limite de " << (*e)->get_Vhoraire() << "heures" << endl;
+				if(vh/60 > (*e)->get_Vhoraire()) *cpt = *cpt + 1;}}
+	
+	//Pour chaque salle concernés
+	for(list<Salle*>::iterator s = (*arg).univ->get_salles()->begin(); s != (*arg).univ->get_salles()->end(); ++s){
+		if(Affiche_debug((*arg).debug)) cout << " \nVerification volume_horaire de la salle " << (*s)->get_identifiant() << "\n" << endl;	
+		vh = 0;
+			for(list<Cours*>::iterator c = (*s)->get_cours()->begin(); c != (*s)->get_cours()->end(); ++c){
+				if(Affiche_debug((*arg).debug)) cout << "Cours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau dure " << (*c)->get_duree() * (*arg).edt->get_dureeCreneau() << "min" <<  endl;;
+				vh = vh + ((*c)->get_duree() * (*arg).edt->get_dureeCreneau());}
+				if(Affiche_debug((*arg).debug)) cout << "Total de " << vh/60 << "heures pour une limite de " << (*s)->get_Vhoraire() << "heures" << endl;
+				if(vh/60 > (*s)->get_Vhoraire()) *cpt = *cpt + 1;}
+	
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte volume_horaire_ressources \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
 
+//Verifié
 void* respect_horaire_ressources(void* void_arg)
 {
 	contrainte_arg* arg = (contrainte_arg*)void_arg;
 	
-	if(Affiche_debug((*arg).debug)) cout << "entrer dans la contrainte respect_horaire_ressources "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte respect_horaire_ressources \n---------------------\n"  << endl;
 	
-	int* cpt = new int(1);
+	int* cpt = new int(0);
 	
-	if(Affiche_debug((*arg).debug)) cout << "sortie la contrainte respect_horaire_ressources "  << endl;
+	//Pour chaque groupe concerné
+	for(list<Groupe*>::iterator g = (*arg).edt->get_filiere()->get_groupes()->begin(); g != (*arg).edt->get_filiere()->get_groupes()->end(); ++g){
+		if(Affiche_debug((*arg).debug)) cout << "\nVerification respect_horaire groupe " << (*arg).edt->get_filiere()->get_nom() << " " << (*g)->get_identifiant() << "\n" << endl;
+		for(list<Cours*>::iterator c = (*g)->get_cours()->begin(); c != (*g)->get_cours()->end(); ++c){
+			if(Affiche_debug((*arg).debug)) cout << "\tCours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<  endl;
+			if((*c)->get_emplacement()[1] < (*g)->get_horaires((*c)->get_emplacement()[0],0) || (*c)->get_emplacement()[1] > ((*g)->get_horaires((*c)->get_emplacement()[0],1))){
+				if(Affiche_debug((*arg).debug)) cout << "\t\t" << (*g)->get_identifiant() << " n'est pas disponible a cette heure la !!!" << endl;
+				*cpt = *cpt + 1;}}}
+	
+	//Pour chaque enseignant concerné
+	for(list<Matiere*>::iterator m = (*arg).edt->get_filiere()->get_matieres()->begin(); m != (*arg).edt->get_filiere()->get_matieres()->end(); ++m){
+		for(list<Enseignant*>::iterator e = (*m)->get_enseignants()->begin(); e != (*m)->get_enseignants()->end(); ++e){
+			if(Affiche_debug((*arg).debug)) cout << " \nVerification respect_horaire de l'enseignant de " << (*m)->get_nom() << " " << (*e)->get_identifiant() << "\n" << endl;
+			for(list<Cours*>::iterator c = (*e)->get_cours()->begin(); c != (*e)->get_cours()->end(); ++c){
+				if(Affiche_debug((*arg).debug)) cout << "Cours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<  endl;
+			if((*c)->get_emplacement()[1] < (*e)->get_horaires((*c)->get_emplacement()[0],0) || (*c)->get_emplacement()[1] > ((*e)->get_horaires((*c)->get_emplacement()[0],1))){
+					if(Affiche_debug((*arg).debug)) cout << "\t\t" << (*e)->get_identifiant() << " n'est pas disponible a cette heure la !!!" << endl;
+					*cpt = *cpt + 1;}}}}
+	
+	//Pour chaque salle concernés
+	for(list<Salle*>::iterator s = (*arg).univ->get_salles()->begin(); s != (*arg).univ->get_salles()->end(); ++s){
+		if(Affiche_debug((*arg).debug)) cout << " \nVerification respect_horaire de la salle " << (*s)->get_identifiant() << "\n" << endl;	
+			for(list<Cours*>::iterator c = (*s)->get_cours()->begin(); c != (*s)->get_cours()->end(); ++c){
+				if(Affiche_debug((*arg).debug)) cout << "Cours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<  endl;
+							if((*c)->get_emplacement()[1] < (*s)->get_horaires((*c)->get_emplacement()[0],0) || (*c)->get_emplacement()[1] > ((*s)->get_horaires((*c)->get_emplacement()[0],1))){
+					if(Affiche_debug((*arg).debug)) cout << "\t\t" << (*s)->get_identifiant() << " n'est pas disponible a cette heure la !!!" << endl;
+					*cpt = *cpt + 1;}}}
+	
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte respect_horaire_ressources \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
 
+//Verifié
 void* effectif_salles(void* void_arg)
 {
 	contrainte_arg* arg = (contrainte_arg*)void_arg;
 	
-	if(Affiche_debug((*arg).debug)) cout << "entrer dans la contrainte effectif_salles "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte effectif_salles \n---------------------\n"  << endl;
 	
-	int* cpt = new int(1);
+	int* cpt = new int(0);
+	int effectif;
 	
-	if(Affiche_debug((*arg).debug)) cout << "sortie la contrainte effectif_salles "  << endl;
+	//Pour chaque salle concernés
+		for(list<Salle*>::iterator s = (*arg).univ->get_salles()->begin(); s != (*arg).univ->get_salles()->end(); ++s){
+			if(Affiche_debug((*arg).debug)) cout << " \nVerification effectif_salles de la salle " << (*s)->get_identifiant() << "\n" << endl;	
+			for(list<Cours*>::iterator c = (*s)->get_cours()->begin(); c != (*s)->get_cours()->end(); ++c){
+				if(Affiche_debug((*arg).debug)) cout << "Cours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<  endl;
+				effectif = 0;
+				for(list<Groupe*>::iterator g = (*c)->get_groupes()->begin(); g != (*c)->get_groupes()->end(); ++g){
+					effectif+= (*g)->get_effectif();}
+				if(Affiche_debug((*arg).debug)) cout << "Le total est de " << effectif << " élèves pour une salle de " << (*s)->get_effectif() <<  endl;
+				if(effectif > (*s)->get_effectif()){
+					if(Affiche_debug((*arg).debug)) cout << "\t\tConflit effectif de salle !!!" <<  endl;
+					*cpt = *cpt + 1;}}}
+	
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie de la contrainte effectif_salles \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
 
+//Verifié
 void* equipement_salles(void* void_arg)
 {
 	contrainte_arg* arg = (contrainte_arg*)void_arg;
 	
-	if(Affiche_debug((*arg).debug)) cout << "entrer dans la contrainte equipement_salles "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte equipement_salles \n---------------------\n"  << endl;
 	
-	int* cpt = new int(1);
+	int* cpt = new int(0);
+	int flag;
 	
-	if(Affiche_debug((*arg).debug)) cout << "sortie la contrainte equipement_salles "  << endl;
+	//Pour chaque salle concernés
+		for(list<Salle*>::iterator s = (*arg).univ->get_salles()->begin(); s != (*arg).univ->get_salles()->end(); ++s){
+			if(Affiche_debug((*arg).debug)) cout << " \nVerification equipement_salles de la salle " << (*s)->get_identifiant() << "\n" << endl;	
+			for(list<Cours*>::iterator c = (*s)->get_cours()->begin(); c != (*s)->get_cours()->end(); ++c){
+				if(Affiche_debug((*arg).debug)) cout << "Cours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<  endl;
+				flag = 1;
+				for(list<Matiere*>::iterator m = (*s)->get_materiels()->begin(); m != (*s)->get_materiels()->end(); ++m){
+					if((*c)->get_matiere() == (*m))	flag = 0;}
+				if(flag){
+					if(Affiche_debug((*arg).debug)) cout << "\t\tConflit equipement de salle !!!" <<  endl;
+					*cpt = *cpt + 1;}}}
+	
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte equipement_salles \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
 
+//Verifié
 void* respect_pause_dejeuner(void* void_arg)
 {
 	contrainte_arg* arg = (contrainte_arg*)void_arg;
 	
-	if(Affiche_debug((*arg).debug)) cout << "entrer dans la contrainte respect_pause_dejeuner "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte respect_pause_dejeuner \n---------------------\n"  << endl;
 	
-	int* cpt = new int(1);
+	int* cpt = new int(0);
 	
-	if(Affiche_debug((*arg).debug)) cout << "sortie la contrainte respect_pause_dejeuner "  << endl;
+	//Pour chaque pause dejeuner de chaque jours
+	for(int i = 0; i < (*arg).edt->get_nbJours(); i++){
+		if(Affiche_debug((*arg).debug)) cout << "Verificaiton de la pause déjeuner du " << i+1 << "eme jour" << endl;
+		if((*arg).edt->get_cours()[i][(*arg).univ->get_pauseDejeuner()].size() != 0){
+			if(Affiche_debug((*arg).debug)) cout << "\t\tIl y a " << (*arg).edt->get_cours()[i][(*arg).univ->get_pauseDejeuner()].size() << " cours !!!" << endl;
+			*cpt = *cpt + (*arg).edt->get_cours()[i][(*arg).univ->get_pauseDejeuner()].size();}}
+	
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte respect_pause_dejeuner \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
 
+//Verifié
 void* respect_enseignant_qualifie(void* void_arg)
 {
 	contrainte_arg* arg = (contrainte_arg*)void_arg;
 	
-	if(Affiche_debug((*arg).debug)) cout << "entrer dans la contrainte respect_enseignant_qualifie "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte respect_enseignant_qualifie \n---------------------\n"  << endl;
 	
-	int* cpt = new int(1);
+	int* cpt = new int(0);
+	int flag = 1;
 	
-	if(Affiche_debug((*arg).debug)) cout << "sortie la contrainte respect_enseignant_qualifie "  << endl;
+	//Pour chaque enseignant concerné
+	for(list<Matiere*>::iterator m = (*arg).edt->get_filiere()->get_matieres()->begin(); m != (*arg).edt->get_filiere()->get_matieres()->end(); ++m){
+		for(list<Enseignant*>::iterator e = (*m)->get_enseignants()->begin(); e != (*m)->get_enseignants()->end(); ++e){
+			if(Affiche_debug((*arg).debug)) cout << " \nVerification respect_enseignant_qualifie de l'enseignant de " << (*m)->get_nom() << " " << (*e)->get_identifiant() << "\n" << endl;
+			for(list<Cours*>::iterator c = (*e)->get_cours()->begin(); c != (*e)->get_cours()->end(); ++c){
+				if(Affiche_debug((*arg).debug)) cout << "Cours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<  endl;
+				flag = 1;
+				for(list<Matiere*>::iterator m = (*e)->get_specialites()->begin(); m != (*e)->get_specialites()->end(); ++m){
+					if((*c)->get_matiere() == (*m))	flag = 0;}
+				if(flag){
+					if(Affiche_debug((*arg).debug)) cout << "\t\tL'enseignant n'est pas qualifié!!!" <<  endl;
+					*cpt = *cpt + 1;}}}}
+	
+	
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte respect_enseignant_qualifie \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
 
+//Verifié
 void* respect_type_salle(void* void_arg)
 {
 	contrainte_arg* arg = (contrainte_arg*)void_arg;
 	
-	if(Affiche_debug((*arg).debug)) cout << "entrer dans la contrainte respect_type_salle "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte respect_type_salle \n---------------------\n"  << endl;
 	
-	int* cpt = new int(1);
+	int* cpt = new int(0);
 	
-	if(Affiche_debug((*arg).debug)) cout << "sortie la contrainte respect_type_salle "  << endl;
+	//Pour chaque salle concernés
+		for(list<Salle*>::iterator s = (*arg).univ->get_salles()->begin(); s != (*arg).univ->get_salles()->end(); ++s){
+			if(Affiche_debug((*arg).debug)) cout << " \nVerification respect_type_salle de la salle " << (*s)->get_identifiant() << "\n" << endl;	
+			for(list<Cours*>::iterator c = (*s)->get_cours()->begin(); c != (*s)->get_cours()->end(); ++c){
+				if(Affiche_debug((*arg).debug)) cout << "Cours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<  endl;
+				if((*c)->get_type() != (*s)->get_type()){
+					if(Affiche_debug((*arg).debug)) cout << "\t\tConflit type de salle !!!" <<  endl;
+					*cpt = *cpt + 1;}}}
+	
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte respect_type_salle \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
 
+//Verifié
 void* cours_plusieurs_jours(void* void_arg)
 {
 	contrainte_arg* arg = (contrainte_arg*)void_arg;
 	
-	if(Affiche_debug((*arg).debug)) cout << "entrer dans la contrainte cours_plusieurs_jours "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte cours_plusieurs_jours \n---------------------\n"  << endl;
 	
-	int* cpt = new int(1);
+	int* cpt = new int(0);
 	
-	if(Affiche_debug((*arg).debug)) cout << "sortie la contrainte cours_plusieurs_jourss "  << endl;
+	//Pour chaque cours concerné
+	for(list<Matiere*>::iterator m = (*arg).edt->get_filiere()->get_matieres()->begin(); m != (*arg).edt->get_filiere()->get_matieres()->end(); ++m){
+		for(list<Cours*>::iterator c = (*m)->get_cours()->begin(); c != (*m)->get_cours()->end(); ++c){
+			if(Affiche_debug((*arg).debug)) cout << "Cours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<  endl;
+			if(((*c)->get_emplacement()[1] + (*c)->get_duree() - 1) >= (*arg).edt->get_nbCreneau()){
+				if(Affiche_debug((*arg).debug)) cout << "\t\t Ne se termine pas avant la fin des cours !!!" << endl;
+				*cpt = *cpt + 1;}}}
+	
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte cours_plusieurs_jourss \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
 
@@ -587,11 +781,11 @@ void* CM_avant_TD(void* void_arg)
 {
 	contrainte_arg* arg = (contrainte_arg*)void_arg;
 	
-	if(Affiche_debug((*arg).debug)) cout << "entrer dans la contrainte CM_avant_TD "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte CM_avant_TD \n---------------------\n"  << endl;
 	
-	int* cpt = new int(1);
+	int* cpt = new int(0);
 	
-	if(Affiche_debug((*arg).debug)) cout << "sortie la contrainte CM_avant_TD "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte CM_avant_TD \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
 
@@ -599,11 +793,11 @@ void* nb_trous(void* void_arg)
 {
 	contrainte_arg* arg = (contrainte_arg*)void_arg;
 	
-	if(Affiche_debug((*arg).debug)) cout << "entrer dans la contrainte nb_trous "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte nb_trous \n---------------------\n"  << endl;
 	
-	int* cpt = new int(1);
+	int* cpt = new int(0);
 	
-	if(Affiche_debug((*arg).debug)) cout << "sortie la contrainte nb_trous "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte nb_trous \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
 
@@ -611,11 +805,11 @@ void* repartition_horaire(void* void_arg)
 {
 	contrainte_arg* arg = (contrainte_arg*)void_arg;
 	
-	if(Affiche_debug((*arg).debug)) cout << "entrer dans la contrainte repartition_horaire "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte repartition_horaire \n---------------------\n"  << endl;
 	
-	int* cpt = new int(1);
+	int* cpt = new int(0);
 	
-	if(Affiche_debug((*arg).debug)) cout << "sortie la contrainte repartition_horaire "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte repartition_horaire \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
 
@@ -623,11 +817,11 @@ void* CM_TD_journee(void* void_arg)
 {
 	contrainte_arg* arg = (contrainte_arg*)void_arg;
 	
-	if(Affiche_debug((*arg).debug)) cout << "entrer dans la contrainte CM_TD_journee "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte CM_TD_journee \n---------------------\n"  << endl;
 	
-	int* cpt = new int(1);
+	int* cpt = new int(0);
 	
-	if(Affiche_debug((*arg).debug)) cout << "sortie la contrainte CM_TD_journee "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte CM_TD_journee \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
 
@@ -635,10 +829,10 @@ void* nb_deplacement(void* void_arg)
 {
 	contrainte_arg* arg = (contrainte_arg*)void_arg;
 	
-	if(Affiche_debug((*arg).debug)) cout << "entrer dans la contrainte nb_deplacement "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte nb_deplacement \n---------------------\n"  << endl;
 	
-	int* cpt = new int(1);
+	int* cpt = new int(0);
 	
-	if(Affiche_debug((*arg).debug)) cout << "sortie la contrainte nb_deplacement "  << endl;
+	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte nb_deplacement \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }

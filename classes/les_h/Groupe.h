@@ -16,13 +16,14 @@ class Groupe : public Ressource
 {
 	private:
 		list <Filiere*> filieres;
+		int effectif;
 		
 	public:
 		Groupe();
 		
-		Groupe(Universite*, string, int, int**, list <Cours*>, list <Filiere*>);
+		Groupe(Universite*, string, int, int[6][2], list <Cours*>, list <Filiere*>, int effectif);
 		
-		Groupe(Universite*, string, int, int**);
+		Groupe(Universite*, string, int, int[6][2], int effectif);
 		
 		Groupe(Groupe const&);
 		
@@ -32,9 +33,13 @@ class Groupe : public Ressource
 
 		list <Filiere*>* get_filieres();
 		
+		int get_effectif();
+		
 		Filiere* get_filieres(string);
 		
 		string to_string();
+		
+		void set_effectif(int);
 		
 		void add_filiere(Filiere*);
 		

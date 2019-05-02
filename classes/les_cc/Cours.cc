@@ -8,7 +8,7 @@
 
 Cours::Cours()
 {
-	cout << "Construction Cours" << endl;
+	//cout << "Construction Cours" << endl;
 	salle = NULL;
 	enseignant = NULL;
 	matiere = NULL;
@@ -21,7 +21,7 @@ Cours::Cours()
 
 Cours::Cours(Salle* s, list <Groupe*> g, Enseignant* e, Type t, Matiere* m, list <EDT*> new_edt, int du, int emplacementJour, int emplacementHeure)
 {
-	cout << "Construction Cours" << endl;
+	//cout << "Construction Cours" << endl;
 	salle = s;
 	groupes = g;
 	enseignant = e;
@@ -31,11 +31,13 @@ Cours::Cours(Salle* s, list <Groupe*> g, Enseignant* e, Type t, Matiere* m, list
 	duree = duree;
 	emplacement[0] = emplacementJour;
 	emplacement[1] = emplacementHeure;
+	for(list<Groupe*>::iterator groupe = g.begin(); groupe != g.end(); ++groupe)
+		(*groupe)->add_cours(this);
 }
 
 Cours::Cours(int d, Matiere* m, list <Groupe*> g, Type t)
 {
-	cout << "Construction Cours" << endl;
+	//cout << "Construction Cours" << endl;
 	salle = NULL;
 	enseignant = NULL;
 	groupes = g;
@@ -45,11 +47,13 @@ Cours::Cours(int d, Matiere* m, list <Groupe*> g, Type t)
 	emplacement[1] = -1;
 	enseignant = {};
 	type = t;
+	for(list<Groupe*>::iterator groupe = g.begin(); groupe != g.end(); ++groupe)
+		(*groupe)->add_cours(this);
 }
 
 Cours::Cours(Cours const& autre)
 {
-	cout << "Construction Cours" << endl;
+	//cout << "Construction Cours" << endl;
 	salle = autre.salle;
 	groupes = autre.groupes;
 	enseignant = autre.enseignant;
@@ -68,7 +72,7 @@ Cours::Cours(string)
 
 Cours::~Cours()
 {
-	cout << "Destruction Cours" << endl;
+	//cout << "Destruction Cours" << endl;
 }
 
 Salle* Cours::get_salle()
@@ -168,7 +172,7 @@ void Cours::del_edt(EDT* e)
 		
 void Cours::add_edt(EDT* e)
 {
-	edt.push_front(e);
+	edt.push_back(e);
 }
 
 void Cours::set_duree(int d)
@@ -180,4 +184,19 @@ void Cours::set_emplacement(int J,int H)
 {
 	emplacement[0] = J;
 	emplacement[1] = H;
+}
+
+bool Cours::operator ==(Cours const& autre)
+{
+	
+	if(groupes.size() != autre.groupes.size())
+		return false;
+	
+	for(list<Groupe*>::const_iterator g1 = autre.groupes.begin(); g1 != autre.groupes.end(); ++g1){
+		for(list<Groupe*>::iterator g2 = groupes.begin(); g2 != groupes.end(); ++g2){
+			if((*g1)->get_identifiant() != (*g2)->get_identifiant())
+				return false;}}
+	
+	
+	return (matiere == autre.matiere && type == autre.type);
 }

@@ -7,7 +7,7 @@
 
 Universite::Universite()
 {	
-	cout << "Construction Universite" << endl;
+	//cout << "Construction Universite" << endl;
 	fermeture = -1;
 	ouverture = -1;
 	interclasse = -1;
@@ -21,7 +21,7 @@ Universite::Universite()
 		
 Universite::Universite(list <Filiere*> f, list <Groupe*> g, list <Salle*> s, list <Enseignant*> e, string new_nom)
 {
-	cout << "Construction Universite" << endl;
+	//cout << "Construction Universite" << endl;
 	filieres = f;
 	groupes = g;
 	salles = s;
@@ -35,7 +35,7 @@ Universite::Universite(list <Filiere*> f, list <Groupe*> g, list <Salle*> s, lis
 
 Universite::Universite(int new_ouverture, int new_fermeture, int new_interclasse, int new_pauseDejeuner, string new_nom)
 {
-	cout << "Construction Universite" << endl;
+	//cout << "Construction Universite" << endl;
 	fermeture = new_fermeture;
 	ouverture = new_ouverture;
 	interclasse = new_interclasse;
@@ -49,7 +49,7 @@ Universite::Universite(int new_ouverture, int new_fermeture, int new_interclasse
 		
 Universite::Universite(Universite const& autre)
 {
-	cout << "Construction Universite" << endl;
+	//cout << "Construction Universite" << endl;
 	filieres = autre.filieres;
 	groupes = autre.groupes;
 	salles = autre.salles;
@@ -63,13 +63,13 @@ Universite::Universite(Universite const& autre)
 		
 Universite::Universite(string)
 {
-	cout << "Construction Universite" << endl;
+	//cout << "Construction Universite" << endl;
 	//pour abdou & ali
 }
 		
 Universite::~Universite()
 {
-	cout << "Destruction Universite" << endl;
+	//cout << "Destruction Universite" << endl;
 	// On supprime les ressources contenu dans l'université 
 	for(list<Groupe*>::iterator it = groupes.begin(); it!=groupes.end(); ++it){
 		if((*it)!=NULL) delete (*it);}

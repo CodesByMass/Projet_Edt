@@ -20,9 +20,9 @@ class Enseignant: public Ressource
 	public:
 		Enseignant();
 		
-		Enseignant(Universite*, string, int, int**, list<Cours*>, list<Matiere*>);
+		Enseignant(Universite*, string, int, int[6][2], list<Cours*>, list<Matiere*>);
 		
-		Enseignant(Universite*, string, int, int**);
+		Enseignant(Universite*, string, int, int[6][2]);
 		
 		Enseignant(Enseignant const&);
 		

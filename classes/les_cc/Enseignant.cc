@@ -3,12 +3,12 @@
 
 Enseignant::Enseignant()
 {
-	cout << "Construction Enseignant" << endl;
+	//cout << "Construction Enseignant" << endl;
 }
 
-Enseignant::Enseignant(Universite* u, string id, int vh, int** h, list <Cours*> c, list<Matiere*> l)
+Enseignant::Enseignant(Universite* u, string id, int vh, int h[6][2], list <Cours*> c, list<Matiere*> l)
 {
-	cout << "Construction Enseignant" << endl;
+	//cout << "Construction Enseignant" << endl;
 	universite = u;
 	identifiant = id;
 	Vhoraire = vh;
@@ -21,9 +21,9 @@ Enseignant::Enseignant(Universite* u, string id, int vh, int** h, list <Cours*> 
 		(*it)->get_enseignants()->unique();}
 }
 
-Enseignant::Enseignant(Universite* u, string id, int vh, int** h)
+Enseignant::Enseignant(Universite* u, string id, int vh, int h[6][2])
 {
-	cout << "Construction Enseignant" << endl;
+	//cout << "Construction Enseignant" << endl;
 	universite = u;
 	identifiant = id;
 	Vhoraire = vh;
@@ -48,7 +48,7 @@ Enseignant::Enseignant(string)
 
 Enseignant::~Enseignant()
 {
-	cout << "Destruction Enseignant" << endl;
+	//cout << "Destruction Enseignant" << endl;
 }
 
 list <Matiere*>* Enseignant::get_specialites()

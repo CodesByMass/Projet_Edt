@@ -2,12 +2,12 @@
 
 Salle::Salle()
 {
-	cout << "Construction Salle" << endl;
+	//cout << "Construction Salle" << endl;
 	batiment = NULL;
 	effectif = -1;
 }
 
-Salle::Salle(Universite* u, string id, int vh, int** h, list <Cours*> c, Batiment* b, list <Matiere*> l, int eff, Type t)
+Salle::Salle(Universite* u, string id, int vh, int h[6][2], list <Cours*> c, Batiment* b, list <Matiere*> l, int eff, Type t)
 {
 	universite = u;
 	identifiant = id;
@@ -26,7 +26,7 @@ Salle::Salle(Universite* u, string id, int vh, int** h, list <Cours*> c, Batimen
 	type = t;
 }
 
-Salle::Salle(Universite* u, string id, int vh, int** h, Batiment* b, int eff, Type t){
+Salle::Salle(Universite* u, string id, int vh, int h[6][2], Batiment* b, int eff, Type t){
 	universite = u;
 	identifiant = id;
 	Vhoraire = vh;
@@ -58,7 +58,7 @@ Salle::Salle(string)
 
 Salle::~Salle()
 {
-	cout << "Destruction Salle" << endl;
+	//cout << "Destruction Salle" << endl;
 }
 
 Batiment* Salle::get_batiment()

@@ -5,7 +5,7 @@
 
 EDT::EDT()
 {
-	cout << "Construction EDT" << endl;
+	//cout << "Construction EDT" << endl;
 	cours = NULL;
 	filiere = NULL;
 	dureeCreneau = -1;
@@ -15,11 +15,13 @@ EDT::EDT()
 
 EDT::EDT(list <Cours*>** c, Filiere* f, int d, int nbJ, int nbC)
 {
-	cout << "Construction EDT" << endl;
+	//cout << "Construction EDT" << endl;
 	// creation de l'EDT
 	cours = new list <Cours*>* [nbJ];
-	for(int i = 0; i<nbJ; i++)
+	for(int i = 0; i<nbJ; i++){
 		cours[i] = new list<Cours*> [nbC];
+		for(int j = 0; j < nbC; j++){
+			cours[i][j]={};}}
 	
 	// remplissage
 	if(c != NULL)	copy(&c[0][0],&c[0][0]+nbJ*nbC,&cours[0][0]);
@@ -32,11 +34,13 @@ EDT::EDT(list <Cours*>** c, Filiere* f, int d, int nbJ, int nbC)
 
 EDT::EDT(Filiere* f, int d, int nbJ, int nbC)
 {
-	cout << "Construction EDT" << endl;
+	//cout << "Construction EDT" << endl;
 	// creation de l'EDT
 	cours = new list <Cours*>* [nbJ];
-	for(int i = 0; i<nbJ; i++)
+	for(int i = 0; i<nbJ; i++){
 		cours[i] = new list<Cours*> [nbC];
+		for(int j = 0; j < nbC; j++){
+			cours[i][j]={};}}
 	
 	filiere = f;
 	dureeCreneau = d;
@@ -46,7 +50,7 @@ EDT::EDT(Filiere* f, int d, int nbJ, int nbC)
 
 EDT::EDT(EDT const& autre)
 {
-	cout << "Construction EDT" << endl;
+	//cout << "Construction EDT" << endl;
 	// creation de l'EDT
 	cout << "creation du tableau" << endl;
 	cours = new list <Cours*>* [autre.nbJours];
@@ -59,7 +63,7 @@ EDT::EDT(EDT const& autre)
 	for(int i=0; i<autre.nbJours;i++){
 		for(int j=0; j<autre.nbCreneau; j++){
 				for(list<Cours*>::iterator it = autre.cours[i][j].begin(); it!= autre.cours[i][j].end(); ++it){
-					cours[i][j].push_back(new Cours(**it));
+					cours[i][j].push_back(*it);
 					(*cours[i][j].begin())->add_edt(this);}}}
 	
 	filiere = autre.filiere;
@@ -75,7 +79,7 @@ EDT::EDT(string)
 
 EDT::~EDT()
 {
-	cout << "Destruction EDT " << endl;
+	//cout << "Destruction EDT " << endl;
 	// On supprime toute les listes
 	for(int i = 0; i<nbJours; i++)
 		delete[] cours[i];

@@ -6,7 +6,7 @@
 
 Ressource::Ressource()
 {
-	cout << "Construction Ressource" << endl;
+	//cout << "Construction Ressource" << endl;
 	universite = NULL;
 	identifiant = "";
 	Vhoraire = -1;
@@ -15,9 +15,9 @@ Ressource::Ressource()
 	cours = {};
 }
 
-Ressource::Ressource(Universite* u, string id, int vh, int** h, list <Cours*> c)
+Ressource::Ressource(Universite* u, string id, int vh, int h[6][2], list <Cours*> c)
 {
-	cout << "Construction Ressource" << endl;
+	//cout << "Construction Ressource" << endl;
 	universite = u;
 	identifiant = id;
 	Vhoraire = vh;
@@ -26,9 +26,9 @@ Ressource::Ressource(Universite* u, string id, int vh, int** h, list <Cours*> c)
 	cours = c;
 }
 
-Ressource::Ressource(Universite* u, string id, int vh, int** h)
+Ressource::Ressource(Universite* u, string id, int vh, int h[6][2])
 {
-	cout << "Construction Ressource" << endl;
+	//cout << "Construction Ressource" << endl;
 	universite = u;
 	identifiant = id;
 	Vhoraire = vh;
@@ -47,7 +47,7 @@ Ressource::Ressource(Ressource const& autre)
 
 Ressource::~Ressource()
 {
-	cout << "Destruction Ressource" << endl;
+	//cout << "Destruction Ressource" << endl;
 }
 
 Universite* Ressource::get_universite()
@@ -65,9 +65,9 @@ int Ressource::get_Vhoraire()
 	return Vhoraire;
 }
 
-int** Ressource::get_horaires()
+int Ressource::get_horaires(int i, int j)
 {
-	return (int**)horaires;
+	return horaires[i][j];
 }
 
 list <Cours*>* Ressource::get_cours()
