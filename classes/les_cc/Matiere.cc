@@ -55,9 +55,11 @@ Matiere::Matiere(string)
 Matiere::~Matiere()
 {
 	//cout << "Destruction Matiere" << endl;
+
+/*
 	// supprimer les cours qui lui sont associés
 	for(list<Cours*>::iterator it = cours.begin(); it!= cours.end(); ++it){
-		delete (*it);}
+		delete (*it);}*/
 }
 
 list <Filiere*>* Matiere::get_filieres()

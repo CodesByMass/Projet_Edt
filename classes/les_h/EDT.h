@@ -17,7 +17,8 @@ class EDT
 		Filiere* filiere;
 		int dureeCreneau;
 		int nbJours;
-		int nbCreneau;	
+		int nbCreneau;
+		Cours* modif[2];
 		
 	public:
 		EDT();
@@ -44,6 +45,8 @@ class EDT
 		
 		string to_string();
 		
+		Cours** get_modif();
+		
 		void add_cours(Cours*, int x, int y);
 		
 		void del_cours(Cours*, int x, int y);
@@ -55,6 +58,8 @@ class EDT
 		void set_nbJours(int);
 		
 		void set_nbCreneau(int);
+		
+		void set_modif(Cours*, Cours*);
 };
 
 #endif

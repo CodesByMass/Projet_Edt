@@ -23,7 +23,7 @@ EDT* GenereVoisin(Filiere* fil, EDT* edt, int debug = 0);
 
 int EvalueEDT(Universite* univ, EDT* edt, int debug = 0);
 
-int DiminueTemperature(int temp, int reduc, int debug = 0);
+float DiminueTemperature(float temp, float reduc, int debug = 0);
 
 Cours* AffecteCours(Filiere* fil, Cours* cours, int debug = 0);
 
