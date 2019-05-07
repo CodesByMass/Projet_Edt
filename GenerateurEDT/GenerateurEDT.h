@@ -21,7 +21,7 @@ EDT* InitialiseEDT(Filiere* fil, EDT* edt, int debug = 0);
 
 EDT* GenereVoisin(Filiere* fil, EDT* edt, int debug = 0);
 
-int EvalueEDT(Universite* univ, EDT* edt, int debug = 0);
+float EvalueEDT(Universite* univ, EDT* edt, int debug = 0);
 
 float DiminueTemperature(float temp, float reduc, int debug = 0);
 
@@ -41,7 +41,7 @@ Cours* SelectionneAleatoirement(EDT* edt, int debug = 0);
 
 float Random_a_b(int a, int b, int debug = 0);
 
-bool Accepte(int Eactuelle, int Evoisin, int temp, int debug = 0);
+bool Accepte(float Eactuelle, float Evoisin, float temp, int debug = 0);
 
 bool Affiche_debug(int debug = 0);
 

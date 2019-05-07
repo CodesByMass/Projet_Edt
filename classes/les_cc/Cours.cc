@@ -185,7 +185,7 @@ void Cours::set_emplacement(int J,int H)
 	emplacement[0] = J;
 	emplacement[1] = H;
 }
-/*
+
 bool Cours::operator ==(Cours const& autre)
 {
 	
@@ -200,4 +200,4 @@ bool Cours::operator ==(Cours const& autre)
 	
 	return (matiere == autre.matiere && type == autre.type);
 }
-*/
+

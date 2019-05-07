@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 using namespace std;
 
 EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
@@ -20,13 +21,13 @@ EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 	//Select an initial temperature
 	float temp = 10.0;
 	//Select a temperature reduction variable
-	float reduc = 1.0005;
+	float reduc = 0.2;
 	//Tant que la temperature n'a pas atteint la valeur seuil faire
-	while(temp >= 0.2)
+	while(temp >= 1)
 	{
 		//Evaluer l'EDT actuelle
 		if(Affiche_debug(debug)) cout << "---------------Evaluation de l'EDT actuelle-------------------" << endl;
-		int Eactuelle = EvalueEDT(univ, edt, debug-1);
+		float Eactuelle = EvalueEDT(univ, edt, debug-1);
 		if(Affiche_debug(debug)) cout << "Energie Actuelle : " << Eactuelle << endl;
 		//Tant qu'il n'y a pas de changement accepté jusqu'a un certain seuil
 		int i = 0;
@@ -38,11 +39,11 @@ EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 			edtVoisin = GenereVoisin(fil, edt, debug-1);
 			//Evaluer l'EDT voisin
 			if(Affiche_debug(debug)) cout << "---------------Evaluation de l'EDT voisin-------------------" << endl;
-			int Evoisin = EvalueEDT(univ, edtVoisin, debug-1);
+			float Evoisin = EvalueEDT(univ, edtVoisin, debug-1);
 			if(Affiche_debug(debug)) cout << "Energie Voisin : " << Evoisin << endl;
 			//Si on accepte le changement
 			if(Affiche_debug(debug)) cout << "---------------Choix de l'EDT-------------------" << endl;
-			if(Accepte(Eactuelle, Evoisin, temp, debug-1)){
+			if(Accepte(Eactuelle, Evoisin, log(temp), debug-1)){
 				//Supprimer l'EDT actuelle
 				if(Affiche_debug(debug)) cout << "---------------Suppression l'EDT actuelle-------------------" << endl;
 				delete edt;
@@ -61,6 +62,7 @@ EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 				delete edtVoisin;
 				
 				i++;
+				sleep(1);
 			}
 		}	
 		//Si on a pas eu de changement i fois d'affilé on quitte
@@ -143,20 +145,21 @@ EDT* GenereVoisin(Filiere* fil, EDT* edt, int debug)
 }
 
 //verifié
-int EvalueEDT(Universite* univ, EDT* edt, int debug)
+float EvalueEDT(Universite* univ, EDT* edt, int debug)
 {
-	//Stocker l'evaluation des contraintes hards
-	if(Affiche_debug(debug))cout << "Evaluation des contraintes hard" << endl;
-	int Ehard = EvalueHard(univ, edt, debug-1);
+	//Stocker l'evaluation des contraintes hards & soft
 	
-	//Si levaluation des contraintes hard est egal a 0
-	if(Ehard == 0){
-		//Retourner l'evaluation des contraintes soft
-		if(Affiche_debug(debug))cout << "Evaluation des contraintes soft" << endl;
-		return EvalueSoft(univ, edt, debug-1);
-	}
-	//Sinon retourner 0 - l'evaluation des contraintes (en negatif pour qu'on sache si que c les contraintes hard)
-	return 0-Ehard;
+	if(Affiche_debug(debug)) cout << "Evaluation des contraintes hard = ";
+	int Ehard = EvalueHard(univ, edt, debug-1);
+	if(Affiche_debug(debug)) cout << Ehard << endl;
+	
+	if(Affiche_debug(debug))cout << "Evaluation des contraintes soft = ";
+	int Esoft = EvalueSoft(univ, edt, debug-1);
+	if(Affiche_debug(debug))cout << Esoft << endl;
+	
+
+	//Sinon retourner Ehard + Esoft*10^-1
+	return Ehard + (Esoft*pow(10,-1));
 }
 
 //verifié
@@ -164,7 +167,7 @@ float DiminueTemperature(float temp, float reduc, int debug)
 {
 	cout << temp/reduc << endl;
 	//Diminuer la temp en fonction de la variable de reduction
-	return temp/reduc/1.00;
+	return temp-reduc;
 }
 
 //Verifié
@@ -489,7 +492,17 @@ int EvalueHard(Universite* univ, EDT* edt, int debug)
 //Verifié
 Cours* SelectionneAleatoirement(EDT* edt, int debug)
 {
-	list<Cours*>::iterator c;
+	static list<Cours*> ordre = {};
+
+	if(ordre.size() == 0){
+		
+		for(list<Matiere*>::iterator m = edt->get_filiere()->get_matieres()->begin(); m != edt->get_filiere()->get_matieres()->end(); ++m){
+			for(list<Cours*>::iterator c = (*m)->get_cours()->begin(); c != (*m)->get_cours()->end(); ++c){
+				ordre.push_front(*c);}}
+		
+		ordre.unique();}
+
+	/*
 	//Tant qu'il n'y a pas de cours dans le creneau choisi
 	while(1){
 		//Selectionne aleatoirement un jours
@@ -501,6 +514,12 @@ Cours* SelectionneAleatoirement(EDT* edt, int debug)
 			//Selection aleatoirement un cours dans la liste de creneau
 			 c = next(edt->get_cours()[jour][heure].begin(),Random_a_b(0,edt->get_cours()[jour][heure].size(), debug-1));
 			break;}}
+	*/
+	
+	list<Cours*>::iterator c = next(ordre.begin(), (int)Random_a_b(0,ordre.size()));
+	ordre.remove(*c);
+	
+	cout << "taille de ordre = " << ordre.size() << endl;
 	
 	//Retourner le cours
 	return *c;
@@ -518,14 +537,17 @@ float Random_a_b(int a, int b, int debug)
 	return rand()%(b-a)+a;
 }
 
+
+
 bool Affiche_debug(int debug)
 {
 	return debug >= 1;
 }
 
 // à vérifié
-bool Accepte(int Eactuelle, int Evoisin, int temp, int debug)
+bool Accepte(float Eactuelle, float Evoisin, float temp, int debug)
 {
+	/*
 	//initialiser delta
 	int delta = 0;
 	
@@ -545,6 +567,7 @@ bool Accepte(int Eactuelle, int Evoisin, int temp, int debug)
 		
 		return (exp((float)-delta/temp) > Random_a_b(0,1,1) && delta > 0) || (delta < 0);}
 
+
 	//Sinon si les deux energies sont positives
 	else if(Eactuelle > 0 && Evoisin > 0){
 		if(Affiche_debug(debug))	cout << "Eactuelle = " << Eactuelle << " Evoisin = " << Evoisin << endl;
@@ -553,7 +576,7 @@ bool Accepte(int Eactuelle, int Evoisin, int temp, int debug)
 		
 		float delta = Evoisin - Eactuelle;
 		
-		return (exp((float)-delta/temp) > Random_a_b(0,1,1) && delta > 0) || (delta < 0);;
+		return (exp((float)-delta/temp) > Random_a_b(0,1,1) && delta > 0) || (delta < 0);
 	}
 	//Sinon 
 	else{
@@ -561,8 +584,19 @@ bool Accepte(int Eactuelle, int Evoisin, int temp, int debug)
 		return Evoisin > Eactuelle;
 	}
 	
-	//Dans le doute on retourne faux
-	return false;
+	*/
+	
+	double delta = Evoisin - Eactuelle;
+	
+	double proba = exp((-delta)/temp);
+	
+	proba = (1./100.) * floor(proba * 100.);
+	
+	cout << "\t\t\tProbabilité : " << proba << endl;
+	
+	if(Affiche_debug(debug))	cout << "Eactuelle = " << Eactuelle << " Evoisin = " << Evoisin << endl;
+	
+	return (proba > Random_a_b(0,1,1) && delta > 0) || (delta < 0);
 }
 
 /*------------- Contraintes Hard ------------------*/
