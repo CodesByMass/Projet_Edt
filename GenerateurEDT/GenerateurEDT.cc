@@ -7,23 +7,30 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include <random>
+
 using namespace std;
 
 EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 {
+	srand(time(NULL));
+	
 	char c;
+	
+	//initalisation de l'aleatoire
+	default_random_engine re(time(0));
 	
 	//Find a random initial solution
 	if(Affiche_debug(debug)) cout << "---------------Initialisation de l'EDT-------------------" << endl;
 	edt = InitialiseEDT(fil, edt, debug-1);
 	//Initialise le pointeur vers le voisin
 	EDT* edtVoisin = NULL;
-	//Select an initial temperature
-	float temp = 10.0;
+	//Select an initial temperature qui devrait etre egale au nobre de cours dans l'edt
+	float temp = 22.0;
 	//Select a temperature reduction variable
-	float reduc = 0.2;
+	float reduc = 0.01;
 	//Tant que la temperature n'a pas atteint la valeur seuil faire
-	while(temp >= 1)
+	while(temp >= 0)
 	{
 		//Evaluer l'EDT actuelle
 		if(Affiche_debug(debug)) cout << "---------------Evaluation de l'EDT actuelle-------------------" << endl;
@@ -31,7 +38,7 @@ EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 		if(Affiche_debug(debug)) cout << "Energie Actuelle : " << Eactuelle << endl;
 		//Tant qu'il n'y a pas de changement accepté jusqu'a un certain seuil
 		int i = 0;
-		while(i < 100)
+		while(i < 200)
 		{
 			if(Affiche_debug(debug)) cout << "\n\t\t\t\t --------------- Nouvelle Iteration -------------------\n" << endl;
 			//Créer l'EDT voisin
@@ -43,7 +50,7 @@ EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 			if(Affiche_debug(debug)) cout << "Energie Voisin : " << Evoisin << endl;
 			//Si on accepte le changement
 			if(Affiche_debug(debug)) cout << "---------------Choix de l'EDT-------------------" << endl;
-			if(Accepte(Eactuelle, Evoisin, log(temp), debug-1)){
+			if(Accepte(Eactuelle, Evoisin, temp, debug-1)){
 				//Supprimer l'EDT actuelle
 				if(Affiche_debug(debug)) cout << "---------------Suppression l'EDT actuelle-------------------" << endl;
 				delete edt;
@@ -53,6 +60,7 @@ EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 				edt->set_modif(NULL,NULL);
 				//on sort
 				if(Affiche_debug(debug)) cout << "---------------On sort car on accepte-------------------" << endl;
+				//sleep(1);
 				break;
 			}
 			//Sinon 
@@ -60,15 +68,14 @@ EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 				//Supprimer l'EDT voisin
 				if(Affiche_debug(debug)) cout << "---------------Suppression de l'EDT voisin-------------------" << endl;
 				delete edtVoisin;
-				
 				i++;
-				sleep(1);
 			}
 		}	
 		//Si on a pas eu de changement i fois d'affilé on quitte
-		if(i==100){
-			if(Affiche_debug(debug)) cout << "--------------- 20 iterations sans changement -------------------" << endl;
-			break;}
+		if(i==200){
+			if(Affiche_debug(debug)) cout << "--------------- 100 iterations sans changement -------------------" << endl;
+			//break;
+			}
 		//Diminuer la temperature
 		if(Affiche_debug(debug)) cout << "--------------- Diminution de la temperature -------------------" << endl;
 		temp = DiminueTemperature(temp, reduc, debug-1);
@@ -165,7 +172,7 @@ float EvalueEDT(Universite* univ, EDT* edt, int debug)
 //verifié
 float DiminueTemperature(float temp, float reduc, int debug)
 {
-	cout << temp/reduc << endl;
+	cout << temp-reduc << endl;
 	//Diminuer la temp en fonction de la variable de reduction
 	return temp-reduc;
 }
@@ -501,21 +508,7 @@ Cours* SelectionneAleatoirement(EDT* edt, int debug)
 				ordre.push_front(*c);}}
 		
 		ordre.unique();}
-
-	/*
-	//Tant qu'il n'y a pas de cours dans le creneau choisi
-	while(1){
-		//Selectionne aleatoirement un jours
-		int jour = Random_a_b(0, edt->get_nbJours(), debug-1);
-		//Selectionne aleatoirement une heure
-		int heure = Random_a_b(0, edt->get_nbCreneau(), debug-1);
-		//Voir si il y a des cours dans le creneau en question
-		if(edt->get_cours()[jour][heure].size()!=0){
-			//Selection aleatoirement un cours dans la liste de creneau
-			 c = next(edt->get_cours()[jour][heure].begin(),Random_a_b(0,edt->get_cours()[jour][heure].size(), debug-1));
-			break;}}
-	*/
-	
+		
 	list<Cours*>::iterator c = next(ordre.begin(), (int)Random_a_b(0,ordre.size()));
 	ordre.remove(*c);
 	
@@ -547,45 +540,6 @@ bool Affiche_debug(int debug)
 // à vérifié
 bool Accepte(float Eactuelle, float Evoisin, float temp, int debug)
 {
-	/*
-	//initialiser delta
-	int delta = 0;
-	
-	cout << "\t\t\tProbabilité : " << (float)exp((float)-(abs(Evoisin)-abs(Eactuelle))/temp) << endl;
-	
-	//Si les deux energies sont négatives
-	if(Eactuelle<0 && Evoisin<0){
-		//inversion des energies
-		Eactuelle = 0-Eactuelle;
-		Evoisin = 0-Evoisin;
-		
-		if(Affiche_debug(debug))	cout << "Eactuelle = " << Eactuelle << " Evoisin = " << Evoisin << endl;
-		
-		if(Affiche_debug(debug))	cout << "Les deux edt sont pas acceptables" << endl;
-		
-		float delta = Evoisin - Eactuelle;
-		
-		return (exp((float)-delta/temp) > Random_a_b(0,1,1) && delta > 0) || (delta < 0);}
-
-
-	//Sinon si les deux energies sont positives
-	else if(Eactuelle > 0 && Evoisin > 0){
-		if(Affiche_debug(debug))	cout << "Eactuelle = " << Eactuelle << " Evoisin = " << Evoisin << endl;
-		
-		if(Affiche_debug(debug))	cout << "Les deux edt sont acceptables" << endl;
-		
-		float delta = Evoisin - Eactuelle;
-		
-		return (exp((float)-delta/temp) > Random_a_b(0,1,1) && delta > 0) || (delta < 0);
-	}
-	//Sinon 
-	else{
-		//retourner Evoisin > Eactuelle
-		return Evoisin > Eactuelle;
-	}
-	
-	*/
-	
 	double delta = Evoisin - Eactuelle;
 	
 	double proba = exp((-delta)/temp);
