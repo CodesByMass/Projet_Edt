@@ -5,6 +5,9 @@
 #include <iterator> 
 #include <cmath> 
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <fstream>
 using namespace std;
 
 class Filiere;
@@ -90,6 +93,8 @@ class Universite
 		void set_pauseDejeuner(int);
 		
 		void set_nom(string);
+		
+		bool write_university(Universite *u);
 };
 
 #endif
