@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 	u->add_filiere(new Filiere("S6INFO",u,NULL,6));
 	
 	/* ---------------- Creation de l'edt de la filiere ---------------- */
-	u->get_filieres("S6INFO")->set_edt(new EDT(u->get_filieres("L3INFO"),90,6,10));
+	u->get_filieres("S6INFO")->set_edt(new EDT(u->get_filieres("S6INFO"),90,6,10));
 	
 	/* ---------------- Creation des matieres de la filiere ---------------- */
 	u->get_filieres("S6INFO")->add_matiere(new Matiere(20,"Anglais"));
@@ -91,21 +91,11 @@ int main(int argc, char* argv[])
 	u->get_filieres("S6INFO")->get_matieres("Projet")->add_cours(new Cours(2,u->get_filieres("S6INFO")->get_matieres("Projet"),{u->get_groupes("TD2")},TD));
 	u->get_filieres("S6INFO")->get_matieres("Projet")->add_cours(new Cours(2,u->get_filieres("S6INFO")->get_matieres("Projet"),{u->get_groupes("TD3")},TD));		
 	u->get_filieres("S6INFO")->get_matieres("Projet")->add_cours(new Cours(2,u->get_filieres("S6INFO")->get_matieres("Projet"),{u->get_groupes("TD4")},TD));	
-
-	InitialiseEDT(u->get_filieres("S6INFO"), u->get_filieres("S6INFO")->get_edt(), 0);
 	
 	// Ici VOus pouvez vous amusez avec la filiere
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	u->get_filieres("S6INFO")->set_edt(GenereEDT(u,u->get_filieres("S6INFO"), u->get_filieres("S6INFO")->get_edt(), 1));
 	
 	
 	// Affichage de l'edt attention ce n'est valable que pour l'edt de S6INFO
@@ -114,13 +104,17 @@ int main(int argc, char* argv[])
 	
 	for(int i = 0; i < u->get_filieres("S6INFO")->get_edt()->get_nbJours(); i++){
 		for(int j = 0; j < u->get_filieres("S6INFO")->get_edt()->get_nbCreneau(); j++){
-			for(list<Cours*>::iterator it = u->get_filieres("S6INFO")->get_edt()->get_cours()[i][j].begin(); it!=u->get_filieres("S6INFO")->get_edt()->get_cours()[i][j].end(); ++it){
-				string s;
+			for(list<Cours*>::iterator it = u->get_filieres("S6INFO")->get_edt()->get_cours()[i][j].begin(); it!=u->get_filieres("S6INFO")->get_edt()->get_cours()[i][j].end(); ++it){ 
+				string s;  
+				
 				if((*it)->get_type() == CM){
+					cout << "Bug" << endl; 
 					s = s + "CM " + (*it)->get_matiere()->get_nom();}
 				if((*it)->get_type() == TD){
+					cout << "Bug" << endl; 
 					s = s + "TD " + (*it)->get_matiere()->get_nom();}
 				if((*it)->get_type() == TP){
+					cout << "Bug" << endl; 
 					s = s + "TD " + (*it)->get_matiere()->get_nom();}
 				if(s.length() > max)
 					max = s.length();

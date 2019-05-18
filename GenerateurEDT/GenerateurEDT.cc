@@ -28,7 +28,7 @@ EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 	//Select an initial temperature qui devrait etre egale au nobre de cours dans l'edt
 	float temp = 22.0;
 	//Select a temperature reduction variable
-	float reduc = 0.01;
+	float reduc = 0.02;
 	//Tant que la temperature n'a pas atteint la valeur seuil faire
 	while(temp >= 0)
 	{
@@ -770,6 +770,7 @@ void* respect_enseignant_qualifie(void* void_arg)
 	int flag = 1;
 	
 	//Pour chaque enseignant concerné
+	cout <<(*arg).edt->get_filiere()->get_nom() << endl;
 	for(list<Matiere*>::iterator m = (*arg).edt->get_filiere()->get_matieres()->begin(); m != (*arg).edt->get_filiere()->get_matieres()->end(); ++m){
 		for(list<Enseignant*>::iterator e = (*m)->get_enseignants()->begin(); e != (*m)->get_enseignants()->end(); ++e){
 			if(Affiche_debug((*arg).debug)) cout << " \nVerification respect_enseignant_qualifie de l'enseignant de " << (*m)->get_nom() << " " << (*e)->get_identifiant() << "\n" << endl;
