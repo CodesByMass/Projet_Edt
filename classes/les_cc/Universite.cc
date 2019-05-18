@@ -234,8 +234,6 @@ bool Universite::write_university(Universite *u)
 		 
 	if(fichier)
 	{
-	
-	
 		fichier<< u->get_nom() << "\n"<< u->get_ouverture()<< " "<< u->get_fermeture() << " "<< u->get_pauseDejeuner() << " " << u->get_interclasse() <<endl;
 		
 		//salles

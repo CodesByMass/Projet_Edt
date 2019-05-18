@@ -5,6 +5,8 @@
 #include <iterator> 
 #include <cmath> 
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 using namespace std;
 
 enum Type
