@@ -107,14 +107,11 @@ int main(int argc, char* argv[])
 			for(list<Cours*>::iterator it = u->get_filieres("S6INFO")->get_edt()->get_cours()[i][j].begin(); it!=u->get_filieres("S6INFO")->get_edt()->get_cours()[i][j].end(); ++it){ 
 				string s;  
 				
-				if((*it)->get_type() == CM){
-					cout << "Bug" << endl; 
+				if((*it)->get_type() == CM){ 
 					s = s + "CM " + (*it)->get_matiere()->get_nom();}
 				if((*it)->get_type() == TD){
-					cout << "Bug" << endl; 
 					s = s + "TD " + (*it)->get_matiere()->get_nom();}
 				if((*it)->get_type() == TP){
-					cout << "Bug" << endl; 
 					s = s + "TD " + (*it)->get_matiere()->get_nom();}
 				if(s.length() > max)
 					max = s.length();
