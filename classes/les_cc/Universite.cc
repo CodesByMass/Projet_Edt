@@ -225,3 +225,131 @@ void Universite::set_nom(string new_nom)
 {
 	nom = new_nom;
 }
+
+
+bool Universite::write_university(Universite *u)
+{
+	string const myFile ="universite.txt";
+	ofstream fichier(myFile.c_str(),ios::out);  
+		 
+	if(fichier)
+	{
+	
+	
+		fichier<< u->get_nom() << "\n"<< u->get_ouverture()<< " "<< u->get_fermeture() << " "<< u->get_pauseDejeuner() << " " << u->get_interclasse() <<endl;
+		
+		//salles
+		fichier<<"SALLES:"<<endl;
+		
+		for(list<Salle*>::iterator it = u->get_salles()->begin(); it!= u->get_salles()->end(); ++it)
+		{	
+			//info de base des ressources
+			fichier<<(*it)->get_identifiant()<<" "<<(*it)->get_Vhoraire()<<" "<<(*it)->get_type()<<" "<<(*it)->get_effectif()<<" "<<(*it)->get_batiment()->nom<<endl;
+			
+			//les matières données dans les salles
+			for(list<Matiere*>::iterator iit = (*it)->get_materiels()->begin(); iit !=(*it)->get_materiels()->end(); ++iit)
+				fichier<<(*iit)->get_nom()<<" "<<(*iit)->get_volume()<<endl;
+				
+			//La disponibilité	des salles
+			for(int i=0; i<6;i++)
+				for(int j=0;j<2;j++)
+					fichier<<(*it)->get_horaires(i,j)<<" ";
+			fichier<<endl<<endl;
+		}
+		
+		//Enseignant
+		fichier<<"ENSEIGNANT:"<<endl;
+		for(list<Enseignant*>::iterator it = u->get_enseignants()->begin(); it != u->get_enseignants()->end(); ++it)
+		{
+			fichier<<(*it)->get_identifiant()<<" "<<(*it)->get_Vhoraire()<<endl;
+			
+			for(list<Matiere*>::iterator iit = (*it)->get_specialites()->begin(); iit != (*it)->get_specialites()->end(); ++iit)
+				fichier<<(*iit)->get_nom()<<" "<<(*iit)->get_volume()<<endl;
+				
+			for(int i=0; i<6;i++)
+				for(int j=0;j<2;j++)
+					fichier<<(*it)->get_horaires(i,j)<<" ";
+			fichier<<endl<<endl;
+		}
+		
+		//Groupes
+		fichier<<"GROUPES:"<<endl;
+		for(list<Groupe*>::iterator it = u->get_groupes()->begin(); it != u->get_groupes()->end(); ++it)
+		{
+			fichier<<(*it)->get_identifiant()<<" "<<(*it)->get_Vhoraire()<<endl;
+			
+			for(list<Filiere*>::iterator iit = (*it)->get_filieres()->begin(); iit != (*it)->get_filieres()->end(); ++iit)
+				fichier<<(*iit)->get_nom()<<" "<<(*iit)->get_semestre()<<endl;
+				
+			for(int i=0; i<6;i++)
+				for(int j=0;j<2;j++)
+					fichier<<(*it)->get_horaires(i,j)<<" ";
+			fichier<<endl;
+		}
+		
+		//Filières
+		fichier<<"\nFILIERES:"<<endl;
+		
+		for(list<Filiere*>::iterator it = u->get_filieres()->begin(); it != u->get_filieres()->end(); ++it)
+		{	
+			//info de base d'une filière
+			fichier<<(*it)->get_nom()<<" "<<(*it)->get_semestre()<<" "<<(*it)->get_edt()->get_dureeCreneau()<<" "<<(*it)->get_edt()->get_nbJours()<<" "<<(*it)->get_edt()->get_nbCreneau()<<endl;
+			
+			//les matière de la filière
+			for(list<Matiere*>::iterator iit = (*it)->get_matieres()->begin(); iit != (*it)->get_matieres()->end(); ++iit)
+				fichier<<(*iit)->get_nom()<<" "<<(*iit)->get_volume()<<endl;
+			fichier<<endl;
+			
+			//les groupes de la filière
+			for(list<Groupe*>::iterator iit = (*it)->get_groupes()->begin(); iit != (*it)->get_groupes()->end(); ++iit)
+			{
+				//info de base d'un groupe 
+				fichier<<(*iit)->get_identifiant()<<" "<<(*iit)->get_Vhoraire()<<" "<<(*iit)->get_effectif()<<endl;
+					for(int i=0; i<6;i++)
+						for(int j=0;j<2;j++)
+							fichier<<(*iit)->get_horaires(i,j)<<" ";
+				fichier<<endl<<endl;
+			}
+
+			//edt de la filière
+			fichier<<"EDT de la filière: \n"<<endl;
+			for(int i = 0; i < (*it)->get_edt()->get_nbJours(); i++)
+			{
+				for(int j = 0; j < (*it)->get_edt()->get_nbCreneau(); j++)
+				{
+				
+					for(list<Cours*>::iterator iit =(*it)->get_edt()->get_cours()[i][j].begin(); iit!= (*it)->get_edt()->get_cours()[i][j].end(); ++iit)
+					{
+						//jours et creneau de la matière
+						fichier <<(*iit)->get_emplacement()[0]<<" "<<(*iit)->get_emplacement()[1]<<" ";
+
+						//nom du cours et type de la matière(td,tp ou cm)
+						fichier <<(*iit)->get_matiere()->get_nom()<<" "<<(*iit)->get_type()<<" ";
+						//groupe d'appartenance de la matière
+						for(list<Groupe*>::iterator iiit = (*iit)->get_groupes()->begin(); iiit!=(*iit)->get_groupes()->end(); ++iit)
+						{
+							cout <<(*iiit)->get_identifiant() <<" ";
+						}
+
+						//enseignant du cours et la salle dans laquelle va se tenir le cours
+						fichier << (*iit)->get_enseignant()->get_identifiant()<< " ";
+						fichier << (*iit)->get_salle()->get_identifiant()<<" ";
+					}
+				}
+			}
+		
+		}
+		
+		fichier.close();
+		
+		return true;
+	}
+	else
+	{
+		cerr<< "Erreur à l'ouverture !"<<endl;
+		
+		return false;
+	}
+
+	 
+}
