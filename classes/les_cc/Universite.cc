@@ -324,14 +324,14 @@ bool Universite::write_university(Universite *u)
 						//nom du cours et type de la matière(td,tp ou cm)
 						fichier <<(*iit)->get_matiere()->get_nom()<<" "<<(*iit)->get_type()<<" ";
 						//groupe d'appartenance de la matière
-						for(list<Groupe*>::iterator iiit = (*iit)->get_groupes()->begin(); iiit!=(*iit)->get_groupes()->end(); ++iiit)
+						for(list<Groupe*>::iterator iiit = (*iit)->get_groupes()->begin(); iiit!=(*iit)->get_groupes()->end(); ++iit)
 						{
-							fichier <<(*iiit)->get_identifiant() <<" ";
+							cout <<(*iiit)->get_identifiant() <<" ";
 						}
 
 						//enseignant du cours et la salle dans laquelle va se tenir le cours
 						fichier << (*iit)->get_enseignant()->get_identifiant()<< " ";
-						fichier << (*iit)->get_salle()->get_identifiant()<<" "<<endl;
+						fichier << (*iit)->get_salle()->get_identifiant()<<" ";
 					}
 				}
 			}
@@ -365,6 +365,15 @@ Ressource* Universite::get_ressource(string str)
 	for(list<Groupe*>::iterator g = groupes.begin(); g != groupes.end(); ++g){
 		if((*g)->get_identifiant() == str)
 			return *g;}
+	
+	return NULL;
+}
+
+Batiment* Universite::get_batiment(string str)
+{
+	for(list<Salle*>::iterator s = salles.begin(); s != salles.end(); ++s){
+		if((*s)->get_batiment()->nom == str)
+			return (*s)->get_batiment();}
 	
 	return NULL;
 }

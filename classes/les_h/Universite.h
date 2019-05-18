@@ -10,6 +10,7 @@
 #include <fstream>
 using namespace std;
 
+struct Batiment;
 class Ressource;
 class Filiere;
 class Groupe;
@@ -98,6 +99,8 @@ class Universite
 		bool write_university(Universite *u);
 		
 		Ressource* get_ressource(string s);
+		
+		Batiment* get_batiment(string s);	
 };
 
 #endif
