@@ -324,14 +324,14 @@ bool Universite::write_university(Universite *u)
 						//nom du cours et type de la matière(td,tp ou cm)
 						fichier <<(*iit)->get_matiere()->get_nom()<<" "<<(*iit)->get_type()<<" ";
 						//groupe d'appartenance de la matière
-						for(list<Groupe*>::iterator iiit = (*iit)->get_groupes()->begin(); iiit!=(*iit)->get_groupes()->end(); ++iit)
+						/*for(list<Groupe*>::iterator iiit = (*iit)->get_groupes()->begin(); iiit!=(*iit)->get_groupes()->end(); ++iit)
 						{
-							cout <<(*iiit)->get_identifiant() <<" ";
-						}
+							fichier <<(*iiit)->get_identifiant() <<" ";
+						}*/
 
 						//enseignant du cours et la salle dans laquelle va se tenir le cours
 						fichier << (*iit)->get_enseignant()->get_identifiant()<< " ";
-						fichier << (*iit)->get_salle()->get_identifiant()<<" ";
+						fichier << (*iit)->get_salle()->get_identifiant()<<" "<<endl;
 					}
 				}
 			}

@@ -169,6 +169,7 @@ int main(int argc, char* argv[])
 				cout << " ";
 			cout << "|";}
 			cout << endl;}}
+	u->write_university(u);
 
 	delete u;
 }
