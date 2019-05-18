@@ -351,3 +351,20 @@ bool Universite::write_university(Universite *u)
 
 	 
 }
+
+Ressource* Universite::get_ressource(string str)
+{
+	for(list<Salle*>::iterator s = salles.begin(); s != salles.end(); ++s){
+		if((*s)->get_identifiant() == str)
+			return *s;}
+
+	for(list<Enseignant*>::iterator e = enseignants.begin(); e != enseignants.end(); ++e){
+		if((*e)->get_identifiant() == str)
+			return *e;}
+		
+	for(list<Groupe*>::iterator g = groupes.begin(); g != groupes.end(); ++g){
+		if((*g)->get_identifiant() == str)
+			return *g;}
+	
+	return NULL;
+}

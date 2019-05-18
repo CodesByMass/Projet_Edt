@@ -10,6 +10,7 @@
 #include <fstream>
 using namespace std;
 
+class Ressource;
 class Filiere;
 class Groupe;
 class Salle;
@@ -95,6 +96,8 @@ class Universite
 		void set_nom(string);
 		
 		bool write_university(Universite *u);
+		
+		Ressource* get_ressource(string s);
 };
 
 #endif
