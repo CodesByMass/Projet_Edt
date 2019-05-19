@@ -137,8 +137,10 @@ string Universite::get_nom()
 
 string Universite::to_string()
 {
-	// pour abdou & ali
-	return "rien";
+	
+	string s = "Universite " + nom + " " + std::to_string(ouverture) + " " + std::to_string(fermeture) + " " + std::to_string(interclasse) + " " + std::to_string(pauseDejeuner) + "\n";
+	
+	return s;
 }
 
 int Universite::get_fermeture()

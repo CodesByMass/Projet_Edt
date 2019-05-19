@@ -73,7 +73,14 @@ Filiere* Groupe::get_filieres(string s)
 
 string Groupe::to_string()
 {
-	return "rien";
+	string s = "Groupe " + Ressource::to_string() + " " + std::to_string(effectif) + " ";
+	
+	for(list<Filiere*>::iterator it = filieres.begin(); it!=filieres.end(); ++it)
+		s = s + (*it)->get_nom() + " ";
+	
+	s = s + "\n";
+	
+	return s;
 }
 
 void Groupe::add_filiere(Filiere* f)

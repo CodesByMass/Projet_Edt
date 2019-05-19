@@ -1,423 +1,205 @@
-UFR des sciences de Versailles
-480 1100 4 10
-SALLES:
-1002 40 0 50 Fermat
-Anglais3 20
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-1001 40 0 50 Fermat
-Anglais3 20
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-G207 40 0 43 Germain
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-G206 40 0 40 Germain
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-G205 40 0 44 Germain
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-G204 40 0 40 Germain
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-G203 40 0 42 Germain
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-G202 40 0 48 Germain
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-G201 40 0 40 Germain
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Jungle 40 0 40 Descartes
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Alsace 40 0 40 Descartes
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Aquitaine 40 0 40 Descartes
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-AMPHI H 40 1 150 Fermat
-Anglais3 20
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-AMPHI D 40 1 150 Descartes
-Anglais3 20
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-ENSEIGNANT:
-Prof Projet 1 35
-Projet INFO 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Prof Reseau 3 35
-Reseau 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Prof Reseau 2 35
-Reseau 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Prof Reseau 1 35
-Reseau 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Prof CHPS 2 35
-CHP 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Prof CHPS 1 35
-CHP 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Prof Crypto 4 35
-Cryptographie 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Prof Crypto 3 35
-Cryptographie 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Prof Crypto 2 35
-Cryptographie 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Prof Crypto 1 35
-Cryptographie 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Prof Anglais 3 35
-Anglais3 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Prof Anglais 2 35
-Anglais3 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Prof Anglais 1 35
-Anglais3 20
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-GROUPES:
-Anglais TD3 35
-S6INFO 6
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-Anglais TD2 35
-S6INFO 6
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-Anglais TD1 35
-S6INFO 6
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-TD4 35
-S6INFO 6
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-TD3 35
-S6INFO 6
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-TD2 35
-S6INFO 6
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-TD1 35
-S6INFO 6
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-FILIERES:
-S1SVT 1 90 6 10
-Atomes et molecules 20
-Genes à la proteine 20
-Intro Info 20
-Methodo Bio 20
-Mathematiques1 20
-
-EDT de la filière: 
-
-S1MATH 1 90 6 10
-Atomes et molecules 20
-Methodo Maths 20
-Intro Info 20
-Physique 20
-Mathematiques1 20
-
-EDT de la filière: 
-
-S1BIO 1 90 6 10
-Anglais1 20
-Methodo Bio 20
-Mathematique1 20
-Intro Info 20
-Du gène à la protéine 20
-Atomes et molecules 20
-
-EDT de la filière: 
-
-S1INFO 1 90 6 10
-Bio 20
-Chimie 20
-Mathematique1 20
-Info 20
-
-EDT de la filière: 
-
-S2SVT 2 90 6 10
-Intro Geologie 20
-Biodiversite 20
-Intro Chimie 20
-Intro Info2 20
-Intro Bio 20
-Anglais1 20
-
-EDT de la filière: 
-
-S2MATH 2 90 6 10
-Transformation Chimique 20
-Thermodynamique 20
-Mecanique 20
-Mathematique2 20
-Anglais1 20
-
-EDT de la filière: 
-
-S2BIO 2 90 6 10
-Biodiversite 20
-Geologie 20
-Intro Chimie 20
-Intro Bio 20
-
-EDT de la filière: 
-
-S2INFO 2 90 6 10
-Intro Info 20
-Intro Bio 20
-Mathematique2 20
-Application Info 20
-Geologie 20
-
-EDT de la filière: 
-
-S3SVT 3 90 6 10
-Anglais2 20
-Biologie du developpement 20
-Biodiversite Animale 20
-Communication cellulaire 20
-Biochimie 20
-
-EDT de la filière: 
-
-S3MATH 3 90 6 10
-Electro Magnetisme 20
-Base de donnees 20
-Mathematiques par ordi 20
-Mathematiques3 20
-
-EDT de la filière: 
-
-S3BIO 3 90 6 10
-Chimie 20
-Bio Physique 20
-Bio du developpement 20
-Communication cellulaire 20
-Biochimie 20
-Anglais2 20
-
-EDT de la filière: 
-
-S3INFO 3 90 6 10
-Langage C 20
-Archi des Ordi 20
-Structure donnees 20
-Mathematique3 20
-Anglais1 20
-
-EDT de la filière: 
-
-S4SVT 4 90 6 10
-Physiologie 20
-Introduction a l'environnement terrestre 20
-Analyse des Genomes 20
-Physiologie vegetale 20
-Genetique1 20
-
-EDT de la filière: 
-
-S4MATH 4 90 6 10
-Proba statistiques 20
-Analyse Complexe 20
-Algèbre1 20
-Suites et fonctions 20
-Anglais2 20
-
-EDT de la filière: 
-
-S4BIO 4 90 6 10
-Outils Biologie 20
-Physiologie 20
-Chimie Orga 20
-Analyse Genome 20
-Genetique 20
-
-EDT de la filière: 
-
-S4INFO 4 90 6 10
-Anglais2 20
-Algorithmique1 20
-Langage Objet 20
-Systeme Exploitation 20
-Theorie Langages 20
-Analyse Genome 20
-
-EDT de la filière: 
-
-S5SVT 5 90 6 10
-Projet Maths 20
-Anglais3 20
-Dynamiques enveloppes terrestres 20
-Immunologie 20
-Dynamique cellulaire 20
-Diversite Micro-organismes 20
-Analyses Experimentales 20
-
-EDT de la filière: 
-
-S5MATH 5 90 6 10
-Anglais3 20
-Phylogenie 20
-Calcul intégrale 20
-Topologie, calculs differentiels 20
-Genetique2 20
-Algèbre2 20
-
-EDT de la filière: 
-
-S5BIO 5 90 6 10
-Phylogenie 20
-Analyse Experimentale 20
-Genomes aux protéome 20
-Genetique2 20
-Dynamique Cellulaire 20
-Anglais3 20
-
-EDT de la filière: 
-
-S5INFO 5 90 6 10
-Base Donnees 20
-C++ 20
-Compilation 20
-Algorithmique2 20
-TOD 20
-
-EDT de la filière: 
-
-S6SVT 6 90 6 10
-Géologie en France 20
-Biotechnologies Vegetales 20
-Virus et parasites 20
-Genetique des populations 20
-Ecologie 20
-
-EDT de la filière: 
-
-S6MATH 6 90 6 10
-Projet Maths 20
-Probabilités avancées 20
-Optimisation et applications 20
-Analyse numérique 20
-Groupes et Géométries 20
-
-EDT de la filière: 
-
-S6BIO 6 90 6 10
-Virus et parasites 20
-Mutation à l'espece 20
-Genomique 20
-Projet BIO 20
-
-EDT de la filière: 
-
-S6INFO 6 90 6 10
-Anglais3 20
-Cryptographie 20
-CHP 20
-Reseau 20
-Projet INFO 20
-
-Anglais TD3 35 38
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Anglais TD2 35 41
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-Anglais TD1 35 40
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-TD4 35 32
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-TD3 35 33
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-TD2 35 35
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-TD1 35 37
--1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-
-EDT de la filière: 
-
+Universite UFR des sciences de Versailles 480 1100 10 4
+Salle 1002 40 TD 50 Fermat Anglais3 Cryptographie CHP Reseau Projet INFO 
+Salle 1001 40 TD 50 Fermat Anglais3 Cryptographie CHP Reseau Projet INFO 
+Salle G207 40 TD 43 Germain Cryptographie CHP Reseau Projet INFO 
+Salle G206 40 TD 40 Germain Cryptographie CHP Reseau Projet INFO 
+Salle G205 40 TD 44 Germain Cryptographie CHP Reseau Projet INFO 
+Salle G204 40 TD 40 Germain Cryptographie CHP Reseau Projet INFO 
+Salle G203 40 TD 42 Germain Cryptographie CHP Reseau Projet INFO 
+Salle G202 40 TD 48 Germain Cryptographie CHP Reseau Projet INFO 
+Salle G201 40 TD 40 Germain Cryptographie CHP Reseau Projet INFO 
+Salle Jungle 40 TD 40 Descartes Cryptographie CHP Reseau Projet INFO 
+Salle Alsace 40 TD 40 Descartes Cryptographie CHP Reseau Projet INFO 
+Salle Aquitaine 40 TD 40 Descartes Cryptographie CHP Reseau Projet INFO 
+Salle AMPHI H 40 CM 150 Fermat Anglais3 Cryptographie CHP Reseau Projet INFO 
+Salle AMPHI D 40 CM 150 Descartes Anglais3 Cryptographie CHP Reseau Projet INFO 
+Enseignant Prof Projet 1 35  Projet INFO 
+Enseignant Prof Reseau 3 35  Reseau 
+Enseignant Prof Reseau 2 35  Reseau 
+Enseignant Prof Reseau 1 35  Reseau 
+Enseignant Prof CHPS 2 35  CHP 
+Enseignant Prof CHPS 1 35  CHP 
+Enseignant Prof Crypto 4 35  Cryptographie 
+Enseignant Prof Crypto 3 35  Cryptographie 
+Enseignant Prof Crypto 2 35  Cryptographie 
+Enseignant Prof Crypto 1 35  Cryptographie 
+Enseignant Prof Anglais 3 35  Anglais3 
+Enseignant Prof Anglais 2 35  Anglais3 
+Enseignant Prof Anglais 1 35  Anglais3 
+Groupe Anglais TD3 35  38 S6INFO 
+Groupe Anglais TD2 35  41 S6INFO 
+Groupe Anglais TD1 35  40 S6INFO 
+Groupe TD4 35  32 S6INFO 
+Groupe TD3 35  33 S6INFO 
+Groupe TD2 35  35 S6INFO 
+Groupe TD1 35  37 S6INFO 
+Filiere S1SVT1
+Filiere S1MATH1
+Filiere S1BIO1
+Filiere S1INFO1
+Filiere S2SVT2
+Filiere S2MATH2
+Filiere S2BIO2
+Filiere S2INFO2
+Filiere S3SVT3
+Filiere S3MATH3
+Filiere S3BIO3
+Filiere S3INFO3
+Filiere S4SVT4
+Filiere S4MATH4
+Filiere S4BIO4
+Filiere S4INFO4
+Filiere S5SVT5
+Filiere S5MATH5
+Filiere S5BIO5
+Filiere S5INFO5
+Filiere S6SVT6
+Filiere S6MATH6
+Filiere S6BIO6
+Filiere S6INFO6
+EDT S1SVT 90 6 10EDT S1MATH 90 6 10EDT S1BIO 90 6 10EDT S1INFO 90 6 10EDT S2SVT 90 6 10EDT S2MATH 90 6 10EDT S2BIO 90 6 10EDT S2INFO 90 6 10EDT S3SVT 90 6 10EDT S3MATH 90 6 10EDT S3BIO 90 6 10EDT S3INFO 90 6 10EDT S4SVT 90 6 10EDT S4MATH 90 6 10EDT S4BIO 90 6 10EDT S4INFO 90 6 10EDT S5SVT 90 6 10EDT S5MATH 90 6 10EDT S5BIO 90 6 10EDT S5INFO 90 6 10EDT S6SVT 90 6 10EDT S6MATH 90 6 10EDT S6BIO 90 6 10EDT S6INFO 90 6 10Matiere Atomes et molecules 20
+Matiere Genes à la proteine 20
+Matiere Intro Info 20
+Matiere Methodo Bio 20
+Matiere Mathematiques1 20
+Matiere Atomes et molecules 20
+Matiere Methodo Maths 20
+Matiere Intro Info 20
+Matiere Physique 20
+Matiere Mathematiques1 20
+Matiere Anglais1 20
+Matiere Methodo Bio 20
+Matiere Mathematique1 20
+Matiere Intro Info 20
+Matiere Du gène à la protéine 20
+Matiere Atomes et molecules 20
+Matiere Bio 20
+Matiere Chimie 20
+Matiere Mathematique1 20
+Matiere Info 20
+Matiere Intro Geologie 20
+Matiere Biodiversite 20
+Matiere Intro Chimie 20
+Matiere Intro Info2 20
+Matiere Intro Bio 20
+Matiere Anglais1 20
+Matiere Transformation Chimique 20
+Matiere Thermodynamique 20
+Matiere Mecanique 20
+Matiere Mathematique2 20
+Matiere Anglais1 20
+Matiere Biodiversite 20
+Matiere Geologie 20
+Matiere Intro Chimie 20
+Matiere Intro Bio 20
+Matiere Intro Info 20
+Matiere Intro Bio 20
+Matiere Mathematique2 20
+Matiere Application Info 20
+Matiere Geologie 20
+Matiere Anglais2 20
+Matiere Biologie du developpement 20
+Matiere Biodiversite Animale 20
+Matiere Communication cellulaire 20
+Matiere Biochimie 20
+Matiere Electro Magnetisme 20
+Matiere Base de donnees 20
+Matiere Mathematiques par ordi 20
+Matiere Mathematiques3 20
+Matiere Chimie 20
+Matiere Bio Physique 20
+Matiere Bio du developpement 20
+Matiere Communication cellulaire 20
+Matiere Biochimie 20
+Matiere Anglais2 20
+Matiere Langage C 20
+Matiere Archi des Ordi 20
+Matiere Structure donnees 20
+Matiere Mathematique3 20
+Matiere Anglais1 20
+Matiere Physiologie 20
+Matiere Introduction a l'environnement terrestre 20
+Matiere Analyse des Genomes 20
+Matiere Physiologie vegetale 20
+Matiere Genetique1 20
+Matiere Proba statistiques 20
+Matiere Analyse Complexe 20
+Matiere Algèbre1 20
+Matiere Suites et fonctions 20
+Matiere Anglais2 20
+Matiere Outils Biologie 20
+Matiere Physiologie 20
+Matiere Chimie Orga 20
+Matiere Analyse Genome 20
+Matiere Genetique 20
+Matiere Anglais2 20
+Matiere Algorithmique1 20
+Matiere Langage Objet 20
+Matiere Systeme Exploitation 20
+Matiere Theorie Langages 20
+Matiere Analyse Genome 20
+Matiere Projet Maths 20
+Matiere Anglais3 20
+Matiere Dynamiques enveloppes terrestres 20
+Matiere Immunologie 20
+Matiere Dynamique cellulaire 20
+Matiere Diversite Micro-organismes 20
+Matiere Analyses Experimentales 20
+Matiere Anglais3 20
+Matiere Phylogenie 20
+Matiere Calcul intégrale 20
+Matiere Topologie, calculs differentiels 20
+Matiere Genetique2 20
+Matiere Algèbre2 20
+Matiere Phylogenie 20
+Matiere Analyse Experimentale 20
+Matiere Genomes aux protéome 20
+Matiere Genetique2 20
+Matiere Dynamique Cellulaire 20
+Matiere Anglais3 20
+Matiere Base Donnees 20
+Matiere C++ 20
+Matiere Compilation 20
+Matiere Algorithmique2 20
+Matiere TOD 20
+Matiere Géologie en France 20
+Matiere Biotechnologies Vegetales 20
+Matiere Virus et parasites 20
+Matiere Genetique des populations 20
+Matiere Ecologie 20
+Matiere Projet Maths 20
+Matiere Probabilités avancées 20
+Matiere Optimisation et applications 20
+Matiere Analyse numérique 20
+Matiere Groupes et Géométries 20
+Matiere Virus et parasites 20
+Matiere Mutation à l'espece 20
+Matiere Genomique 20
+Matiere Projet BIO 20
+Matiere Anglais3 20
+Matiere Cryptographie 20
+Matiere CHP 20
+Matiere Reseau 20
+Matiere Projet INFO 20
+Cours 0 Anglais3 1001 Prof Anglais 3 Anglais TD2  2 2 5
+Cours 0 Anglais3 1002 Prof Anglais 1 Anglais TD1  2 5 5
+Cours 0 Anglais3 1002 Prof Anglais 3 Anglais TD3  2 4 7
+Cours 0 Cryptographie G202 Prof Crypto 3 TD4  2 4 6
+Cours 1 Cryptographie AMPHI H Prof Crypto 2 TD4 TD3 TD2 TD1  1 0 5
+Cours 0 Cryptographie G206 Prof Crypto 1 TD1  2 3 5
+Cours 0 Cryptographie G203 Prof Crypto 2 TD2  2 2 0
+Cours 0 Cryptographie 1002 Prof Crypto 4 TD3  2 0 6
+Cours 0 CHP 1001 Prof CHPS 1 TD3  2 4 2
+Cours 0 CHP Aquitaine Prof CHPS 1 TD4  2 1 2
+Cours 1 CHP AMPHI H Prof CHPS 2 TD4 TD3 TD2 TD1  1 5 3
+Cours 0 CHP 1002 Prof CHPS 2 TD2  2 4 1
+Cours 0 CHP 1001 Prof CHPS 1 TD1  2 5 7
+Cours 0 Reseau 1001 Prof Reseau 2 TD1  2 5 6
+Cours 0 Reseau G205 Prof Reseau 2 TD3  2 2 2
+Cours 0 Reseau G205 Prof Reseau 1 TD4  2 2 7
+Cours 1 Reseau AMPHI H Prof Reseau 2 TD4 TD3 TD2 TD1  1 4 3
+Cours 0 Reseau G207 Prof Reseau 3 TD2  2 3 2
+Cours 0 Projet INFO 1002 Prof Projet 1 TD2  2 5 7
+Cours 0 Projet INFO G207 Prof Projet 1 TD4  2 4 2
+Cours 0 Projet INFO 1001 Prof Projet 1 TD1  2 0 7
+Cours 0 Projet INFO 1002 Prof Projet 1 TD3  2 1 5

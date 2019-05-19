@@ -150,8 +150,11 @@ int EDT::get_nbCreneau()
 
 string EDT::to_string()
 {
-	//Pour abdou et ali
-	return "rien";
+	string s = "EDT " + filiere->get_nom() + " " + std::to_string(dureeCreneau) + " " + std::to_string(nbJours) + " " + std::to_string(nbCreneau);
+	
+	
+	
+	return s;
 }
 
 Cours** EDT::get_modif()

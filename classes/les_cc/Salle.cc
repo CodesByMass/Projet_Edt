@@ -90,8 +90,24 @@ Type Salle::get_type()
 
 string Salle::to_string()
 {
-	// Pour abdou et ali
-	return "rien";
+	
+	string s = "Salle " + Ressource::to_string();
+	
+	if(type == CM)
+		s = s + "CM";
+	if(type == TD)
+		s = s + "TD";
+	if(type == TP)
+		s = s + "TP";
+	
+	 s = s + " " + std::to_string(effectif) + " " + batiment->nom + " ";
+	
+	for(list<Matiere*>::iterator it = materiels.begin(); it!=materiels.end(); ++it)
+		s = s + (*it)->get_nom() + " ";
+	
+	s = s + "\n";
+	
+	return s;
 }
 
 void Salle::set_batiment(Batiment* b)

@@ -131,8 +131,14 @@ int* Cours::get_emplacement()
 
 string Cours::to_string()
 {
-	// Pour abdou et ali
-	return "rien";
+	string s = "Cours " + std::to_string(type) + " " + matiere->get_nom() + " " + salle->get_identifiant() + " " + enseignant->get_identifiant() + " ";
+	
+	for(list<Groupe*>::iterator it = groupes.begin(); it!= groupes.end(); ++it)
+		s = s + (*it)->get_identifiant() + " ";
+		
+	s = s + " " + std::to_string(duree) + " " + std::to_string(emplacement[0]) + " " + std::to_string(emplacement[1]) + "\n";
+	
+	return s;
 }
 
 void Cours::set_salle(Salle* s)

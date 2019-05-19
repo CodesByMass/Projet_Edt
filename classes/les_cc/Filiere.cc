@@ -109,8 +109,9 @@ int Filiere::get_semestre()
 
 string Filiere::to_string()
 {
-	// pour abdou et ali
-	return "rien";
+	string s = "Filiere " + nom + std::to_string(semestre) + "\n";
+	
+	return s;
 }
 
 void Filiere::add_matiere(Matiere* m)

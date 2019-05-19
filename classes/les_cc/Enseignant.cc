@@ -65,8 +65,14 @@ Matiere* Enseignant::get_specialites(string s)
 
 string Enseignant::to_string()
 {
-	// Pour abdou et ali
-	return "rien";
+	string s = "Enseignant " + Ressource::to_string() + " " ;
+	
+	for(list<Matiere*>::iterator it = specialites.begin(); it!=specialites.end(); ++it)
+		s = s + (*it)->get_nom() + " ";
+
+	s = s + "\n";
+	
+	return s;
 }
 
 void Enseignant::add_specialite(Matiere* m)

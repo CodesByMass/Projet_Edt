@@ -122,8 +122,9 @@ int Matiere::get_volume()
 
 string Matiere::to_string()
 {
-	// Pour abdou et ali
-	return "rien";
+	string s = "Matiere " + nom + " " + std::to_string(volume) + "\n";
+	
+	return s;
 }
 
 void Matiere::add_filiere(Filiere* f)

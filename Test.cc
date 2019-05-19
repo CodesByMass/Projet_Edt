@@ -1,5 +1,6 @@
 #include "classes/les_h/Data.h"
 #include "GenerateurEDT/GenerateurEDT.h"
+#include "SGF/SGF.h"
 #include <list> 
 #include <iterator> 
 #include <stdio.h>
@@ -207,7 +208,7 @@ int main(int argc, char* argv[])
 
 	/* ---------------- Creation des ressources ---------------- */
 	
-	int horaires[6][2] = {{1,9}, {1,9}, {1,9}, {1,9}, {1,9}, {1,9}};
+	int horaires[6][2] = {{1,8}, {1,8}, {1,8}, {1,8}, {1,8}, {1,8}};
 	
 	u->add_enseignant(new Enseignant(u,"Prof Anglais 1",35, horaires,{},{u->get_filieres("S6INFO")->get_matieres("Anglais3")}));
 	u->add_enseignant(new Enseignant(u,"Prof Anglais 2",35, horaires,{},{u->get_filieres("S6INFO")->get_matieres("Anglais3")}));
@@ -264,7 +265,7 @@ int main(int argc, char* argv[])
 	u->get_filieres("S6INFO")->get_matieres("CHP")->add_cours(new Cours(2,u->get_filieres("S6INFO")->get_matieres("CHP"),{u->get_groupes("TD2")},TD));
 	u->get_filieres("S6INFO")->get_matieres("CHP")->add_cours(new Cours(2,u->get_filieres("S6INFO")->get_matieres("CHP"),{u->get_groupes("TD3")},TD));		
 	u->get_filieres("S6INFO")->get_matieres("CHP")->add_cours(new Cours(2,u->get_filieres("S6INFO")->get_matieres("CHP"),{u->get_groupes("TD4")},TD));	
-		u->get_filieres("S6INFO")->get_matieres("CHP")->add_cours(new Cours(1,u->get_filieres("S6INFO")->get_matieres("CHP"),{u->get_groupes("TD4"), u->get_groupes("TD3"), u->get_groupes("TD2"), u->get_groupes("TD1")},CM));	
+	u->get_filieres("S6INFO")->get_matieres("CHP")->add_cours(new Cours(1,u->get_filieres("S6INFO")->get_matieres("CHP"),{u->get_groupes("TD4"), u->get_groupes("TD3"), u->get_groupes("TD2"), u->get_groupes("TD1")},CM));	
 	u->get_filieres("S6INFO")->get_matieres("Projet INFO")->add_cours(new Cours(2,u->get_filieres("S6INFO")->get_matieres("Projet INFO"),{u->get_groupes("TD1")},TD));
 	u->get_filieres("S6INFO")->get_matieres("Projet INFO")->add_cours(new Cours(2,u->get_filieres("S6INFO")->get_matieres("Projet INFO"),{u->get_groupes("TD2")},TD));
 	u->get_filieres("S6INFO")->get_matieres("Projet INFO")->add_cours(new Cours(2,u->get_filieres("S6INFO")->get_matieres("Projet INFO"),{u->get_groupes("TD3")},TD));		
@@ -272,14 +273,13 @@ int main(int argc, char* argv[])
 	
 	// Ici VOus pouvez vous amusez avec la filiere
 	
-	
-	u->get_filieres("S6INFO")->set_edt(GenereEDT(u,u->get_filieres("S6INFO"), u->get_filieres("S6INFO")->get_edt(), 1));
+	u->get_filieres("S6INFO")->set_edt(GenereEDT(u,u->get_filieres("S6INFO"), u->get_filieres("S6INFO")->get_edt(), 0));
 
-	
+	EvalueEDT(u,u->get_filieres("S6INFO")->get_edt(),2);
 	
 	AfficheEDT(u->get_filieres("S6INFO")->get_edt());
 			
-	//u->write_university(u);
+	ecriture_universite(u);
 
 	delete u;
 }

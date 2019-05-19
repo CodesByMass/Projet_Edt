@@ -11,6 +11,7 @@
 #include <stdlib.h>
 using namespace std;
 
+class Groupe;
 class Salle;
 class Enseignant;
 class Filiere;
