@@ -3,7 +3,3 @@ Test: GenerateurEDT/GenerateurEDT.o Test.o classes/les_cc/EDT.o classes/les_cc/U
 	
 Test.o: Test.cc 
 	g++ -o Test.o -c Test.cc -Wall
-
-clean:
-	rm -f *.o
-	rm -f Test

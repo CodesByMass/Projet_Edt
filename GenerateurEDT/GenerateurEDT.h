@@ -85,4 +85,8 @@ void* CM_TD_journee(void *void_arg);
 
 void* nb_deplacement(void *void_arg);
 
+/*------------- Affiche EDT sur le terminal (temporaire) ------------------*/
+
+void AfficheEDT(EDT* e);
+
 #endif

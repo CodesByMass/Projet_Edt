@@ -11,6 +11,8 @@
 
 using namespace std;
 
+/* ------------------------------------------------ Genere EDT ------------------------------------------------ */
+
 EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 {
 	srand(time(NULL));
@@ -86,12 +88,16 @@ EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 	return edt;
 }
 
+/* ------------------------------------------------ Verifie EDT ------------------------------------------------ */
+
 //Verifié
 bool VerifieEDT(Universite* univ, EDT* edt, int debug)
 {
 	//Verifie si aucune contrainte forte n'est enfreinte
 	return EvalueHard(univ, edt, debug-1) == 0;
 }
+
+/* ------------------------------------------------ Initialise EDT ------------------------------------------------ */
 
 //Verifié
 EDT* InitialiseEDT(Filiere* fil, EDT* edt, int debug)
@@ -126,6 +132,8 @@ EDT* InitialiseEDT(Filiere* fil, EDT* edt, int debug)
 	return edt;
 }
 
+/* ------------------------------------------------ Genere Voisin ------------------------------------------------ */
+
 // verifié
 EDT* GenereVoisin(Filiere* fil, EDT* edt, int debug)
 {
@@ -151,6 +159,8 @@ EDT* GenereVoisin(Filiere* fil, EDT* edt, int debug)
 	return edtVoisin;
 }
 
+/* ------------------------------------------------ Evalue EDT ------------------------------------------------ */
+
 //verifié
 float EvalueEDT(Universite* univ, EDT* edt, int debug)
 {
@@ -169,6 +179,8 @@ float EvalueEDT(Universite* univ, EDT* edt, int debug)
 	return Ehard + (Esoft*pow(10,-1));
 }
 
+/* ------------------------------------------------ Diminue Temperature ------------------------------------------------ */
+
 //verifié
 float DiminueTemperature(float temp, float reduc, int debug)
 {
@@ -176,6 +188,8 @@ float DiminueTemperature(float temp, float reduc, int debug)
 	//Diminuer la temp en fonction de la variable de reduction
 	return temp-reduc;
 }
+
+/* ------------------------------------------------ Affecte Cours ------------------------------------------------ */
 
 //Verifié
 Cours* AffecteCours(Filiere* fil, Cours* cours, int debug)
@@ -220,6 +234,8 @@ Cours* AffecteCours(Filiere* fil, Cours* cours, int debug)
 	return cours;
 }
 
+/* ------------------------------------------------ Place Cours ------------------------------------------------ */
+
 //Verifié
 EDT* PlaceCours(EDT* edt, Cours* cours, int debug)
 {
@@ -240,6 +256,8 @@ EDT* PlaceCours(EDT* edt, Cours* cours, int debug)
 	
 	return edt;
 }
+
+/* ------------------------------------------------ Deplace Cours ------------------------------------------------ */
 
 //Verifié
 EDT* DeplaceCours(EDT* edt, int debug)
@@ -297,6 +315,8 @@ EDT* DeplaceCours(EDT* edt, int debug)
 	
 	return edt;
 }
+
+/* ------------------------------------------------ Change Affectation ------------------------------------------------ */
 
 //Verifié
 EDT* ChangeAffectation(EDT* edt, Filiere* fil, int debug)
@@ -370,6 +390,8 @@ EDT* ChangeAffectation(EDT* edt, Filiere* fil, int debug)
 	return edt;
 }
 
+/* ------------------------------------------------ Evalue Soft ------------------------------------------------ */
+
 //verifé
 int EvalueSoft(Universite* univ, EDT* edt, int debug)
 {
@@ -424,6 +446,8 @@ int EvalueSoft(Universite* univ, EDT* edt, int debug)
 	//retourner l'energie
 	return res;
 }
+
+/* ------------------------------------------------ Evalue Hard ------------------------------------------------ */
 
 //verifié
 int EvalueHard(Universite* univ, EDT* edt, int debug)
@@ -496,6 +520,8 @@ int EvalueHard(Universite* univ, EDT* edt, int debug)
 	return res;
 }
 
+/* ------------------------------------------------ Selectionne Aleatoirement ------------------------------------------------ */
+
 //Verifié
 Cours* SelectionneAleatoirement(EDT* edt, int debug)
 {
@@ -518,6 +544,8 @@ Cours* SelectionneAleatoirement(EDT* edt, int debug)
 	return *c;
 }
 
+/* ------------------------------------------------ Random entre A et B ------------------------------------------------ */
+
 //Verifié juste pour les entiers
 float Random_a_b(int a, int b, int debug)
 {
@@ -530,12 +558,14 @@ float Random_a_b(int a, int b, int debug)
 	return rand()%(b-a)+a;
 }
 
-
+/* ------------------------------------------------ Affiche Debug------------------------------------------------ */
 
 bool Affiche_debug(int debug)
 {
 	return debug >= 1;
 }
+
+/* ------------------------------------------------ Accepte ------------------------------------------------ */
 
 // à vérifié
 bool Accepte(float Eactuelle, float Evoisin, float temp, int debug)
@@ -553,7 +583,8 @@ bool Accepte(float Eactuelle, float Evoisin, float temp, int debug)
 	return (proba > Random_a_b(0,1,1) && delta > 0) || (delta < 0);
 }
 
-/*------------- Contraintes Hard ------------------*/
+/* ------------------------------------------------ Contraintes Hard ------------------------------------------------ */
+
 /* Attention au moment ou on evalue l'edt n'est pas encore accepté c a dire que les informations sont pas les meme entre celle de l'edt de l'argument et celles de l'universié */
 //Verifié
 void* ressource_par_creneau(void* void_arg)
@@ -831,7 +862,7 @@ void* cours_plusieurs_jours(void* void_arg)
 	pthread_exit(cpt);
 }
 
-/*------------- Contraintes Soft ------------------*/
+/* ------------------------------------------------ Contraintes Soft ------------------------------------------------ */
 
 //Verifié
 void* CM_avant_TD(void* void_arg)
@@ -1049,4 +1080,95 @@ void* nb_deplacement(void* void_arg)
 	
 	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte nb_deplacement \n---------------------\n"  << endl;
 	pthread_exit(cpt);
+}
+
+/* ------------------------------------------------ Affiche EDT terminal (temporaire) ------------------------------------------------ */
+
+void AfficheEDT(EDT* e)
+{
+	EDT* temp = new EDT(*e);
+	
+	list<Cours*> cours;
+	
+	for(int i = 0; i < temp->get_nbJours(); i++){
+		for(int j = 0; j < temp->get_nbCreneau(); j++){
+			for(list<Cours*>::iterator c = temp->get_cours()[i][j].begin(); c != temp->get_cours()[i][j].end(); ++c){ 
+				cours.push_front(*c);}}}
+
+	for(list<Cours*>::iterator c = cours.begin(); c != cours.end(); ++c){
+		int i = (*c)->get_emplacement()[0];
+		int j = (*c)->get_emplacement()[1];
+		for(int x = 1; x < (*c)->get_duree(); x++)
+			temp->get_cours()[i][j+x].push_back(*c);}
+	
+	int max = 0;
+	
+	for(int i = 0; i < temp->get_nbJours(); i++){
+		for(int j = 0; j < temp->get_nbCreneau(); j++){
+			for(list<Cours*>::iterator it = temp->get_cours()[i][j].begin(); it!=temp->get_cours()[i][j].end(); ++it){ 
+				string s;  
+				
+				if((*it)->get_type() == CM){ 
+					s = s + "CM " + (*it)->get_matiere()->get_nom();}
+				if((*it)->get_type() == TD){
+					s = s + "TD " + (*it)->get_matiere()->get_nom();}
+				if((*it)->get_type() == TP){
+					s = s + "TD " + (*it)->get_matiere()->get_nom();}
+				if((int)s.length() > max)
+					max = s.length();
+				
+				string s1;
+				
+				if((*it)->get_type() == CM)
+					s1 = s1 + temp->get_filiere()->get_nom();
+				if((*it)->get_type() == TD)
+					s1 = s1 + "Groupe " + (*(*it)->get_groupes()->begin())->get_identifiant();
+				if((*it)->get_type() == TP)
+					s1 = s1 + "Groupe " + (*(*it)->get_groupes()->begin())->get_identifiant();
+				if((int)s1.length() > max)
+					max = s1.length();}}}
+	
+	for(int j = 0; j < temp->get_nbCreneau(); j++){
+		for(int y = 0; y < temp->get_nbJours() * max + temp->get_nbJours() * 2; y++)
+			cout << "-";
+		cout << endl;
+		int size = 1;
+		for(int x = 0; x<size ; x++){
+			for(int i = 0; i < temp->get_nbJours(); i++){
+			string s;
+				if(x < (int)temp->get_cours()[i][j].size()){
+					size = ((int)temp->get_cours()[i][j].size() > size) ? (int)temp->get_cours()[i][j].size() : size;
+					list<Cours*>::iterator c = next(temp->get_cours()[i][j].begin(),x);
+					if((*c)->get_type() == CM)
+						s = s + "CM " + (*c)->get_matiere()->get_nom();
+					if((*c)->get_type() == TD)
+						s = s + "TD " + (*c)->get_matiere()->get_nom();
+					if((*c)->get_type() == TP)
+						s = s + "TD " + (*c)->get_matiere()->get_nom();
+					cout << s;}
+				
+			for(int z = (int)s.length(); z<=max; z++)
+				cout << " ";
+			cout << "|";}
+			cout << endl;
+				
+			for(int i = 0; i < temp->get_nbJours(); i++){
+			string s;
+				if(x < (int)temp->get_cours()[i][j].size()){
+					size = ((int)temp->get_cours()[i][j].size() > size) ? (int)temp->get_cours()[i][j].size() : size;
+					list<Cours*>::iterator c = next(temp->get_cours()[i][j].begin(),x);
+					if((*c)->get_type() == CM)
+						s = s + temp->get_filiere()->get_nom();
+					if((*c)->get_type() == TD)
+						s = s + "Groupe " + (*(*c)->get_groupes()->begin())->get_identifiant();
+					if((*c)->get_type() == TP)
+						s = s + "Groupe " + (*(*c)->get_groupes()->begin())->get_identifiant();
+					cout << s;}
+				
+			for(int z = (int)s.length(); z<=max; z++)
+				cout << " ";
+			cout << "|";}
+			cout << endl;}}
+	
+	delete temp;
 }
