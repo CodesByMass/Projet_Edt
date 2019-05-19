@@ -1,6 +1,7 @@
 #ifndef Matiere_h
 #define Matiere_h
 
+#include "Universite.h"
 #include "Filiere.h"
 #include <list> 
 #include <iterator> 

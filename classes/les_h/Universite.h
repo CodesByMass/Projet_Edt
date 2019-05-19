@@ -13,6 +13,7 @@ using namespace std;
 struct Batiment;
 class Ressource;
 class Filiere;
+class Matiere;
 class Groupe;
 class Salle;
 class Enseignant;
@@ -101,6 +102,8 @@ class Universite
 		Ressource* get_ressource(string s);
 		
 		Batiment* get_batiment(string s);	
+		
+		list<Matiere*> get_matieres();
 };
 
 #endif

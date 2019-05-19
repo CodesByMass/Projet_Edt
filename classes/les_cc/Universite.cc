@@ -377,3 +377,16 @@ Batiment* Universite::get_batiment(string str)
 	
 	return NULL;
 }
+
+list<Matiere*> Universite::get_matieres()
+{
+	list<Matiere*> matieres;
+	
+	for(list<Filiere*>::iterator it = filieres.begin(); it != filieres.end(); ++it){
+		for(list<Matiere*>::iterator m = (*it)->get_matieres()->begin(); m != (*it)->get_matieres()->end(); ++m)
+			matieres.push_front(*m);}
+			
+	//matieres.unique();
+	
+	return matieres;
+}
