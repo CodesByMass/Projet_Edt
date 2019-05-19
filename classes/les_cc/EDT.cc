@@ -104,13 +104,13 @@ EDT::~EDT()
 		if(modif[1]->get_enseignant() != NULL) modif[1]->get_enseignant()->get_cours()->remove(modif[1]);
 		if(modif[1]->get_salle() != NULL) modif[1]->get_salle()->get_cours()->remove(modif[1]);
 		if(modif[1]->get_matiere() != NULL) modif[1]->get_matiere()->get_cours()->remove(modif[1]);
-		for(list<Groupe*>::iterator g = modif[1]->get_groupes()->begin(); g != modif[1]->get_groupes()->begin(); ++g)
+		for(list<Groupe*>::iterator g = modif[1]->get_groupes()->begin(); g != modif[1]->get_groupes()->end(); ++g)
 			if((*g) != NULL) (*g)->get_cours()->remove(modif[1]);
 		
 		if(modif[0]->get_enseignant() != NULL) modif[0]->get_enseignant()->get_cours()->push_front(modif[0]);
 		if(modif[0]->get_salle() != NULL) modif[0]->get_salle()->get_cours()->push_front(modif[0]);
 		if(modif[0]->get_matiere() != NULL) modif[0]->get_matiere()->get_cours()->push_front(modif[0]);
-		for(list<Groupe*>::iterator g = modif[0]->get_groupes()->begin(); g != modif[0]->get_groupes()->begin(); ++g)
+		for(list<Groupe*>::iterator g = modif[0]->get_groupes()->begin(); g != modif[0]->get_groupes()->end(); ++g)
 			if((*g) != NULL) (*g)->get_cours()->push_front(modif[0]);
 
 		delete modif[1];}

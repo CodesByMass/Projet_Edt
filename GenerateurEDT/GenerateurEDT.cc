@@ -25,12 +25,13 @@ EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 	//Find a random initial solution
 	if(Affiche_debug(debug)) cout << "---------------Initialisation de l'EDT-------------------" << endl;
 	edt = InitialiseEDT(fil, edt, debug-1);
+	
 	//Initialise le pointeur vers le voisin
 	EDT* edtVoisin = NULL;
 	//Select an initial temperature qui devrait etre egale au nobre de cours dans l'edt
 	float temp = 22.0;
 	//Select a temperature reduction variable
-	float reduc = 0.02;
+	float reduc = 0.01;
 	//Tant que la temperature n'a pas atteint la valeur seuil faire
 	while(temp >= 0)
 	{
@@ -146,13 +147,13 @@ EDT* GenereVoisin(Filiere* fil, EDT* edt, int debug)
 		if(Random_a_b(0, 100, debug-1) > 40){ 
 			//Deplacer
 			if(Affiche_debug(debug))	cout << "On deplace un cours" << endl;
-			DeplaceCours(edtVoisin, debug-1);
+			edtVoisin = DeplaceCours(edtVoisin, debug-1);
 		}
 		//Si changer affectaion
 		else{
 			//Changer affectation
 			if(Affiche_debug(debug))cout << "On change une affectation" << endl;
-			ChangeAffectation(edtVoisin, fil, debug-1);
+			edtVoisin = ChangeAffectation(edtVoisin, fil, debug-1);
 		}
 
 	//Retourner l'edt copié
@@ -184,7 +185,7 @@ float EvalueEDT(Universite* univ, EDT* edt, int debug)
 //verifié
 float DiminueTemperature(float temp, float reduc, int debug)
 {
-	cout << temp-reduc << endl;
+	if(Affiche_debug(debug)) cout << temp-reduc << endl;
 	//Diminuer la temp en fonction de la variable de reduction
 	return temp-reduc;
 }
@@ -271,8 +272,8 @@ EDT* DeplaceCours(EDT* edt, int debug)
 	cours->get_enseignant()->get_cours()->remove(cours);
 	cours->get_salle()->get_cours()->remove(cours);
 	cours->get_matiere()->get_cours()->remove(cours);
-	for(list<Groupe*>::iterator g = cours->get_groupes()->begin(); g != cours->get_groupes()->begin(); ++g)
-		(*g)->get_cours()->remove(cours);
+	for(list<Groupe*>::iterator g = cours->get_groupes()->begin(); g != cours->get_groupes()->end(); ++g){
+		(*g)->del_cours(cours);}
 	//Ce cours n'appartient qu'a l'edt actuelle
 	cours->get_edt()->remove(edt);
 	//Ce cours est l'ancien cours
@@ -289,8 +290,8 @@ EDT* DeplaceCours(EDT* edt, int debug)
 	cours->get_enseignant()->get_cours()->push_front(cours);
 	cours->get_salle()->get_cours()->push_front(cours);
 	cours->get_matiere()->get_cours()->push_front(cours);
-	for(list<Groupe*>::iterator g = cours->get_groupes()->begin(); g != cours->get_groupes()->begin(); ++g)
-		(*g)->get_cours()->push_front(cours);
+	for(list<Groupe*>::iterator g = cours->get_groupes()->begin(); g != cours->get_groupes()->end(); ++g)
+		(*g)->add_cours(cours);
 
 
 	//emplacemnt actuel du cours
@@ -331,7 +332,7 @@ EDT* ChangeAffectation(EDT* edt, Filiere* fil, int debug)
 	cours->get_enseignant()->get_cours()->remove(cours);
 	cours->get_salle()->get_cours()->remove(cours);
 	cours->get_matiere()->get_cours()->remove(cours);
-	for(list<Groupe*>::iterator g = cours->get_groupes()->begin(); g != cours->get_groupes()->begin(); ++g)
+	for(list<Groupe*>::iterator g = cours->get_groupes()->begin(); g != cours->get_groupes()->end(); ++g)
 		(*g)->get_cours()->remove(cours);
 	//Ce cours n'appartient qu'a l'edt actuelle
 	cours->get_edt()->remove(edt);
@@ -347,7 +348,7 @@ EDT* ChangeAffectation(EDT* edt, Filiere* fil, int debug)
 	cours->get_enseignant()->get_cours()->push_front(cours);
 	cours->get_salle()->get_cours()->push_front(cours);
 	cours->get_matiere()->get_cours()->push_front(cours);
-	for(list<Groupe*>::iterator g = cours->get_groupes()->begin(); g != cours->get_groupes()->begin(); ++g)
+	for(list<Groupe*>::iterator g = cours->get_groupes()->begin(); g != cours->get_groupes()->end(); ++g)
 		(*g)->get_cours()->push_front(cours);
 		
 	int i = Random_a_b(0,100);
@@ -538,7 +539,7 @@ Cours* SelectionneAleatoirement(EDT* edt, int debug)
 	list<Cours*>::iterator c = next(ordre.begin(), (int)Random_a_b(0,ordre.size()));
 	ordre.remove(*c);
 	
-	cout << "taille de ordre = " << ordre.size() << endl;
+	if(Affiche_debug(debug)) cout << "taille de ordre = " << ordre.size() << endl;
 	
 	//Retourner le cours
 	return *c;
@@ -551,7 +552,6 @@ float Random_a_b(int a, int b, int debug)
 {
 	if(a==0 && b==1){
 		float res = (rand()%(1000-0)+0)/1000.0;
-		if(Affiche_debug(debug))	cout << "Alea = " << res << endl;
 		return res;}
 	
 	// retourne un entier entre 
@@ -576,7 +576,7 @@ bool Accepte(float Eactuelle, float Evoisin, float temp, int debug)
 	
 	proba = (1./100.) * floor(proba * 100.);
 	
-	cout << "\t\t\tProbabilité : " << proba << endl;
+	if(Affiche_debug(debug)) cout << "\t\t\tProbabilité : " << proba << endl;
 	
 	if(Affiche_debug(debug))	cout << "Eactuelle = " << Eactuelle << " Evoisin = " << Evoisin << endl;
 	
@@ -600,10 +600,10 @@ void* ressource_par_creneau(void* void_arg)
 		for(list<Cours*>::iterator c = (*g)->get_cours()->begin(); c != (*g)->get_cours()->end(); ++c){
 			if(Affiche_debug((*arg).debug)) cout << "Verification cours " <<  (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<endl;
 			for(list<Cours*>::iterator autre = next(c,1); autre != (*g)->get_cours()->end(); ++autre){
-				if((*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0] && (*c)->get_emplacement()[1] == (*autre)->get_emplacement()[1]){
+				if((*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0]   &&  (*autre)->get_emplacement()[1] <= (*c)->get_emplacement()[1] && (*c)->get_emplacement()[1] <= (*autre)->get_emplacement()[1]+((*autre)->get_duree()-1)){
 					if(Affiche_debug((*arg).debug)) cout << "\t" << (*c)->get_matiere()->get_nom() << " utilise le meme groupe que " << (*autre)->get_matiere()->get_nom() << "!!!" << endl;
 					*cpt = *cpt + 1;}}}}
-					
+	
 	//Pour chaque enseignant concerné
 	for(list<Matiere*>::iterator m = (*arg).edt->get_filiere()->get_matieres()->begin(); m != (*arg).edt->get_filiere()->get_matieres()->end(); ++m){
 		for(list<Enseignant*>::iterator e = (*m)->get_enseignants()->begin(); e != (*m)->get_enseignants()->end(); ++e){
@@ -611,7 +611,7 @@ void* ressource_par_creneau(void* void_arg)
 			for(list<Cours*>::iterator c = (*e)->get_cours()->begin(); c != (*e)->get_cours()->end(); ++c){
 			if(Affiche_debug((*arg).debug)) cout << "Verification cours " <<  (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<endl;
 			for(list<Cours*>::iterator autre = next(c,1); autre != (*e)->get_cours()->end(); ++autre){
-				if((*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0] && (*c)->get_emplacement()[1] == (*autre)->get_emplacement()[1]){
+				if((*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0]   &&  (*autre)->get_emplacement()[1] <= (*c)->get_emplacement()[1] && (*c)->get_emplacement()[1] <= (*autre)->get_emplacement()[1]+((*autre)->get_duree()-1)){
 					if(Affiche_debug((*arg).debug)) cout << "\t" << (*c)->get_matiere()->get_nom() << " utilise le meme enseignant que " << (*autre)->get_matiere()->get_nom() << "!!!" << endl;
 					*cpt = *cpt + 1;}}}}}
 	
@@ -621,7 +621,7 @@ void* ressource_par_creneau(void* void_arg)
 			for(list<Cours*>::iterator c = (*s)->get_cours()->begin(); c != (*s)->get_cours()->end(); ++c){
 					if(Affiche_debug((*arg).debug)) cout << "Verification cours " <<  (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<endl;
 					for(list<Cours*>::iterator autre = next(c,1); autre != (*s)->get_cours()->end(); ++autre){
-						if((*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0] && (*c)->get_emplacement()[1] == (*autre)->get_emplacement()[1]){
+						if((*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0]   &&  (*autre)->get_emplacement()[1] <= (*c)->get_emplacement()[1] && (*c)->get_emplacement()[1] <= (*autre)->get_emplacement()[1]+((*autre)->get_duree()-1)){
 							if(Affiche_debug((*arg).debug)) cout << "\t" << (*c)->get_matiere()->get_nom() << " utilise la meme salle que " << (*autre)->get_matiere()->get_nom() << "!!!" << endl;
 							*cpt = *cpt + 1;}}}}
 
@@ -681,38 +681,17 @@ void* respect_horaire_ressources(void* void_arg)
 	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte respect_horaire_ressources \n---------------------\n"  << endl;
 	
 	int* cpt = new int(0);
-	
-	/*
-	//Pour chaque groupe concerné
-	for(list<Groupe*>::iterator g = (*arg).edt->get_filiere()->get_groupes()->begin(); g != (*arg).edt->get_filiere()->get_groupes()->end(); ++g){
-		if(Affiche_debug((*arg).debug)) cout << "\nVerification respect_horaire groupe " << (*arg).edt->get_filiere()->get_nom() << " " << (*g)->get_identifiant() << "\n" << endl;
-		for(list<Cours*>::iterator c = (*g)->get_cours()->begin(); c != (*g)->get_cours()->end(); ++c){
-			if(Affiche_debug((*arg).debug)) cout << "\tCours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<  endl;
-			if((*c)->get_emplacement()[1] < (*g)->get_horaires((*c)->get_emplacement()[0],0) || (*c)->get_emplacement()[1] > ((*g)->get_horaires((*c)->get_emplacement()[0],1))){
-				if(Affiche_debug((*arg).debug)) cout << "\t\t" << (*g)->get_identifiant() << " n'est pas disponible a cette heure la !!!" << endl;
-				*cpt = *cpt + 1;}}}
-	*/
-	
+
 	//Pour chaque enseignant concerné
 	for(list<Matiere*>::iterator m = (*arg).edt->get_filiere()->get_matieres()->begin(); m != (*arg).edt->get_filiere()->get_matieres()->end(); ++m){
 		for(list<Enseignant*>::iterator e = (*m)->get_enseignants()->begin(); e != (*m)->get_enseignants()->end(); ++e){
 			if(Affiche_debug((*arg).debug)) cout << " \nVerification respect_horaire de l'enseignant de " << (*m)->get_nom() << " " << (*e)->get_identifiant() << "\n" << endl;
 			for(list<Cours*>::iterator c = (*e)->get_cours()->begin(); c != (*e)->get_cours()->end(); ++c){
 				if(Affiche_debug((*arg).debug)) cout << "Cours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<  endl;
-			if((*c)->get_emplacement()[1] < (*e)->get_horaires((*c)->get_emplacement()[0],0) || (*c)->get_emplacement()[1] > ((*e)->get_horaires((*c)->get_emplacement()[0],1))){
+				if((*c)->get_emplacement()[1] < (*e)->get_horaires((*c)->get_emplacement()[0],0) || (*c)->get_emplacement()[1]+((*c)->get_duree()-1) > ((*e)->get_horaires((*c)->get_emplacement()[0],1))){
 					if(Affiche_debug((*arg).debug)) cout << "\t\t" << (*e)->get_identifiant() << " n'est pas disponible a cette heure la !!!" << endl;
 					*cpt = *cpt + 1;}}}}
-	/*
-	//Pour chaque salle concernés
-	for(list<Salle*>::iterator s = (*arg).univ->get_salles()->begin(); s != (*arg).univ->get_salles()->end(); ++s){
-		if(Affiche_debug((*arg).debug)) cout << " \nVerification respect_horaire de la salle " << (*s)->get_identifiant() << "\n" << endl;	
-			for(list<Cours*>::iterator c = (*s)->get_cours()->begin(); c != (*s)->get_cours()->end(); ++c){
-				if(Affiche_debug((*arg).debug)) cout << "Cours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<  endl;
-							if((*c)->get_emplacement()[1] < (*s)->get_horaires((*c)->get_emplacement()[0],0) || (*c)->get_emplacement()[1] > ((*s)->get_horaires((*c)->get_emplacement()[0],1))){
-					if(Affiche_debug((*arg).debug)) cout << "\t\t" << (*s)->get_identifiant() << " n'est pas disponible a cette heure la !!!" << endl;
-					*cpt = *cpt + 1;}}}
-	*/
-	
+
 	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte respect_horaire_ressources \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
@@ -778,14 +757,15 @@ void* respect_pause_dejeuner(void* void_arg)
 	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n entrer dans la contrainte respect_pause_dejeuner \n---------------------\n"  << endl;
 	
 	int* cpt = new int(0);
-	
-	//Pour chaque pause dejeuner de chaque jours
-	for(int i = 0; i < (*arg).edt->get_nbJours(); i++){
-		if(Affiche_debug((*arg).debug)) cout << "Verificaiton de la pause déjeuner du " << i+1 << "eme jour" << endl;
-		if((*arg).edt->get_cours()[i][(*arg).univ->get_pauseDejeuner()].size() != 0){
-			if(Affiche_debug((*arg).debug)) cout << "\t\tIl y a " << (*arg).edt->get_cours()[i][(*arg).univ->get_pauseDejeuner()].size() << " cours !!!" << endl;
-			*cpt = *cpt + (*arg).edt->get_cours()[i][(*arg).univ->get_pauseDejeuner()].size();}}
-	
+
+	//Pour chaque cours concerné
+	for(list<Matiere*>::iterator m = (*arg).edt->get_filiere()->get_matieres()->begin(); m != (*arg).edt->get_filiere()->get_matieres()->end(); ++m){
+		for(list<Cours*>::iterator c = (*m)->get_cours()->begin(); c != (*m)->get_cours()->end(); ++c){
+			if(Affiche_debug((*arg).debug)) cout << "Cours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<  endl;
+			if(((*c)->get_emplacement()[1] + (*c)->get_duree() - 1) >= (*arg).univ->get_pauseDejeuner() && (*c)->get_emplacement()[1] <=  (*arg).univ->get_pauseDejeuner()){
+				if(Affiche_debug((*arg).debug)) cout << "	Est durant la pause dejeuner !!!! " <<  endl;
+				*cpt = *cpt + 1;}}}
+
 	if(Affiche_debug((*arg).debug)) cout << "\n---------------------\n sortie la contrainte respect_pause_dejeuner \n---------------------\n"  << endl;
 	pthread_exit(cpt);
 }
@@ -801,7 +781,6 @@ void* respect_enseignant_qualifie(void* void_arg)
 	int flag = 1;
 	
 	//Pour chaque enseignant concerné
-	cout <<(*arg).edt->get_filiere()->get_nom() << endl;
 	for(list<Matiere*>::iterator m = (*arg).edt->get_filiere()->get_matieres()->begin(); m != (*arg).edt->get_filiere()->get_matieres()->end(); ++m){
 		for(list<Enseignant*>::iterator e = (*m)->get_enseignants()->begin(); e != (*m)->get_enseignants()->end(); ++e){
 			if(Affiche_debug((*arg).debug)) cout << " \nVerification respect_enseignant_qualifie de l'enseignant de " << (*m)->get_nom() << " " << (*e)->get_identifiant() << "\n" << endl;

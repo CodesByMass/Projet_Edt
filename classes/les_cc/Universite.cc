@@ -386,7 +386,7 @@ list<Matiere*> Universite::get_matieres()
 		for(list<Matiere*>::iterator m = (*it)->get_matieres()->begin(); m != (*it)->get_matieres()->end(); ++m)
 			matieres.push_front(*m);}
 			
-	//matieres.unique();
+	matieres.unique();
 	
 	return matieres;
 }
