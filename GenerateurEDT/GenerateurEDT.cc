@@ -31,7 +31,7 @@ EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 	//Select an initial temperature qui devrait etre egale au nobre de cours dans l'edt
 	float temp = 22.0;
 	//Select a temperature reduction variable
-	float reduc = 0.01;
+	float reduc = 0.009;
 	//Tant que la temperature n'a pas atteint la valeur seuil faire
 	while(temp >= 0)
 	{
@@ -599,8 +599,8 @@ void* ressource_par_creneau(void* void_arg)
 		if(Affiche_debug((*arg).debug)) cout << "\nVerification ressource_par_creneau groupe " << (*arg).edt->get_filiere()->get_nom() << " " << (*g)->get_identifiant() << "\n" << endl;
 		for(list<Cours*>::iterator c = (*g)->get_cours()->begin(); c != (*g)->get_cours()->end(); ++c){
 			if(Affiche_debug((*arg).debug)) cout << "Verification cours " <<  (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<endl;
-			for(list<Cours*>::iterator autre = next(c,1); autre != (*g)->get_cours()->end(); ++autre){
-				if((*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0]   &&  (*autre)->get_emplacement()[1] <= (*c)->get_emplacement()[1] && (*c)->get_emplacement()[1] <= (*autre)->get_emplacement()[1]+((*autre)->get_duree()-1)){
+			for(list<Cours*>::iterator autre = (*g)->get_cours()->begin(); autre != (*g)->get_cours()->end(); ++autre){
+				if((*c) != (*autre) && (*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0]  &&  (*autre)->get_emplacement()[1] <= (*c)->get_emplacement()[1] && (*c)->get_emplacement()[1] <= (*autre)->get_emplacement()[1]+((*autre)->get_duree()-1)){
 					if(Affiche_debug((*arg).debug)) cout << "\t" << (*c)->get_matiere()->get_nom() << " utilise le meme groupe que " << (*autre)->get_matiere()->get_nom() << "!!!" << endl;
 					*cpt = *cpt + 1;}}}}
 	
@@ -610,8 +610,8 @@ void* ressource_par_creneau(void* void_arg)
 			if(Affiche_debug((*arg).debug)) cout << " \nVerification ressource_par_creneau de l'enseignant de " << (*m)->get_nom() << " " << (*e)->get_identifiant() << "\n" << endl;
 			for(list<Cours*>::iterator c = (*e)->get_cours()->begin(); c != (*e)->get_cours()->end(); ++c){
 			if(Affiche_debug((*arg).debug)) cout << "Verification cours " <<  (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<endl;
-			for(list<Cours*>::iterator autre = next(c,1); autre != (*e)->get_cours()->end(); ++autre){
-				if((*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0]   &&  (*autre)->get_emplacement()[1] <= (*c)->get_emplacement()[1] && (*c)->get_emplacement()[1] <= (*autre)->get_emplacement()[1]+((*autre)->get_duree()-1)){
+			for(list<Cours*>::iterator autre = (*e)->get_cours()->begin(); autre != (*e)->get_cours()->end(); ++autre){
+				if((*c) != (*autre) &&  (*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0]   &&  (*autre)->get_emplacement()[1] <= (*c)->get_emplacement()[1] && (*c)->get_emplacement()[1] <= (*autre)->get_emplacement()[1]+((*autre)->get_duree()-1)){
 					if(Affiche_debug((*arg).debug)) cout << "\t" << (*c)->get_matiere()->get_nom() << " utilise le meme enseignant que " << (*autre)->get_matiere()->get_nom() << "!!!" << endl;
 					*cpt = *cpt + 1;}}}}}
 	
@@ -620,8 +620,8 @@ void* ressource_par_creneau(void* void_arg)
 			if(Affiche_debug((*arg).debug)) cout << " \nVerification ressource_par_creneau de la salle " << (*s)->get_identifiant() << "\n" << endl;	
 			for(list<Cours*>::iterator c = (*s)->get_cours()->begin(); c != (*s)->get_cours()->end(); ++c){
 					if(Affiche_debug((*arg).debug)) cout << "Verification cours " <<  (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<endl;
-					for(list<Cours*>::iterator autre = next(c,1); autre != (*s)->get_cours()->end(); ++autre){
-						if((*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0]   &&  (*autre)->get_emplacement()[1] <= (*c)->get_emplacement()[1] && (*c)->get_emplacement()[1] <= (*autre)->get_emplacement()[1]+((*autre)->get_duree()-1)){
+					for(list<Cours*>::iterator autre = (*s)->get_cours()->begin(); autre != (*s)->get_cours()->end(); ++autre){
+						if((*c) != (*autre) && (*c)->get_emplacement()[0] == (*autre)->get_emplacement()[0]   &&  (*autre)->get_emplacement()[1] <= (*c)->get_emplacement()[1] && (*c)->get_emplacement()[1] <= (*autre)->get_emplacement()[1]+((*autre)->get_duree()-1)){
 							if(Affiche_debug((*arg).debug)) cout << "\t" << (*c)->get_matiere()->get_nom() << " utilise la meme salle que " << (*autre)->get_matiere()->get_nom() << "!!!" << endl;
 							*cpt = *cpt + 1;}}}}
 
@@ -688,7 +688,7 @@ void* respect_horaire_ressources(void* void_arg)
 			if(Affiche_debug((*arg).debug)) cout << " \nVerification respect_horaire de l'enseignant de " << (*m)->get_nom() << " " << (*e)->get_identifiant() << "\n" << endl;
 			for(list<Cours*>::iterator c = (*e)->get_cours()->begin(); c != (*e)->get_cours()->end(); ++c){
 				if(Affiche_debug((*arg).debug)) cout << "Cours de " << (*c)->get_matiere()->get_nom() << " du " << (*c)->get_emplacement()[0]+1 << "eme Jour " <<  (*c)->get_emplacement()[1]+1 << "eme Creneau" <<  endl;
-				if((*c)->get_emplacement()[1] < (*e)->get_horaires((*c)->get_emplacement()[0],0) || (*c)->get_emplacement()[1]+((*c)->get_duree()-1) > ((*e)->get_horaires((*c)->get_emplacement()[0],1))){
+				if((*e)->get_horaires((*c)->get_emplacement()[0],0) == -1 || (*e)->get_horaires((*c)->get_emplacement()[0],1) == -1 || (*c)->get_emplacement()[1] < (*e)->get_horaires((*c)->get_emplacement()[0],0) || (*c)->get_emplacement()[1]+((*c)->get_duree()-1) > ((*e)->get_horaires((*c)->get_emplacement()[0],1))){
 					if(Affiche_debug((*arg).debug)) cout << "\t\t" << (*e)->get_identifiant() << " n'est pas disponible a cette heure la !!!" << endl;
 					*cpt = *cpt + 1;}}}}
 
