@@ -16,6 +16,7 @@ Cours::Cours()
 	emplacement[0] = -1;
 	emplacement[1] = -1;
 	groupes = {};
+	enseignant = {};
 }
 
 Cours::Cours(Salle* s, list <Groupe*> g, Enseignant* e, Type t, Matiere* m, list <EDT*> new_edt, int du, int emplacementJour, int emplacementHeure)
@@ -114,7 +115,6 @@ Cours::Cours(Universite* u, const string &chaine)
 	}
 	
 }
-
 Cours::~Cours()
 {
 	//cout << "Destruction Cours" << endl;
@@ -147,6 +147,21 @@ Type Cours::get_type()
 	return type;
 }
 
+string Cours::get_type_string()
+{
+	switch(type)
+	{
+		case CM:
+			return "CM";
+		case TD:
+			return "TD";
+		case TP:
+			return "TP";
+		default:
+			return "~";
+	}
+}
+
 Matiere* Cours::get_matiere()
 {
 	return matiere;
@@ -172,6 +187,89 @@ int Cours::get_duree()
 int* Cours::get_emplacement()
 {
 	return emplacement;
+}
+
+char Cours::get_emplacementJour()
+{
+	switch(emplacement[0])
+	{
+		case 0:
+			return 'M';
+		case 1:
+			return 'T';
+		case 2:
+			return 'W';
+		case 3:
+			return 'H';
+		case 4:
+			return 'F';
+		case 5:
+			return 'S';
+		case 6:
+			return 'U';
+		default:
+			return '~';
+	}
+}
+
+string Cours::get_heure_debut()
+{
+	switch (emplacement[1])
+	{
+	  case 0:
+	  	return "8:00";
+	  case 1:
+	  	return "9:40";
+	  case 2:
+	  	return "11:20";
+	  case 3:
+	  	return "13:00"; 
+	  case 4:
+	  	return "13:40";
+	  case 5:
+	  	return "15:20";
+	  case 6:
+	  	return "17:00";
+	  case 7:
+	  	return "18:40";
+	  default:
+	  	return "~";
+	}
+}
+
+string Cours::get_heure_fin()
+{
+	switch (emplacement[1]) 
+	{
+	  case 0:
+	  	if(duree==1)
+	    	return "9:30";
+	  	return "11:10";
+	  case 1:
+		if(duree==1)
+			return "11:10";
+		return "12:50";
+	  case 2:
+	  	return "12:50";
+	  case 3:
+	  	return "13:30";
+	  case 4:
+		if(duree==1)
+			return "15:10";
+		return "16:50";
+	  case 5:
+		if(duree==1)
+			return "16:50";
+		return "18:30";
+	  case 6:
+		if(duree==1)
+			return "18:30";
+		return "20:10";
+	  case 7:
+			return "20:10";
+	  default:
+	  	return "~";
+	}
 }
 
 string Cours::to_string()

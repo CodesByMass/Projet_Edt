@@ -16,4 +16,5 @@ void ecriture_universite(Universite *u);
 
 Universite* lecture_universite();
 
+void conv_latex(EDT* edt);
 #endif

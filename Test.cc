@@ -272,7 +272,12 @@ int main(int argc, char* argv[])
 	u->get_filieres("S6INFO")->get_matieres("Projet INFO")->add_cours(new Cours(2,u->get_filieres("S6INFO")->get_matieres("Projet INFO"),{u->get_groupes("TD4")},TD));	
 	
 	// Ici VOus pouvez vous amusez avec la filiere
+	ecriture_universite(u);
+	
+	
+	
 	delete u;
+	
 
 	u = lecture_universite();
 
@@ -282,6 +287,7 @@ int main(int argc, char* argv[])
 	
 	AfficheEDT(u->get_filieres("S6INFO")->get_edt());
 	
+	conv_latex(u->get_filieres("S6INFO")->get_edt());
 	
 	ecriture_universite(u);
 	delete u;

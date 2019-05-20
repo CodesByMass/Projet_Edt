@@ -20,7 +20,7 @@ class EDT;
 class Matiere;
 class Cours
 {
-	private:
+		private:
 		Salle* salle;
 		list <Groupe*> groupes;
 		Enseignant* enseignant;
@@ -52,6 +52,8 @@ class Cours
 		Enseignant* get_enseignant();
 		
 		Type get_type();
+
+		string get_type_string();
 		
 		Matiere* get_matiere();
 		
@@ -61,7 +63,17 @@ class Cours
 		
 		int get_duree();
 		
+		char get_jour();
+
+		string get_heure_debut();
+
+		string get_heure_fin();
+
 		int* get_emplacement();
+
+		char get_emplacementJour();
+
+		string get_emplacementCreneau();
 		
 		string to_string();
 		
