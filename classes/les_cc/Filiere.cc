@@ -47,9 +47,25 @@ Filiere::Filiere(Filiere const& autre)
 	semestre = autre.semestre;
 }
 
-Filiere::Filiere(string to_construct)
+Filiere::Filiere(Universite* u, const string &chaine)
 {
-	// pour abdou et ali
+	stringstream ss(chaine);
+	string sousChaine;
+	
+	universite = u;
+	u->add_filiere(this);
+	
+	getline(ss, sousChaine, '_');
+	nom = sousChaine;
+	getline(ss, sousChaine, '_');
+	semestre = stoi(sousChaine);
+	
+	getline(ss, sousChaine, '\n');
+	edt = new EDT(this,sousChaine);
+
+	matieres = {};
+	groupes = {};
+	
 }
 
 Filiere::~Filiere()
@@ -109,7 +125,7 @@ int Filiere::get_semestre()
 
 string Filiere::to_string()
 {
-	string s = "Filiere " + nom + std::to_string(semestre) + "\n";
+	string s = "Filiere_" + nom + "_" + std::to_string(semestre) + "_" + edt->to_string();
 	
 	return s;
 }

@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <sstream>
 using namespace std;
 
 struct Batiment;
@@ -34,7 +35,7 @@ class Salle : public Ressource
 		
 		Salle(Salle const&);
 		
-		Salle(string);
+		Salle(Universite* u, const string &chainechaine);
 		
 		~Salle();
 		

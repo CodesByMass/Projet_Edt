@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <sstream>
 using namespace std;
 
 class Matiere;
@@ -29,7 +30,7 @@ class Enseignant: public Ressource
 		
 		Enseignant(Enseignant const&);
 		
-		Enseignant(string);
+		Enseignant(Universite* u, const string &chaine);
 		
 		~Enseignant();
 		

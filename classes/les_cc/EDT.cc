@@ -84,9 +84,28 @@ EDT::EDT(EDT const& autre)
 	modif[1] = NULL;
 }
 
-EDT::EDT(string)
+EDT::EDT(Filiere* f, const string &chaine)
 {
-	//pour abdou et ali
+	stringstream ss(chaine);
+	string sousChaine;
+
+	filiere = f;
+	
+	getline(ss, sousChaine, '_');
+	dureeCreneau = stoi(sousChaine);
+	getline(ss, sousChaine, '_');
+	nbJours = stoi(sousChaine);
+	getline(ss, sousChaine, '_');
+	nbCreneau = stoi(sousChaine);
+	
+	modif[0] = NULL;
+	modif[1] = NULL;
+	
+	cours = new list <Cours*>* [nbJours];
+	for(int i = 0; i<nbJours; i++){
+		cours[i] = new list<Cours*> [nbCreneau];
+		for(int j = 0; j < nbCreneau; j++){
+			cours[i][j]={};}}
 }
 
 EDT::~EDT()
@@ -150,10 +169,8 @@ int EDT::get_nbCreneau()
 
 string EDT::to_string()
 {
-	string s = "EDT " + filiere->get_nom() + " " + std::to_string(dureeCreneau) + " " + std::to_string(nbJours) + " " + std::to_string(nbCreneau);
-	
-	
-	
+	string s = std::to_string(dureeCreneau) + "_" + std::to_string(nbJours) + "_" + std::to_string(nbCreneau) + "_\n";
+
 	return s;
 }
 

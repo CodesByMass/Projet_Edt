@@ -44,9 +44,33 @@ Groupe::Groupe(Groupe const& autre)
 	effectif = autre.effectif;
 }
 
-Groupe::Groupe(string)
+Groupe::Groupe(Universite* u, const string &chaine)
 {
-	// Pour abdou et ali
+	stringstream ss(chaine);
+	string sousChaine;
+
+	universite = u;
+	u->add_groupe(this);
+	
+	getline(ss, sousChaine, '_');
+	identifiant = sousChaine;
+	getline(ss, sousChaine, '_');
+	Vhoraire = stoi(sousChaine);
+	
+	for(int i = 0; i < 6; i++){
+		for(int j = 0; j < 2; j++){
+			getline(ss, sousChaine, '_');
+			horaires[i][j] = stoi(sousChaine);}}
+
+	getline(ss, sousChaine, '_');
+	effectif = stoi(sousChaine);
+
+	while (getline(ss, sousChaine, '_'))
+	{
+		if(universite->get_filieres(sousChaine) != NULL){
+			filieres.push_back(universite->get_filieres(sousChaine));
+			universite->get_filieres(sousChaine)->add_groupe(this);}
+	}
 }
 
 Groupe::~Groupe()
@@ -73,10 +97,10 @@ Filiere* Groupe::get_filieres(string s)
 
 string Groupe::to_string()
 {
-	string s = "Groupe " + Ressource::to_string() + " " + std::to_string(effectif) + " ";
+	string s = "Groupe_" + Ressource::to_string() + std::to_string(effectif) + "_";
 	
 	for(list<Filiere*>::iterator it = filieres.begin(); it!=filieres.end(); ++it)
-		s = s + (*it)->get_nom() + " ";
+		s = s + (*it)->get_nom() + "_";
 	
 	s = s + "\n";
 	

@@ -6,6 +6,7 @@
 #include <iterator> 
 #include <cmath> 
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 class Groupe;
@@ -31,7 +32,7 @@ class Filiere
 		
 		Filiere(Filiere const&);
 		
-		Filiere(string to_construct);
+		Filiere(Universite* u, const string &chaine);
 		
 		~Filiere();
 		

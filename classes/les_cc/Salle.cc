@@ -51,9 +51,41 @@ Salle::Salle(Salle const& autre)
 	type = autre.type;
 }
 
-Salle::Salle(string)
+Salle::Salle(Universite* u, const string &chaine)
 {
-	// pour abdou et ali
+	
+	stringstream ss(chaine);
+	string sousChaine;
+
+	universite = u;
+	u->add_salle(this);
+	
+	getline(ss, sousChaine, '_');
+	identifiant = sousChaine;
+	getline(ss, sousChaine, '_');
+	Vhoraire = stoi(sousChaine);
+	
+	for(int i = 0; i < 6; i++){
+		for(int j = 0; j < 2; j++){
+			getline(ss, sousChaine, '_');
+			horaires[i][j] = stoi(sousChaine);}}
+	
+	getline(ss, sousChaine, '_');
+	type = (Type)stoi(sousChaine);
+	getline(ss, sousChaine, '_');
+	effectif = stoi(sousChaine);
+
+	getline(ss, sousChaine, '_');
+	batiment = new Batiment;
+	batiment->nom = sousChaine;
+	batiment->salles.push_front(this);
+
+	while (getline(ss, sousChaine, '_'))
+	{
+		if(universite->get_matiere(sousChaine) != NULL){
+			materiels.push_back(universite->get_matiere(sousChaine));
+			universite->get_matiere(sousChaine)->add_salle(this);}
+	}
 }
 
 Salle::~Salle()
@@ -91,19 +123,14 @@ Type Salle::get_type()
 string Salle::to_string()
 {
 	
-	string s = "Salle " + Ressource::to_string();
+	string s = "Salle_" + Ressource::to_string();
 	
-	if(type == CM)
-		s = s + "CM";
-	if(type == TD)
-		s = s + "TD";
-	if(type == TP)
-		s = s + "TP";
+	s = s + std::to_string(type);
 	
-	 s = s + " " + std::to_string(effectif) + " " + batiment->nom + " ";
+	 s = s + "_" + std::to_string(effectif) + "_" + batiment->nom + "_";
 	
 	for(list<Matiere*>::iterator it = materiels.begin(); it!=materiels.end(); ++it)
-		s = s + (*it)->get_nom() + " ";
+		s = s + (*it)->get_nom() + "_";
 	
 	s = s + "\n";
 	

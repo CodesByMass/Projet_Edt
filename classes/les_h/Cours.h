@@ -10,6 +10,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sstream>
 using namespace std;
 
 class Enseignant;
@@ -38,7 +39,7 @@ class Cours
 		
 		Cours(Cours const& );
 		
-		Cours(string);
+		Cours(Universite* u, const string &chaine);
 		
 		~Cours();
 		

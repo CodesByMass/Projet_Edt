@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fstream>
+#include <sstream>
 using namespace std;
 
 struct Batiment;
@@ -39,7 +40,7 @@ class Universite
 		
 		Universite(Universite const&);
 		
-		Universite(string);
+		Universite(const string &chaine);
 		
 		~Universite();
 		
@@ -104,6 +105,8 @@ class Universite
 		Batiment* get_batiment(string s);	
 		
 		list<Matiere*> get_matieres();
+
+		Matiere* get_matiere(string s);
 };
 
 #endif

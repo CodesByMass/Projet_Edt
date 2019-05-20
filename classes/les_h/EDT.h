@@ -8,6 +8,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sstream>
 using namespace std;
 
 class Cours;
@@ -31,7 +32,7 @@ class EDT
 		
 		EDT(EDT const&);
 		
-		EDT(string);
+		EDT(Filiere* f, const string &chaine);
 		
 		~EDT();
 		

@@ -16,7 +16,6 @@ Cours::Cours()
 	emplacement[0] = -1;
 	emplacement[1] = -1;
 	groupes = {};
-	enseignant = {};
 }
 
 Cours::Cours(Salle* s, list <Groupe*> g, Enseignant* e, Type t, Matiere* m, list <EDT*> new_edt, int du, int emplacementJour, int emplacementHeure)
@@ -65,9 +64,50 @@ Cours::Cours(Cours const& autre)
 	emplacement[1] = autre.emplacement[1];
 }
 
-Cours::Cours(string)
+Cours::Cours(Universite* u, const string &chaine)
 {
-	//Pour abdou et ali
+	stringstream ss(chaine);
+	string sousChaine;
+	
+	getline(ss, sousChaine, '_');
+	type = (Type)stoi(sousChaine);
+	
+	getline(ss, sousChaine, '_');
+	if(u->get_matiere(sousChaine) != NULL){
+		matiere = u->get_matiere(sousChaine);
+		matiere->add_cours(this);}
+	
+	getline(ss, sousChaine, '_');
+	if(u->get_salles(sousChaine) != NULL){
+		salle = u->get_salles(sousChaine);
+		salle->add_cours(this);}
+		
+	getline(ss, sousChaine, '_');
+	if(u->get_enseignants(sousChaine) != NULL){
+		enseignant = u->get_enseignants(sousChaine);
+		enseignant->add_cours(this);}
+	
+	getline(ss, sousChaine, '_');
+	duree = stoi(sousChaine);
+	
+	getline(ss, sousChaine, '_');
+	emplacement[0] = stoi(sousChaine);
+	
+	getline(ss, sousChaine, '_');
+	emplacement[1] = stoi(sousChaine);
+	
+	for(list<Filiere*>::iterator f = matiere->get_filieres()->begin(); f != matiere->get_filieres()->end(); ++f){
+		edt.push_front((*f)->get_edt());
+		(*f)->get_edt()->add_cours(this,emplacement[0], emplacement[1]);}
+		
+	
+	while (getline(ss, sousChaine, '_'))
+	{
+		if(u->get_groupes(sousChaine) != NULL){
+			groupes.push_back(u->get_groupes(sousChaine));
+			u->get_groupes(sousChaine)->add_cours(this);}
+	}
+	
 }
 
 Cours::~Cours()
@@ -131,12 +171,14 @@ int* Cours::get_emplacement()
 
 string Cours::to_string()
 {
-	string s = "Cours " + std::to_string(type) + " " + matiere->get_nom() + " " + salle->get_identifiant() + " " + enseignant->get_identifiant() + " ";
+	string s = "Cours_" + std::to_string(type) + "_" + matiere->get_nom() + "_" + salle->get_identifiant() + "_" + enseignant->get_identifiant() + "_";
+	
+	s = s + std::to_string(duree) + "_" + std::to_string(emplacement[0]) + "_" + std::to_string(emplacement[1]) + "_";
 	
 	for(list<Groupe*>::iterator it = groupes.begin(); it!= groupes.end(); ++it)
-		s = s + (*it)->get_identifiant() + " ";
-		
-	s = s + " " + std::to_string(duree) + " " + std::to_string(emplacement[0]) + " " + std::to_string(emplacement[1]) + "\n";
+		s = s + (*it)->get_identifiant() + "_";
+	
+	 s = s + "\n";
 	
 	return s;
 }

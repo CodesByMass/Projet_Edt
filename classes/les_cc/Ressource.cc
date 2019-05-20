@@ -84,11 +84,11 @@ Cours* Ressource::get_cours(string s)
 
 string Ressource::to_string()
 {
-	string s = identifiant + " " + std::to_string(Vhoraire) + " ";
+	string s = identifiant + "_" + std::to_string(Vhoraire) + "_";
 	
 	for(int i = 0; i < 6; i++){
 		for(int j = 0; j < 2; j++){
-			s + std::to_string(horaires[i][j]) + " ";}}
+			s = s + std::to_string(horaires[i][j]) + "_";}}
 	
 	return s;
 }

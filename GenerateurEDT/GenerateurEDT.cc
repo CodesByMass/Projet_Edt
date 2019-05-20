@@ -266,7 +266,7 @@ EDT* DeplaceCours(EDT* edt, int debug)
 	if(Affiche_debug(debug)) cout << "Selection aléatoire du cours de "; 
 	//Selectionner un cours aleatoirement dans EDT
 	Cours* cours = SelectionneAleatoirement(edt, debug-1);
-	if(Affiche_debug(debug)) cout << cours->get_matiere()->get_nom() << " du " << (*cours->get_groupes()->begin())->get_identifiant() << "du " << cours->get_emplacement()[0]+1 << "eme jour et " << cours->get_emplacement()[1]+1 << "eme creneau" << endl;
+	if(Affiche_debug(debug)) cout << cours->to_string() << endl;
 	//Le supprimer de l'emploi du temps
 	edt->get_cours()[cours->get_emplacement()[0]][cours->get_emplacement()[1]].remove(cours);
 	cours->get_enseignant()->get_cours()->remove(cours);
@@ -1031,12 +1031,12 @@ void* nb_deplacement(void* void_arg)
 		if(Affiche_debug((*arg).debug)) cout << "\nVerification nb_deplacement groupe " << (*arg).edt->get_filiere()->get_nom() << " " << (*g)->get_identifiant() << "\n" << endl;
 		//Pour chaque jours
 		for(int i = 0; i < (*arg).edt->get_nbJours(); i++){
-			list<Batiment*> batiments;
+			list<string> batiments;
 			//Pour chaque cours du groupe
 			for(list<Cours*>::iterator c = (*g)->get_cours()->begin(); c != (*g)->get_cours()->end(); ++c){
 				//si le cours à lieu ce jour ajouter le batiment ou il a lieu a la liste
 				if((*c)->get_emplacement()[0] == i){
-					batiments.push_front((*c)->get_salle()->get_batiment());}}
+					batiments.push_front((*c)->get_salle()->get_batiment()->nom);}}
 			batiments.unique();
 			if(Affiche_debug((*arg).debug)) cout << "\t\tCe groupe visite " << batiments.size() << " batiments le " << i << "eme jour !!!" << endl;	
 			if(batiments.size()) *cpt = *cpt + (batiments.size()-1);}}
@@ -1047,12 +1047,12 @@ void* nb_deplacement(void* void_arg)
 			if(Affiche_debug((*arg).debug)) cout << " \nVerification nb_deplacement de l'enseignant de " << (*m)->get_nom() << " " << (*e)->get_identifiant() << "\n" << endl;
 			//Pour chaque jours
 			for(int i = 0; i < (*arg).edt->get_nbJours(); i++){
-				list<Batiment*> batiments;
+				list<string> batiments;
 				//Pour chaque cours de l'enseignant
 				for(list<Cours*>::iterator c = (*e)->get_cours()->begin(); c != (*e)->get_cours()->end(); ++c){
 					//si le cours à lieu ce jour ajouter le batiment ou il a lieu a la liste
 					if((*c)->get_emplacement()[0] == i){
-						batiments.push_front((*c)->get_salle()->get_batiment());}}
+						batiments.push_front((*c)->get_salle()->get_batiment()->nom);}}
 				batiments.unique();
 				if(Affiche_debug((*arg).debug)) cout << "\t\tCet enseignant visite " << batiments.size() << " batiments le " << i << "eme jour !!!" << endl;	
 				if(batiments.size()) *cpt = *cpt + (batiments.size()-1);}}}

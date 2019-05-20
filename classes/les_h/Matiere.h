@@ -9,6 +9,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sstream>
 using namespace std;
 
 class Groupe;
@@ -35,7 +36,7 @@ class Matiere
 		
 		Matiere(Matiere const&);
 				
-		Matiere(string);
+		Matiere(Universite* u, const string &chaine);
 		
 		~Matiere();
 		

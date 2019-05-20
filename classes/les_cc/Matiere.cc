@@ -47,19 +47,29 @@ Matiere::Matiere(Matiere const& autre)
 		enseignants = autre.enseignants;
 }
 
-Matiere::Matiere(string)
+Matiere::Matiere(Universite* u, const string &chaine)
 {
-	// Pour abdou et ali
+	stringstream ss(chaine);
+	string sousChaine;
+	
+	getline(ss, sousChaine, '_');
+	nom = sousChaine;
+	getline(ss, sousChaine, '_');
+	volume = stoi(sousChaine);
+	
+	while (getline(ss, sousChaine, '_'))
+	{
+		if(u->get_filieres(sousChaine) != NULL){
+			filieres.push_back(u->get_filieres(sousChaine));
+			u->get_filieres(sousChaine)->add_matiere(this);}
+	}
+	
 }
 
 Matiere::~Matiere()
 {
-	//cout << "Destruction Matiere" << endl;
 
-/*
-	// supprimer les cours qui lui sont associés
-	for(list<Cours*>::iterator it = cours.begin(); it!= cours.end(); ++it){
-		delete (*it);}*/
+	//cout << "Destruction Matiere" << endl;
 }
 
 list <Filiere*>* Matiere::get_filieres()
@@ -122,7 +132,12 @@ int Matiere::get_volume()
 
 string Matiere::to_string()
 {
-	string s = "Matiere " + nom + " " + std::to_string(volume) + "\n";
+	string s = "Matiere_" + nom + "_" + std::to_string(volume) + "_";
+	
+	for(list<Filiere*>::iterator it = filieres.begin(); it!= filieres.end(); ++it)
+		s = s + (*it)->get_nom() + "_";
+	
+	 s = s + "\n";
 	
 	return s;
 }

@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <sstream>
 using namespace std;
 
 class Filiere;
@@ -30,7 +31,7 @@ class Groupe : public Ressource
 		
 		Groupe(Groupe const&);
 		
-		Groupe(string);
+		Groupe(Universite* u, const string &chaine);
 		
 		~Groupe();
 

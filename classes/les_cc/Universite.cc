@@ -61,10 +61,21 @@ Universite::Universite(Universite const& autre)
 	nom = autre.nom;
 }
 		
-Universite::Universite(string)
+Universite::Universite(const string &chaine)
 {
-	//cout << "Construction Universite" << endl;
-	//pour abdou & ali
+	stringstream ss(chaine);
+	string sousChaine;
+	
+	getline(ss, sousChaine, '_');
+	nom = sousChaine;
+	getline(ss, sousChaine, '_');
+	ouverture = stoi(sousChaine);
+	getline(ss, sousChaine, '_');
+	fermeture = stoi(sousChaine);
+	getline(ss, sousChaine, '_');
+	interclasse = stoi(sousChaine);
+	getline(ss, sousChaine, '_');
+	pauseDejeuner = stoi(sousChaine);
 }
 		
 Universite::~Universite()
@@ -138,7 +149,7 @@ string Universite::get_nom()
 string Universite::to_string()
 {
 	
-	string s = "Universite " + nom + " " + std::to_string(ouverture) + " " + std::to_string(fermeture) + " " + std::to_string(interclasse) + " " + std::to_string(pauseDejeuner) + "\n";
+	string s = "Universite_" + nom + "_" + std::to_string(ouverture) + "_" + std::to_string(fermeture) + "_" + std::to_string(interclasse) + "_" + std::to_string(pauseDejeuner) + "_\n";
 	
 	return s;
 }
@@ -391,4 +402,13 @@ list<Matiere*> Universite::get_matieres()
 	matieres.unique();
 	
 	return matieres;
+}
+
+Matiere* Universite::get_matiere(string s)
+{
+	for(list<Filiere*>::iterator it = filieres.begin(); it != filieres.end(); ++it){
+		for(list<Matiere*>::iterator m = (*it)->get_matieres()->begin(); m != (*it)->get_matieres()->end(); ++m)
+			if((*m)->get_nom() == s) return (*m);}
+	
+	return NULL;
 }
