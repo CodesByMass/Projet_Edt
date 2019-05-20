@@ -81,11 +81,15 @@ Cours::Cours(Universite* u, const string &chaine)
 	if(u->get_salles(sousChaine) != NULL){
 		salle = u->get_salles(sousChaine);
 		salle->add_cours(this);}
+	else{
+		salle = NULL;}
 		
 	getline(ss, sousChaine, '_');
 	if(u->get_enseignants(sousChaine) != NULL){
 		enseignant = u->get_enseignants(sousChaine);
 		enseignant->add_cours(this);}
+	else{
+		enseignant = NULL;}
 	
 	getline(ss, sousChaine, '_');
 	duree = stoi(sousChaine);
@@ -96,9 +100,10 @@ Cours::Cours(Universite* u, const string &chaine)
 	getline(ss, sousChaine, '_');
 	emplacement[1] = stoi(sousChaine);
 	
-	for(list<Filiere*>::iterator f = matiere->get_filieres()->begin(); f != matiere->get_filieres()->end(); ++f){
-		edt.push_front((*f)->get_edt());
-		(*f)->get_edt()->add_cours(this,emplacement[0], emplacement[1]);}
+	if(emplacement[0] == -1 || emplacement[1] == -1){
+		for(list<Filiere*>::iterator f = matiere->get_filieres()->begin(); f != matiere->get_filieres()->end(); ++f){
+			edt.push_front((*f)->get_edt());
+			(*f)->get_edt()->add_cours(this,emplacement[0], emplacement[1]);}}
 		
 	
 	while (getline(ss, sousChaine, '_'))
@@ -171,7 +176,14 @@ int* Cours::get_emplacement()
 
 string Cours::to_string()
 {
-	string s = "Cours_" + std::to_string(type) + "_" + matiere->get_nom() + "_" + salle->get_identifiant() + "_" + enseignant->get_identifiant() + "_";
+	string s = "Cours_" + std::to_string(type) + "_" + matiere->get_nom() + "_";
+	
+	if(salle != NULL)
+		s = s + salle->get_identifiant();
+	s = s + "_";
+	if(enseignant != NULL)
+		s = s + enseignant->get_identifiant();
+	s = s + "_";
 	
 	s = s + std::to_string(duree) + "_" + std::to_string(emplacement[0]) + "_" + std::to_string(emplacement[1]) + "_";
 	
