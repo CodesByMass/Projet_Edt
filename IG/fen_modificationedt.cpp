@@ -294,7 +294,7 @@ void Fen_ModificationEDT::sauvegarder()
          }
        }
    }
-    ecriture_universite(u);
+    //ecriture_universite(u);
 }
 
 void Fen_ModificationEDT::remplir_edt()
