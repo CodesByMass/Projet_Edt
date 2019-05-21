@@ -101,7 +101,7 @@ Cours::Cours(Universite* u, const string &chaine)
 	getline(ss, sousChaine, '_');
 	emplacement[1] = stoi(sousChaine);
 	
-	if(emplacement[0] == -1 || emplacement[1] == -1){
+	if(emplacement[0] != -1 && emplacement[1] != -1){
 		for(list<Filiere*>::iterator f = matiere->get_filieres()->begin(); f != matiere->get_filieres()->end(); ++f){
 			edt.push_front((*f)->get_edt());
 			(*f)->get_edt()->add_cours(this,emplacement[0], emplacement[1]);}}

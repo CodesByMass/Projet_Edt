@@ -13,12 +13,12 @@
 \begin{document}
 \preamble{\Large S6INFO TD3}
 \begin{schedule}
-\c M 17:00-20:10 Projet INFO TD\\G204\\Prof Projet 1;
-\c T 11:20-12:50 CHP TD\\G203\\Prof CHPS 1;
-\c W 9:40-11:10 CHP CM\\AMPHI H\\Prof CHPS 2;
-\c W 17:00-20:10 Cryptographie TD\\G207\\Prof Crypto 3;
-\c H 9:40-11:10 Cryptographie CM\\AMPHI H\\Prof Crypto 1;
-\c F 9:40-12:50 Reseau TD\\Aquitaine\\Prof Reseau 2;
-\c S 13:40-15:10 Reseau CM\\AMPHI H\\Prof Reseau 2;
+\c M 11:20-12:50 Reseau TD\\G207\\Prof Reseau 3;
+\c T 17:00-20:10 Projet INFO TD\\G201\\Prof Projet 1;
+\c W 18:40-20:10 Cryptographie CM\\AMPHI D\\Prof Crypto 2;
+\c H 18:40-20:10 CHP CM\\AMPHI H\\Prof CHPS 2;
+\c F 15:20-18:30 CHP TD\\G203\\Prof CHPS 1;
+\c S 9:40-12:50 Cryptographie TD\\Jungle\\Prof Crypto 2;
+\c S 13:00-13:30 Reseau CM\\AMPHI D\\Prof Reseau 3;
 \end{schedule}
 \end{document}

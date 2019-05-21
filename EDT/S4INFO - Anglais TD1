@@ -11,8 +11,8 @@
 \endday 21
 \markhours
 \begin{document}
-\preamble{\Large S6INFO Anglais TD3}
+\preamble{\Large S4INFO Anglais TD1}
 \begin{schedule}
-\c S 17:00-20:10 Anglais3 TD\\1002\\Prof Anglais 3;
+\c H 9:40-12:50 Anglais2 TD\\G205\\Prof Anglais 1;
 \end{schedule}
 \end{document}

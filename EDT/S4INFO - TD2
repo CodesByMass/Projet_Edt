@@ -1,0 +1,25 @@
+\documentclass[12pt]{article}
+\usepackage{edt}
+\usepackage{geometry}
+\geometry{hmargin=2.2cm,vmargin=1.6cm}
+\schedtopsep 25
+\thicklines
+\schedunitlength=0.9pt
+\firstday 0
+\lastday 5
+\startday 8
+\endday 21
+\markhours
+\begin{document}
+\preamble{\Large S4INFO TD2}
+\begin{schedule}
+\c M 9:40-12:50 Systeme Exploitation TD\\G205\\Prof CHPS 1;
+\c M 17:00-18:30 Langage Objet CM\\AMPHI D\\Prof Langage Objet 2;
+\c W 9:40-12:50 Theorie Langages TD\\G203\\Prof Theorie Langages 1;
+\c W 13:00-13:30 Algorithmique1 CM\\AMPHI H\\Prof Algo 1;
+\c W 15:20-18:30 Langage Objet TD\\G205\\Prof Langage Objet 3;
+\c H 15:20-18:30 Algorithmique1 TD\\Alsace\\Prof Algo 1;
+\c F 17:00-18:30 Theorie Langages CM\\AMPHI D\\Prof Theorie Langages 1;
+\c S 9:40-11:10 Systeme Exploitation CM\\AMPHI H\\Prof OS 1;
+\end{schedule}
+\end{document}
