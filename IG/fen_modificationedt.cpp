@@ -264,7 +264,7 @@ return -1; //EDT plein
 }
 void Fen_ModificationEDT::sauvegarder()
 {
-    for(int x=0; x <= this->tableauEDT->rowCount();x+=3)
+    /*for(int x=0; x <= this->tableauEDT->rowCount();x+=3)
    {
        for(int y=0; y <= this->tableauEDT->columnCount();y++)
        {
@@ -293,12 +293,13 @@ void Fen_ModificationEDT::sauvegarder()
           }
          }
        }
-   }
-    //ecriture_universite(u);
+   }*/
+    ecriture_universite(u);
 }
 
 void Fen_ModificationEDT::remplir_edt()
 {
+  tableauEDT->clearContents();
     for(int x=0; x < this->tableauEDT->rowCount();x+=3)
         {
            for(int y=0; y < this->tableauEDT->columnCount();y++)
@@ -540,6 +541,7 @@ void Fen_ModificationEDT::changefiliere ()
     listeGroupeOnglet->clear();
     affiche_groupe();
     tableauEDT->clearContents();*/
+    tableauEDT->clearContents();
 
     listeGroupe->clear();
 

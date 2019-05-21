@@ -19,3 +19,6 @@ Et lancer le programme avec :
 Pour tester la fonction de génération d'EDT, veuillez selectionner la filiere INFOS6;
 
 Pour tester la fonction de sortie Latex, veuillez lancer la fonction de génération sur la filiere INFOS6 au préalable;
+
+
+
