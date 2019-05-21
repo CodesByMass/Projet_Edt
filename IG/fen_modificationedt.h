@@ -44,6 +44,7 @@ public:
     //Renvoie 1 si le changement et possible et modifie l'EDT et les parametre de l'EDT de la filiere.
      int ajouter_dans_edt(int nonglet,QString s );
     void remplir_edt();
+     void bouton_generationLATEX();
 
 
     ~Fen_ModificationEDT();
@@ -66,6 +67,10 @@ private:
     QListWidget* listeSalleOnglet;
     QListWidget* listeEnseignantOnglet;
     QListWidget* listeCoursOnglet;
+    QGridLayout *vbox1;
+    QGridLayout *vbox2;
+    QGridLayout *vbox3;
+    QGridLayout *vbox4;
 
 
 
@@ -96,6 +101,7 @@ private slots:
     void celluleSelectionnee(int nRow, int nCol);
     void changefiliere();
     void exec_generationEDT();
+    void conv();
 
 };
 

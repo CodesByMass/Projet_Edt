@@ -83,15 +83,22 @@ void Fen_ModificationEDT::ressourceSelectionnee()
 }
 void Fen_ModificationEDT::affiche_cours()
 {
-       QGridLayout *vbox1 = new QGridLayout;
-       listeCoursOnglet = new QListWidget();
-       listeCoursOnglet->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    list<Matiere *> m=*(f->get_matieres());
 
-       /*for( list<Cours*>::iterator it = f->get_matieres()->get_cours()->begin(); it!=  u->get_enseignants()->end(); ++it)
+
+    listeCoursOnglet->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
+       for( list<Matiere*>::iterator it =m.begin(); it!= m.end(); ++it)
           {
-              QString ens = QString::fromStdString((*it)->get_identifiant());
-              listeCoursOnglet->addItem(ens);
-          }*/
+            list<Cours *> c=*( (*it)->get_cours());
+
+            for(list<Cours*>::iterator j = c.begin(); j!= c.end(); j++ )
+            {
+                QString ens = QString::fromStdString((*j)->get_type_string()+ " "+(*j)->get_matiere()->get_nom());
+                listeCoursOnglet->addItem(ens);
+            }
+
+          }
        vbox1->addWidget(listeCoursOnglet,0,0);
 
        buttonselection = new QPushButton("Ajouter la sélection");
@@ -101,13 +108,10 @@ void Fen_ModificationEDT::affiche_cours()
        buttonressources = new QPushButton("+", this);
        connect(buttonressources, SIGNAL (clicked()), this, SLOT(cree_fen_ajout_cours()));
        vbox1->addWidget(buttonressources,0,1);
-       ongletPage1->setLayout(vbox1);
-       setLayout(layout);
+
 }
 void Fen_ModificationEDT::affiche_enseignants()
 {
-       QGridLayout *vbox2 = new QGridLayout;
-       listeEnseignantOnglet = new QListWidget();
        listeEnseignantOnglet->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
           for( list<Enseignant*>::iterator it = u->get_enseignants()->begin(); it!=  u->get_enseignants()->end(); ++it)
@@ -123,29 +127,34 @@ void Fen_ModificationEDT::affiche_enseignants()
        buttonressources = new QPushButton("+", this);
        connect(buttonressources, SIGNAL (clicked()), this, SLOT(cree_fen_ajout_enseignant()));
        vbox2->addWidget(buttonressources,0,1);
-       ongletPage2->setLayout(vbox2);
-       setLayout(layout);
+
 }
 
 void Fen_ModificationEDT::affiche_salles()
 {
-       QGridLayout *vbox3 = new QGridLayout;
-       listeSalleOnglet = new QListWidget();
+    list<string> listeSalles;
        listeSalleOnglet->setSelectionMode(QAbstractItemView::ExtendedSelection);
-
 
           for( list<Matiere*>::iterator i = f->get_matieres()->begin(); i!=  f->get_matieres()->end(); ++i)
            {
               for( list<Salle*>::iterator j = u->get_salles()->begin(); j!=  u->get_salles()->end(); ++j)
               {
-
-                  if((*j)->get_materiels((*i)->get_nom()))
+                  if((*j)->get_materiels((*i)->get_nom()) )
                   {
-                       QString salle = QString::fromStdString((*j)->get_identifiant());
-                       listeSalleOnglet->addItem(salle);
+                      listeSalles.push_front((*j)->get_identifiant());
                   }
                }
            }
+
+          listeSalles.sort();
+          listeSalles.unique();
+
+          for (list<string>::iterator i=listeSalles.begin(); i!=listeSalles.end(); ++i)
+          {
+              QString salle = QString::fromStdString(*i);
+              listeSalleOnglet->addItem(salle);
+           }
+
 
        vbox3->addWidget(listeSalleOnglet,0,0);
        buttonselection = new QPushButton("Ajouter la sélection");
@@ -156,16 +165,11 @@ void Fen_ModificationEDT::affiche_salles()
        buttonressources = new QPushButton("+", this);
        connect(buttonressources, SIGNAL (clicked()), this, SLOT(cree_fen_ajout_salle()));
        vbox3->addWidget(buttonressources,0,1);
-       ongletPage3->setLayout(vbox3);
-       setLayout(layout);
 }
 
 
 void Fen_ModificationEDT::affiche_groupe()
 {
-    QGridLayout *vbox4 = new QGridLayout;
-
-    listeGroupeOnglet = new QListWidget();
     listeGroupeOnglet->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
        for( list<Groupe*>::iterator it = f->get_groupes()->begin(); it!=  f->get_groupes()->end(); ++it)
@@ -184,12 +188,6 @@ void Fen_ModificationEDT::affiche_groupe()
     buttonressources = new QPushButton("+", this);
     connect(buttonressources, SIGNAL (clicked()), this, SLOT(cree_fen_ajout_groupe()));
     vbox4->addWidget(buttonressources,0,1);
-
-    ongletPage4->setLayout(vbox4);
-
-    setLayout(layout);
-
-
 }
 
 void Fen_ModificationEDT::affiche_onglets()
@@ -206,10 +204,25 @@ void Fen_ModificationEDT::affiche_onglets()
     ongletPage3 = new QWidget;
     // 3 : Créer le contenu des pages de widgets
         // Page 1
+
+    vbox1 = new QGridLayout;
+    vbox2 = new QGridLayout;
+    vbox3 = new QGridLayout;
+    vbox4 = new QGridLayout;
+
+    listeCoursOnglet = new QListWidget();
+    listeEnseignantOnglet = new QListWidget();
+    listeSalleOnglet = new QListWidget();
+    listeGroupeOnglet = new QListWidget();
     affiche_cours();
     affiche_enseignants();
     affiche_salles();
     affiche_groupe();
+
+    ongletPage1->setLayout(vbox1);
+    ongletPage2->setLayout(vbox2);
+    ongletPage3->setLayout(vbox3);
+    ongletPage4->setLayout(vbox4);
 
     // 4 : ajouter les onglets au QTabWidget, en indiquant la page qu'ils contiennent
     onglets->addTab(ongletPage1, "Cours");
@@ -218,6 +231,7 @@ void Fen_ModificationEDT::affiche_onglets()
     onglets->addTab(ongletPage4, "Groupe");
 
     layout->addWidget(onglets);
+    setLayout(layout);
 }
 int Fen_ModificationEDT::ajouter_dans_edt(int nonglet ,QString s )
 {
@@ -255,7 +269,6 @@ void Fen_ModificationEDT::sauvegarder()
           QString sa = this->tableauEDT->item(x,y+1)->text();
           QString e = this->tableauEDT->item(x,y+1)->text();
 
-
           for( list<Matiere*>::iterator it = f->get_matieres()->begin(); it!= f->get_matieres()->end(); ++it)
           {
               if((*it)->get_cours(s.toStdString()))
@@ -278,42 +291,27 @@ void Fen_ModificationEDT::sauvegarder()
 
 void Fen_ModificationEDT::remplir_edt()
 {
+
     for(int x=0; x < this->tableauEDT->rowCount();x+=3)
-    {
-       for(int y=0; y < this->tableauEDT->columnCount();y++)
         {
-           for( list<Matiere*>::iterator it = f->get_matieres()->begin(); it!= f->get_matieres()->end(); ++it)
-           {
-               /*
+           for(int y=0; y < this->tableauEDT->columnCount();y++)
+            {
                for( list<Matiere*>::iterator it = f->get_matieres()->begin(); it!= f->get_matieres()->end(); ++it)
                {
 
-
-                   if((*it)->get_cours()->get_emplacement() )
+                   for( list<Cours*>::iterator co = (*it)->get_cours()->begin(); co!= (*it)->get_cours()->end(); ++co)
                    {
-                     (*it)->get_cours(s.toStdString())->get_emplacement();
-                   }
-                   if()
-                   {
-                       tableauEDT->setItem(x, y, new QTableWidgetItem(s));
+                       if((*co)->get_emplacement()[1] ==x/3 && (*co)->get_emplacement()[0] ==y && (*co)->get_groupes(listeGroupe->currentText().toStdString()) !=nullptr )
+                       {
+                           tableauEDT->setItem(x, y, new QTableWidgetItem(QString::fromStdString( (*co)->get_type_string() + (*co)->get_matiere()->get_nom()   ) ));
+                           tableauEDT->setItem(x+1, y, new QTableWidgetItem( QString::fromStdString( (*co)->get_enseignant()->get_identifiant()   ) ));
+                           tableauEDT->setItem(x+2, y, new QTableWidgetItem(QString::fromStdString( (*co)->get_salle()->get_identifiant()   )));
 
+                       }
                    }
-                   if()
-                   {
-                       tableauEDT->setItem(x+1, y, new QTableWidgetItem(s));
-
-
-                   }
-                   if()
-                   {
-                       tableauEDT->setItem(x+2, y, new QTableWidgetItem(s));
-                   }
-               }*/
+                }
+            }
         }
-
-
-    }
-}
 }
 
 
@@ -363,7 +361,6 @@ void Fen_ModificationEDT::affiche_EDT()
 
     connect( tableauEDT, SIGNAL( cellDoubleClicked (int, int) ),this, SLOT( celluleSelectionnee( int, int ) ) );
     layout->addWidget(tableauEDT);
-
 }
 
 void Fen_ModificationEDT::bouton_sauvegarde()
@@ -387,11 +384,12 @@ void Fen_ModificationEDT::exec_generationEDT()
 
         //EvalueEDT(u,f->get_edt(),2);
 
-        // AfficheEDT(u->get_filieres("S6INFO")->get_edt()); Affichage terminal pour tester
+       AfficheEDT(u->get_filieres("S6INFO")->get_edt()); //Affichage terminal pour tester
 
         //conv_latex(u->get_filieres("S6INFO")->get_edt());
 
         ecriture_universite(u);
+        remplir_edt();
 }
 
 void Fen_ModificationEDT::bouton_generationEDT()
@@ -404,6 +402,19 @@ void Fen_ModificationEDT::bouton_generationEDT()
 
     layout->addWidget(buttonGenererEDT);
     connect(buttonGenererEDT, SIGNAL (clicked()), this, SLOT(exec_generationEDT()));
+
+}
+
+void Fen_ModificationEDT::bouton_generationLATEX()
+{
+    QPushButton *bouton_generationLATEX;
+
+    bouton_generationLATEX = new QPushButton("Générer un emplois du temps LaTeX");
+    bouton_generationLATEX->setObjectName("bouton_generationLATEX");
+    bouton_generationLATEX->setStyleSheet("QWidget#bouton_generationLATEX {background-color: blue}");
+
+    layout->addWidget(bouton_generationLATEX);
+    connect(bouton_generationLATEX, SIGNAL (clicked()), this, SLOT(conv()));
 
 }
 
@@ -421,6 +432,7 @@ Fen_ModificationEDT::Fen_ModificationEDT(QWidget *parent, Universite* u) : QWidg
 
    bouton_sauvegarde();
    bouton_generationEDT();
+   bouton_generationLATEX();
 
    listeFiliere = new QComboBox(this);
     for( list<Filiere*>::iterator it = u->get_filieres()->begin(); it!= u->get_filieres()->end(); ++it)
@@ -509,15 +521,31 @@ void Fen_ModificationEDT::changefiliere ()
     this->f=u->get_filieres(nomfil);
 
     listeCoursOnglet->clear();
-    listeSalleOnglet->clear();
-    listeEnseignantOnglet->clear();
-    listeGroupeOnglet->clear();
-    tableauEDT->clearContents();
     affiche_cours();
+    listeSalleOnglet->clear();
     affiche_salles();
-    affiche_groupe();
+    listeEnseignantOnglet->clear();
     affiche_enseignants();
+    listeGroupeOnglet->clear();
+    affiche_groupe();
+    tableauEDT->clearContents();
 
+    listeGroupe->clear();
+
+    for( list<Groupe*>::iterator it = f->get_groupes()->begin(); it!=  f->get_groupes()->end(); ++it)
+      {
+         string groupe =(*it)->get_identifiant();
+         listeGroupe->addItem(QString::fromStdString(groupe));
+      }
+     layout->addWidget(listeGroupe);
+
+
+
+}
+
+void Fen_ModificationEDT::conv()
+{
+    conv_latex(this->f->get_edt());
 }
 
 Fen_ModificationEDT::~Fen_ModificationEDT()

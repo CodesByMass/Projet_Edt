@@ -1,0 +1,24 @@
+\documentclass[12pt]{article}
+\usepackage{edt}
+\usepackage{geometry}
+\geometry{hmargin=2.2cm,vmargin=1.6cm}
+\schedtopsep 25
+\thicklines
+\schedunitlength=0.9pt
+\firstday 0
+\lastday 5
+\startday 8
+\endday 21
+\markhours
+\begin{document}
+\preamble{\Large S6INFO TD1}
+\begin{schedule}
+\c M 11:20-12:50 Cryptographie TD\\Aquitaine\\Prof Crypto 1;
+\c W 15:20-18:30 Reseau TD\\Aquitaine\\Prof Reseau 2;
+\c H 9:40-11:10 Reseau CM\\AMPHI H\\Prof Reseau 2;
+\c H 13:00-13:30 CHP CM\\AMPHI H\\Prof CHPS 2;
+\c F 15:20-16:50 Cryptographie CM\\AMPHI H\\Prof Crypto 4;
+\c F 17:00-20:10 CHP TD\\1002\\Prof CHPS 1;
+\c S 15:20-18:30 Projet INFO TD\\G206\\Prof Projet 1;
+\end{schedule}
+\end{document}

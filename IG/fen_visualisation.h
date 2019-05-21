@@ -6,18 +6,31 @@
 #include "classes/les_h/Universite.h"
 
 
-class fen_visualisation: public QWidget
+class Fen_VisualisationEDT: public QWidget
 {
     Q_OBJECT
 
     public:
 
     //fen_accueil();
-    fen_visualisation(QWidget *parent, Universite *u);
-    ~fen_visualisation();
+    Fen_VisualisationEDT(QWidget *parent, Universite *u);
+    void visualise_EDT();
+
+    ~Fen_VisualisationEDT();
 
     private:
         Universite *u;
+        QTableWidget *tableauEDTvisuel;
+        QVBoxLayout *layoutvisuel;
+        QComboBox *listeGroupe;
+        QComboBox *listeFiliere;
+        Filiere* f;
+
+      private slots:
+        void Actu(const QString nom);
+
+
+
 };
 
 #endif // FEN_VISUALISATION_H

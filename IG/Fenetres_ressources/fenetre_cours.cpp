@@ -1,5 +1,5 @@
 #include "fenetre_cours.h"
-
+#include <QDebug>
 Fenetre_cours::Fenetre_cours(QWidget* parent, Universite* u, Filiere* f) : QWidget()
 {
     this->u = u ;
@@ -31,7 +31,7 @@ Fenetre_cours::Fenetre_cours(QWidget* parent, Universite* u, Filiere* f) : QWidg
     groupes = new QListWidget ;
     // On ajoute les groupes de la filière
     for(list<Groupe*>::iterator g = f->get_groupes()->begin(); g != f->get_groupes()->end(); ++g) {
-        QString item = QString::fromStdString((*g)->to_string()) ;
+        QString item = QString::fromStdString((*g)->get_identifiant()) ;
         groupes->addItem(item) ;
     }
     // Matieres
@@ -49,13 +49,16 @@ Fenetre_cours::Fenetre_cours(QWidget* parent, Universite* u, Filiere* f) : QWidg
     // Enseignants qui enseignent les matières de la filiere
     for(list<Enseignant*>::iterator e = u->get_enseignants()->begin(); e != u->get_enseignants()->end(); ++e) {
         //Pour chaque enseignant de l'université, vérifie si il enseigne une matière de la filière
-        for(list<Matiere*>::iterator m = filiere_liste->begin(); m != filiere_liste->end(); ++m) {
+        for(list<Matiere*>::iterator m = filiere_liste->begin(); m != filiere_liste->end(); ++m)
+        {
+
+
             // Si la matière est bien enseignée par l'enseignant
-            if  ((*e)->get_specialites((*m)->get_nom()) != nullptr)
+            if  ((*e)->get_specialites( (*m)->get_nom()) != nullptr)
             {
-                QString item = QString::fromStdString((*e)->to_string()) ;
+                QString item = QString::fromStdString((*e)->get_identifiant()) ;
                 //Si il n'est pas dans la combo box
-                if (!enseignants->findText(item))
+                if (enseignants->findText(item)== -1)
                 {
                     enseignants->addItem(item) ;
                 }
@@ -71,7 +74,7 @@ Fenetre_cours::Fenetre_cours(QWidget* parent, Universite* u, Filiere* f) : QWidg
             // Si la matière est bien prise en charge par la salle
             if  ((*s)->get_materiels((*m)->get_nom()) != nullptr) {
                QString item = QString::fromStdString((*s)->get_identifiant()) ;
-                if (!salles->findText(item))
+                if (salles->findText(item)== -1)
                     salles->addItem(item) ;
             }
         }
@@ -111,31 +114,38 @@ Fenetre_cours::Fenetre_cours(QWidget* parent, Universite* u, Filiere* f) : QWidg
 
         void Fenetre_cours::actualiser_listes(const QString &matiere_actuelle)
         {
-            Universite* temp_universite = u ;
-            Filiere* temp_filiere = f ;
+
             // Actualiser salles
             salles->clear() ;
             salles->addItem("Non Définie");
-            Matiere* temp_matiere = temp_filiere->get_matieres(matiere_actuelle.toStdString()) ;
-            for(list<Salle*>::iterator s = u->get_salles()->begin(); s != u->get_salles()->end(); ++s) {
+            Matiere* temp_matiere = f->get_matieres(matiere_actuelle.toStdString()) ;
+            for(list<Salle*>::iterator s = u->get_salles()->begin(); s != u->get_salles()->end(); ++s)
+            {
+
                 //Pour chaque salle, vérifier si elle est bien dans la liste des matières
                     // Si la matière est bien prise en charge par la salle
-                    if  ((*s)->get_materiels(temp_matiere->get_nom()) != NULL) {
-                        QString item = QString::fromStdString((*s)->to_string()) ;
-                        if (!salles->findText(item))
+
+                    if  ((*s)->get_materiels(temp_matiere->get_nom()) != nullptr)
+                    {
+                        QString item = (QString::fromStdString((*s)->get_identifiant()) );
+                        if (salles->findText(item) == -1)
                             salles->addItem(item) ;
                     }
-                }
+            }
+
+
+
             //Actualiser enseignants
             enseignants->clear() ;
             enseignants->addItem("Non Défini") ;
             for(list<Enseignant*>::iterator e = u->get_enseignants()->begin(); e != u->get_enseignants()->end(); ++e)
                     // Si la matière est bien enseignée par l'enseignant
-                    if  ((*e)->get_specialites(temp_matiere->get_nom()) != NULL)
+                    if  ((*e)->get_specialites(temp_matiere->get_nom()) != nullptr)
                     {
-                        QString item = QString::fromStdString((*e)->to_string()) ;
+                        QString item = QString::fromStdString((*e)->get_identifiant()) ;
+                        qDebug() << QString::fromStdString((*e)->get_identifiant());
                         //Si il n'est pas dans la combo box
-                        if (!enseignants->findText(item))
+                        if (enseignants->findText(item) == -1)
                         {
                             enseignants->addItem(item) ;
                         }
