@@ -1,0 +1,18 @@
+\documentclass[12pt]{article}
+\usepackage{edt}
+\usepackage{geometry}
+\geometry{hmargin=2.2cm,vmargin=1.6cm}
+\schedtopsep 25
+\thicklines
+\schedunitlength=0.9pt
+\firstday 0
+\lastday 5
+\startday 8
+\endday 21
+\markhours
+\begin{document}
+\preamble{\Large S6INFO Anglais TD2}
+\begin{schedule}
+\c F 17:00-20:10 Anglais3 TD\\1001\\Prof Anglais 1;
+\end{schedule}
+\end{document}

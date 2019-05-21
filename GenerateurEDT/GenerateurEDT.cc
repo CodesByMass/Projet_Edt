@@ -17,8 +17,6 @@ EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 {
 	srand(time(NULL));
 	
-	char c;
-	
 	//initalisation de l'aleatoire
 	default_random_engine re(time(0));
 	
