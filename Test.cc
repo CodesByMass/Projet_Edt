@@ -260,13 +260,13 @@ int main(int argc, char* argv[])
 
 
 
-	u->add_groupe(new Groupe(u,"TD1",35,horaires,{},{u->get_filieres("S4INFO")},37));
-	u->add_groupe(new Groupe(u,"TD2",35,horaires,{},{u->get_filieres("S4INFO")},35));
-	u->add_groupe(new Groupe(u,"TD3",35,horaires,{},{u->get_filieres("S4INFO")},33));
-	u->add_groupe(new Groupe(u,"TD4",35,horaires,{},{u->get_filieres("S4INFO")},32));
-	u->add_groupe(new Groupe(u,"Anglais TD1",35,horaires,{},{u->get_filieres("S4INFO")},40));
-	u->add_groupe(new Groupe(u,"Anglais TD2",35,horaires,{},{u->get_filieres("S4INFO")},41));
-	u->add_groupe(new Groupe(u,"Anglais TD3",35,horaires,{},{u->get_filieres("S4INFO")},38));
+	u->add_groupe(new Groupe(u,"S4TD1",35,horaires,{},{u->get_filieres("S4INFO")},37));
+	u->add_groupe(new Groupe(u,"S4TD2",35,horaires,{},{u->get_filieres("S4INFO")},35));
+	u->add_groupe(new Groupe(u,"S4TD3",35,horaires,{},{u->get_filieres("S4INFO")},33));
+	u->add_groupe(new Groupe(u,"S4TD4",35,horaires,{},{u->get_filieres("S4INFO")},32));
+	u->add_groupe(new Groupe(u,"S4Anglais TD1",35,horaires,{},{u->get_filieres("S4INFO")},40));
+	u->add_groupe(new Groupe(u,"S4Anglais TD2",35,horaires,{},{u->get_filieres("S4INFO")},41));
+	u->add_groupe(new Groupe(u,"S4Anglais TD3",35,horaires,{},{u->get_filieres("S4INFO")},38));
 
 
 
@@ -296,40 +296,53 @@ int main(int argc, char* argv[])
 
 
 
-	u->get_filieres("S4INFO")->get_matieres("Anglais2")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Anglais2"),{u->get_groupes("Anglais TD1")},TD));
-	u->get_filieres("S4INFO")->get_matieres("Anglais2")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Anglais2"),{u->get_groupes("Anglais TD2")},TD));
-	u->get_filieres("S4INFO")->get_matieres("Anglais2")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Anglais2"),{u->get_groupes("Anglais TD3")},TD));	
-	u->get_filieres("S4INFO")->get_matieres("Algorithmique1")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Algorithmique1"),{u->get_groupes("TD1")},TD));
-	u->get_filieres("S4INFO")->get_matieres("Algorithmique1")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Algorithmique1"),{u->get_groupes("TD2")},TD));
-	u->get_filieres("S4INFO")->get_matieres("Algorithmique1")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Algorithmique1"),{u->get_groupes("TD3")},TD));		
-	u->get_filieres("S4INFO")->get_matieres("Algorithmique1")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Algorithmique1"),{u->get_groupes("TD4")},TD));
-	u->get_filieres("S4INFO")->get_matieres("Algorithmique1")->add_cours(new Cours(1,u->get_filieres("S4INFO")->get_matieres("Algorithmique1"),{u->get_groupes("TD4"),u->get_groupes("TD3"),u->get_groupes("TD2"),u->get_groupes("TD1")},CM));	
-	u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation"),{u->get_groupes("TD1")},TD));
-	u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation"),{u->get_groupes("TD2")},TD));
-	u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation"),{u->get_groupes("TD3")},TD));		
-	u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation"),{u->get_groupes("TD4")},TD));
-	u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation")->add_cours(new Cours(1,u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation"),{u->get_groupes("TD4"), u->get_groupes("TD3"), u->get_groupes("TD2"), u->get_groupes("TD1")},CM));
-	u->get_filieres("S4INFO")->get_matieres("Theorie Langages")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Theorie Langages"),{u->get_groupes("TD1")},TD));
-	u->get_filieres("S4INFO")->get_matieres("Theorie Langages")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Theorie Langages"),{u->get_groupes("TD2")},TD));
-	u->get_filieres("S4INFO")->get_matieres("Theorie Langages")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Theorie Langages"),{u->get_groupes("TD3")},TD));		
-	u->get_filieres("S4INFO")->get_matieres("Theorie Langages")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Theorie Langages"),{u->get_groupes("TD4")},TD));	
-	u->get_filieres("S4INFO")->get_matieres("Theorie Langages")->add_cours(new Cours(1,u->get_filieres("S4INFO")->get_matieres("Theorie Langages"),{u->get_groupes("TD4"), u->get_groupes("TD3"), u->get_groupes("TD2"), u->get_groupes("TD1")},CM));
-	u->get_filieres("S4INFO")->get_matieres("Langage Objet")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Langage Objet"),{u->get_groupes("TD1")},TD));
-	u->get_filieres("S4INFO")->get_matieres("Langage Objet")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Langage Objet"),{u->get_groupes("TD2")},TD));
-	u->get_filieres("S4INFO")->get_matieres("Langage Objet")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Langage Objet"),{u->get_groupes("TD3")},TD));		
-	u->get_filieres("S4INFO")->get_matieres("Langage Objet")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Langage Objet"),{u->get_groupes("TD4")},TD));	
-	u->get_filieres("S4INFO")->get_matieres("Langage Objet")->add_cours(new Cours(1,u->get_filieres("S4INFO")->get_matieres("Langage Objet"),{u->get_groupes("TD4"), u->get_groupes("TD3"), u->get_groupes("TD2"), u->get_groupes("TD1")},CM));
+	u->get_filieres("S4INFO")->get_matieres("Anglais2")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Anglais2"),{u->get_groupes("S4Anglais TD1")},TD));
+	u->get_filieres("S4INFO")->get_matieres("Anglais2")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Anglais2"),{u->get_groupes("S4Anglais TD2")},TD));
+	u->get_filieres("S4INFO")->get_matieres("Anglais2")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Anglais2"),{u->get_groupes("S4Anglais TD3")},TD));	
+	u->get_filieres("S4INFO")->get_matieres("Algorithmique1")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Algorithmique1"),{u->get_groupes("S4TD1")},TD));
+	u->get_filieres("S4INFO")->get_matieres("Algorithmique1")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Algorithmique1"),{u->get_groupes("S4TD2")},TD));
+	u->get_filieres("S4INFO")->get_matieres("Algorithmique1")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Algorithmique1"),{u->get_groupes("S4TD3")},TD));		
+	u->get_filieres("S4INFO")->get_matieres("Algorithmique1")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Algorithmique1"),{u->get_groupes("S4TD4")},TD));
+	u->get_filieres("S4INFO")->get_matieres("Algorithmique1")->add_cours(new Cours(1,u->get_filieres("S4INFO")->get_matieres("Algorithmique1"),{u->get_groupes("S4TD4"),u->get_groupes("S4TD3"),u->get_groupes("S4TD2"),u->get_groupes("S4TD1")},CM));	
+	u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation"),{u->get_groupes("S4TD1")},TD));
+	u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation"),{u->get_groupes("S4TD2")},TD));
+	u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation"),{u->get_groupes("S4TD3")},TD));		
+	u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation"),{u->get_groupes("S4TD4")},TD));
+	u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation")->add_cours(new Cours(1,u->get_filieres("S4INFO")->get_matieres("Systeme Exploitation"),{u->get_groupes("S4TD4"), u->get_groupes("S4TD3"), u->get_groupes("S4TD2"), u->get_groupes("S4TD1")},CM));
+	u->get_filieres("S4INFO")->get_matieres("Theorie Langages")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Theorie Langages"),{u->get_groupes("S4TD1")},TD));
+	u->get_filieres("S4INFO")->get_matieres("Theorie Langages")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Theorie Langages"),{u->get_groupes("S4TD2")},TD));
+	u->get_filieres("S4INFO")->get_matieres("Theorie Langages")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Theorie Langages"),{u->get_groupes("S4TD3")},TD));		
+	u->get_filieres("S4INFO")->get_matieres("Theorie Langages")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Theorie Langages"),{u->get_groupes("S4TD4")},TD));	
+	u->get_filieres("S4INFO")->get_matieres("Theorie Langages")->add_cours(new Cours(1,u->get_filieres("S4INFO")->get_matieres("Theorie Langages"),{u->get_groupes("S4TD4"), u->get_groupes("S4TD3"), u->get_groupes("S4TD2"), u->get_groupes("S4TD1")},CM));
+	u->get_filieres("S4INFO")->get_matieres("Langage Objet")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Langage Objet"),{u->get_groupes("S4TD1")},TD));
+	u->get_filieres("S4INFO")->get_matieres("Langage Objet")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Langage Objet"),{u->get_groupes("S4TD2")},TD));
+	u->get_filieres("S4INFO")->get_matieres("Langage Objet")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Langage Objet"),{u->get_groupes("S4TD3")},TD));		
+	u->get_filieres("S4INFO")->get_matieres("Langage Objet")->add_cours(new Cours(2,u->get_filieres("S4INFO")->get_matieres("Langage Objet"),{u->get_groupes("S4TD4")},TD));	
+	u->get_filieres("S4INFO")->get_matieres("Langage Objet")->add_cours(new Cours(1,u->get_filieres("S4INFO")->get_matieres("Langage Objet"),{u->get_groupes("S4TD4"), u->get_groupes("S4TD3"), u->get_groupes("S4TD2"), u->get_groupes("S4TD1")},CM));
 
 	// Ici VOus pouvez vous amusez avec la filiere
+/*
+	u->get_filieres("S6INFO")->set_edt(GenereEDT(u, u->get_filieres("S6INFO"), u->get_filieres("S6INFO")->get_edt()));
+
+	u->get_filieres("S4INFO")->set_edt(GenereEDT(u, u->get_filieres("S4INFO"), u->get_filieres("S4INFO")->get_edt()));
+
+	ecriture_universite(u);
+*/
 
 	u = lecture_universite();
 
-	u->get_filieres("S6INFO")->set_edt(GenereEDT(u,u->get_filieres("S6INFO"), u->get_filieres("S6INFO")->get_edt(), 0));
+
+
 	
 	AfficheEDT(u->get_filieres("S4INFO")->get_edt());
 	
 	AfficheEDT(u->get_filieres("S6INFO")->get_edt());
+
+	EvalueEDT(u,u->get_filieres("S4INFO")->get_edt(),3);
 	
+	EvalueEDT(u,u->get_filieres("S6INFO")->get_edt(),3);
+
 	ecriture_universite(u);
+
 	delete u;
 }
