@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 	Batiment Fermat;
 	Fermat.nom = "Fermat";
 	
-	Universite *u = new Universite(480,1100,10,4,"UFR des sciences de Versailles");
+	Universite *u = new Universite(480,1100,10,3,"UFR des sciences de Versailles");
 	
 	/* ---------------- Creation des filieres ---------------- */
 	
@@ -321,14 +321,21 @@ int main(int argc, char* argv[])
 	u->get_filieres("S4INFO")->get_matieres("Langage Objet")->add_cours(new Cours(1,u->get_filieres("S4INFO")->get_matieres("Langage Objet"),{u->get_groupes("S4TD4"), u->get_groupes("S4TD3"), u->get_groupes("S4TD2"), u->get_groupes("S4TD1")},CM));
 
 	// Ici VOus pouvez vous amusez avec la filiere
-/*
+
 	u->get_filieres("S6INFO")->set_edt(GenereEDT(u, u->get_filieres("S6INFO"), u->get_filieres("S6INFO")->get_edt()));
 
 	u->get_filieres("S4INFO")->set_edt(GenereEDT(u, u->get_filieres("S4INFO"), u->get_filieres("S4INFO")->get_edt()));
 
-	ecriture_universite(u);
-*/
+	AfficheEDT(u->get_filieres("S4INFO")->get_edt());
+	
+	AfficheEDT(u->get_filieres("S6INFO")->get_edt());
 
+	ecriture_universite(u);
+
+
+
+
+/*
 	u = lecture_universite();
 
 
@@ -338,11 +345,11 @@ int main(int argc, char* argv[])
 	
 	AfficheEDT(u->get_filieres("S6INFO")->get_edt());
 
-	EvalueEDT(u,u->get_filieres("S4INFO")->get_edt(),3);
+	EvalueEDT(u,u->get_filieres("S4INFO")->get_edt(),2);
 	
-	EvalueEDT(u,u->get_filieres("S6INFO")->get_edt(),3);
+	EvalueEDT(u,u->get_filieres("S6INFO")->get_edt(),2);
 
 	ecriture_universite(u);
-
+*/
 	delete u;
 }

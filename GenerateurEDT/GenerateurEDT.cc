@@ -29,7 +29,7 @@ EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 	//Select an initial temperature qui devrait etre egale au nobre de cours dans l'edt
 	float temp = 22.0;
 	//Select a temperature reduction variable
-	float reduc = 0.009;
+	float reduc = 0.008;
 	//Tant que la temperature n'a pas atteint la valeur seuil faire
 	while(temp >= 0)
 	{
@@ -61,7 +61,6 @@ EDT* GenereEDT(Universite* univ, Filiere* fil, EDT* edt, int debug)
 				edt->set_modif(NULL,NULL);
 				//on sort
 				if(Affiche_debug(debug)) cout << "---------------On sort car on accepte-------------------" << endl;
-				//sleep(1);
 				break;
 			}
 			//Sinon 
@@ -1065,7 +1064,7 @@ void* nb_deplacement(void* void_arg)
 	pthread_exit(cpt);
 }
 
-/* ------------------------------------------------ Affiche EDT terminal (temporaire) ------------------------------------------------ */
+/* ------------------------------------------------ Affiche EDT terminal ------------------------------------------------ */
 
 void AfficheEDT(EDT* e)
 {
