@@ -198,7 +198,7 @@ void Fenetre_Enseignant::creer_enseignant() {
                 //Ajouter l'enseignant à ses matières
                 for(list<Matiere*>::iterator m = enseignant_matieres.begin(); m != enseignant_matieres.end(); ++m) {
                     (*m)->add_enseignant(e);
-
+                QMessageBox::information(this, "Enseignant ajouté", "Le nouvel enseignant est correctement ajouté");
                  emit actuListe(e);
                 }
             }

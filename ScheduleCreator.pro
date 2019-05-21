@@ -46,8 +46,7 @@ SOURCES += \
     IG/fen_modificationedt.cpp \
     IG/fen_visualisation.cpp \
     SGF/SGF.cc \
-    IG/Fenetres_ressources/fenetre_cours.cpp \
-    IG/fen_modificationressources.cpp
+    IG/Fenetres_ressources/fenetre_cours.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -72,8 +71,7 @@ HEADERS += \
     IG/fen_modificationedt.h \
     IG/fen_visualisation.h \
     SGF/SGF.h \
-    IG/Fenetres_ressources/fenetre_cours.h \
-    IG/fen_modificationressources.h
+    IG/Fenetres_ressources/fenetre_cours.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

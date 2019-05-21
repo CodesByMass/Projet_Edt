@@ -70,8 +70,8 @@ void fenetre_matiere::creer_matiere() {
 
                Matiere *g = new Matiere(volume->text().toInt(),nom->text().toStdString());
 
-               cout<<"Tailles listes dans fen_mat : "<< matieres.size() << "\n";
-
+//               cout<<"Tailles listes dans fen_mat : "<< matieres.size() << "\n";
+                QMessageBox::information(this, "Matière crée", "La nouvelle matière a été ajoutée");
                emit actualise(g);
                this->close();
 

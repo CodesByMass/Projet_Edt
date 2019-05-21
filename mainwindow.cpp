@@ -61,6 +61,7 @@ void MainWindow::affiche_accueil()
       button2 = new QPushButton("Afficher un emploi du temps", centralWidget);
       button2->setGeometry(QRect(QPoint(100, 100),QSize(200, 50)));
       buttonsLayout->addWidget(button2);
+       QObject::connect(button2, SIGNAL (clicked()), this, SLOT(showFen_VisualisationEDT()));
 
       button3 = new QPushButton("Modifier emploi du temps", centralWidget);
       button3->setGeometry(QRect(QPoint(100, 100), QSize(200, 50)));
@@ -81,10 +82,18 @@ void MainWindow::affiche_accueil()
 
 void MainWindow::showFen_ModificationEDT()
 {
-    this->modificationwindow = new Fen_ModificationEDT(this,u);
+    this->modificationwindow = new Fen_ModificationEDT(u);
     modificationwindow->resize(800, 600);
     modificationwindow->setWindowTitle("Modification d'un emploi du temps");
     modificationwindow->show();
+}
+
+void MainWindow::showFen_VisualisationEDT()
+{
+    this->visualisationwindow = new Fen_VisualisationEDT(u);
+    visualisationwindow->resize(630, 770);
+    visualisationwindow->setWindowTitle("Modification d'un emploi du temps");
+    visualisationwindow->show();
 }
 
 

@@ -143,7 +143,7 @@ Fenetre_cours::Fenetre_cours(QWidget* parent, Universite* u, Filiere* f) : QWidg
                     if  ((*e)->get_specialites(temp_matiere->get_nom()) != NULL)
                     {
                         QString item = QString::fromStdString((*e)->get_identifiant()) ;
-                        qDebug() << QString::fromStdString((*e)->get_identifiant());
+                       // qDebug() << QString::fromStdString((*e)->get_identifiant());
                         //Si il n'est pas dans la combo box
                         if (enseignants->findText(item) == -1)
                         {
@@ -200,14 +200,24 @@ Fenetre_cours::Fenetre_cours(QWidget* parent, Universite* u, Filiere* f) : QWidg
                         }
                     }
                     // Créer le cours
+                    //Dernière vérification pour la matiere
+                    if (c_matiere == NULL)
+                    {
+                        QMessageBox::critical(this, "Erreur", "Une erreur s'est produit, veuillez réessayer");
+                    }
+                    else {
+
+                    }
                     Cours *c = new Cours(c_salle, groupes_cours, c_enseignant, c_type, c_matiere, {},c_duree,-1,-1);
                     c_matiere->add_cours(c);
                     c_enseignant->add_cours(c);
                     c_salle->add_cours(c);
+                    QMessageBox::information(this, "Cours créé", "Le nouveau cours a bien été créé");
                     emit actualiseOnglet(c);
+                }
                 }
                 else {
                     QMessageBox::warning(this, "Formulaire incomplet", "Veuillez complétez tous les champs");
                 }
             }
-        }
+

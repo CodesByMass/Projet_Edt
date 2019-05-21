@@ -232,6 +232,7 @@ void Fen_ModificationEDT::affiche_onglets()
     onglets->addTab(ongletPage2, "Enseignant");
     onglets->addTab(ongletPage3, "Salle");
     onglets->addTab(ongletPage4, "Groupe");
+    onglets->setFixedHeight(150);
 
     layout->addWidget(onglets);
     setLayout(layout);
@@ -366,9 +367,6 @@ void Fen_ModificationEDT::affiche_EDT()
 
     tableauEDT->setDropIndicatorShown(false);  //Evite l'insertion en drag&drop entre les lignes
 
-
-    //insert data
-    tableauEDT->setItem(0, 1, new QTableWidgetItem("Hello"));
 
     connect( tableauEDT, SIGNAL( cellDoubleClicked (int, int) ),this, SLOT( celluleSelectionnee( int, int ) ) );
     layout->addWidget(tableauEDT);

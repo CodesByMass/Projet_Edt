@@ -15,6 +15,7 @@ class Fen_VisualisationEDT: public QWidget
     //fen_accueil();
     Fen_VisualisationEDT(Universite *u);
     void visualise_EDT();
+    void remplir_edt();
 
     ~Fen_VisualisationEDT();
 
@@ -28,6 +29,7 @@ class Fen_VisualisationEDT: public QWidget
 
       private slots:
         void Actu(const QString nom);
+        void changegroupe();
 
 
 

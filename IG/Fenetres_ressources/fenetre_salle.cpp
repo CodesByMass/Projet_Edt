@@ -153,6 +153,7 @@ void Fenetre_Salle::creer_salle() {
             }
             // Elle est ajoutée à l'université
             temp_universite->add_salle(s);
+            QMessageBox::information(this, "Salle créée", "La nouvelle salle a été ajoutée");
              emit actualise();
         }
         // Si le formulaire est incomplet

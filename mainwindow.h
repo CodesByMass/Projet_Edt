@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "./IG/fen_modificationedt.h"
+#include "./IG/fen_visualisation.h"
 #include "./IG/fen_accueil.h"
 #include "./IG/fen_creation.h"
 #include <QMainWindow>
@@ -29,6 +30,7 @@ private:
     fen_accueil *accueil;
     fen_creation *creation;
     Fen_ModificationEDT *modificationwindow;
+    Fen_VisualisationEDT *visualisationwindow;
 
 
 
@@ -40,6 +42,7 @@ public slots:
      void creation_EDT();
      void affiche_accueil();
      void showFen_ModificationEDT();
+     void showFen_VisualisationEDT();
 private slots:
      // Lance la création d'un EDT en faisant la demande du nom de la filière et du choix des matières. Lorsque c'est validé envois sur la fenetre de modification d'EDT.
 
