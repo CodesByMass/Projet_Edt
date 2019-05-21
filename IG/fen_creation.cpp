@@ -178,4 +178,17 @@ void fen_creation::cree_filiere()
 }
 
 
-fen_creation::~fen_creation(){}
+fen_creation::~fen_creation(){
+    delete layoutf;
+    delete effectifs;
+    delete vueliste;
+    delete modeleliste;
+    delete listeSem ;
+    delete listeEns ;
+    delete listeMat ;
+    delete filliereEdit;
+    delete fm;
+    delete formulaire ;
+    delete ButtonsLayout;
+
+}

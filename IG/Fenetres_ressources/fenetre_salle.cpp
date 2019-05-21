@@ -146,6 +146,11 @@ void Fenetre_Salle::creer_salle() {
             Salle *s = new Salle(u, new_nom.toStdString(), 100, NULL,{}, &new_b,salle_materiel, new_effectif.toInt(), type) ;
             // On ajoute la salle au batiment
             new_b.salles.push_back(s);
+            //Pour chaque matiere, on ajoute la salle dans sa liste de salles acceptées
+            for(list<Matiere*>::iterator m = salle_materiel.begin(); m != salle_materiel.end(); ++m)
+            {
+                (*m)->add_salle(s) ;
+            }
             // Elle est ajoutée à l'université
             temp_universite->add_salle(s);
              emit actualise();

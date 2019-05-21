@@ -13,7 +13,7 @@ class Fen_VisualisationEDT: public QWidget
     public:
 
     //fen_accueil();
-    Fen_VisualisationEDT(QWidget *parent, Universite *u);
+    Fen_VisualisationEDT(Universite *u);
     void visualise_EDT();
 
     ~Fen_VisualisationEDT();

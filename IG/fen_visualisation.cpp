@@ -91,7 +91,7 @@ void Fen_VisualisationEDT::Actu(const QString nom)
      }
 }
 
-Fen_VisualisationEDT::Fen_VisualisationEDT(QWidget *parent, Universite *u)
+Fen_VisualisationEDT::Fen_VisualisationEDT(Universite *u)
 {
     this->u=u;
     this->f=new Filiere();
@@ -102,4 +102,10 @@ Fen_VisualisationEDT::Fen_VisualisationEDT(QWidget *parent, Universite *u)
 }
 
 
-Fen_VisualisationEDT::~Fen_VisualisationEDT(){}
+Fen_VisualisationEDT::~Fen_VisualisationEDT(){
+
+    delete tableauEDTvisuel;
+    delete layoutvisuel;
+    delete listeGroupe;
+    delete listeFiliere;
+}

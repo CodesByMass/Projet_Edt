@@ -36,7 +36,6 @@
 
 void Fen_ModificationEDT::ressourceSelectionnee()
 {
-    QItemSelectionModel *selection=nullptr;
     QListWidget *modeleliste = nullptr;
 
     if(onglets->currentIndex() == 0)
@@ -83,8 +82,9 @@ void Fen_ModificationEDT::ressourceSelectionnee()
 }
 void Fen_ModificationEDT::affiche_cours()
 {
-    list<Matiere *> m=*(f->get_matieres());
 
+    list<Matiere *> m=*(f->get_matieres());
+   string nomg= (listeGroupe->currentText()).toStdString();
 
     listeCoursOnglet->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
@@ -94,8 +94,11 @@ void Fen_ModificationEDT::affiche_cours()
 
             for(list<Cours*>::iterator j = c.begin(); j!= c.end(); j++ )
             {
-                QString ens = QString::fromStdString((*j)->get_type_string()+ " "+(*j)->get_matiere()->get_nom());
-                listeCoursOnglet->addItem(ens);
+                if ((*j)->get_groupes(nomg)!=nullptr)
+                {
+                 QString ens = QString::fromStdString((*j)->get_type_string()+ " "+(*j)->get_matiere()->get_nom());
+                 listeCoursOnglet->addItem(ens);
+                }
             }
 
           }
@@ -214,7 +217,7 @@ void Fen_ModificationEDT::affiche_onglets()
     listeEnseignantOnglet = new QListWidget();
     listeSalleOnglet = new QListWidget();
     listeGroupeOnglet = new QListWidget();
-    affiche_cours();
+   // affiche_cours();
     affiche_enseignants();
     affiche_salles();
     affiche_groupe();
@@ -260,18 +263,18 @@ return -1; //EDT plein
 }
 void Fen_ModificationEDT::sauvegarder()
 {
-
-    for(int x=0; x == this->tableauEDT->rowCount();x+=3)
+    for(int x=0; x <= this->tableauEDT->rowCount();x+=3)
    {
-       for(int y=0; y == this->tableauEDT->columnCount();y++)
+       for(int y=0; y <= this->tableauEDT->columnCount();y++)
        {
+         if (this->tableauEDT->item(x,y)!=nullptr && this->tableauEDT->item(x+1,y)!= nullptr && this->tableauEDT->item(x+2,y)!=nullptr){
           QString s = this->tableauEDT->item(x,y)->text();
-          QString sa = this->tableauEDT->item(x,y+1)->text();
-          QString e = this->tableauEDT->item(x,y+1)->text();
+          QString sa = this->tableauEDT->item(x+1,y)->text();
+          QString e = this->tableauEDT->item(x+2,y)->text();
 
           for( list<Matiere*>::iterator it = f->get_matieres()->begin(); it!= f->get_matieres()->end(); ++it)
           {
-              if((*it)->get_cours(s.toStdString()))
+            if((*it)->get_cours(s.toStdString()))
               {
                 (*it)->get_cours(s.toStdString())->set_emplacement(x/3,y);
 
@@ -281,9 +284,13 @@ void Fen_ModificationEDT::sauvegarder()
 
                 Salle* salle = (*it)->get_cours(s.toStdString())->get_salle();
                 salle->set_identifiant(sa.toStdString());
-                (*it)->get_cours(s.toStdString())->set_salle(   salle   );
+                (*it)->get_cours(s.toStdString())->set_salle(salle);
+                (*it)->get_cours(s.toStdString())->set_emplacement(y,x/3);
+                f->get_edt()->add_cours((*it)->get_cours(s.toStdString()),y,x/3);
+
               }
           }
+         }
        }
    }
     ecriture_universite(u);
@@ -291,7 +298,6 @@ void Fen_ModificationEDT::sauvegarder()
 
 void Fen_ModificationEDT::remplir_edt()
 {
-
     for(int x=0; x < this->tableauEDT->rowCount();x+=3)
         {
            for(int y=0; y < this->tableauEDT->columnCount();y++)
@@ -301,12 +307,17 @@ void Fen_ModificationEDT::remplir_edt()
 
                    for( list<Cours*>::iterator co = (*it)->get_cours()->begin(); co!= (*it)->get_cours()->end(); ++co)
                    {
-                       if((*co)->get_emplacement()[1] ==x/3 && (*co)->get_emplacement()[0] ==y && (*co)->get_groupes(listeGroupe->currentText().toStdString()) !=nullptr )
+                       if((*co)->get_emplacement()[1] ==x/3 && (*co)->get_emplacement()[0] ==y &&  (*co)->get_groupes(listeGroupe->currentText().toStdString()) !=nullptr)
                        {
                            tableauEDT->setItem(x, y, new QTableWidgetItem(QString::fromStdString( (*co)->get_type_string() + (*co)->get_matiere()->get_nom()   ) ));
                            tableauEDT->setItem(x+1, y, new QTableWidgetItem( QString::fromStdString( (*co)->get_enseignant()->get_identifiant()   ) ));
                            tableauEDT->setItem(x+2, y, new QTableWidgetItem(QString::fromStdString( (*co)->get_salle()->get_identifiant()   )));
-
+                           if ((*co)->get_duree()==2)
+                           {
+                               tableauEDT->setItem(x+3, y, new QTableWidgetItem(QString::fromStdString( (*co)->get_type_string() + (*co)->get_matiere()->get_nom()   ) ));
+                               tableauEDT->setItem(x+4, y, new QTableWidgetItem( QString::fromStdString( (*co)->get_enseignant()->get_identifiant()   ) ));
+                               tableauEDT->setItem(x+5, y, new QTableWidgetItem(QString::fromStdString( (*co)->get_salle()->get_identifiant()   )));
+                           }
                        }
                    }
                 }
@@ -418,7 +429,7 @@ void Fen_ModificationEDT::bouton_generationLATEX()
 
 }
 
-Fen_ModificationEDT::Fen_ModificationEDT(QWidget *parent, Universite* u) : QWidget()
+Fen_ModificationEDT::Fen_ModificationEDT( Universite* u) : QWidget()
 {
     this->u=u;
     this->f=new Filiere();
@@ -455,6 +466,8 @@ Fen_ModificationEDT::Fen_ModificationEDT(QWidget *parent, Universite* u) : QWidg
         listeGroupe->addItem(QString::fromStdString(groupe));
      }
     layout->addWidget(listeGroupe);
+
+    connect(listeGroupe,SIGNAL(currentTextChanged(const QString)),this, SLOT(changegroupe()));
 
 }
 
@@ -520,7 +533,7 @@ void Fen_ModificationEDT::changefiliere ()
     string nomfil=(listeFiliere->currentText()).toStdString();
     this->f=u->get_filieres(nomfil);
 
-    listeCoursOnglet->clear();
+  /*  listeCoursOnglet->clear();
     affiche_cours();
     listeSalleOnglet->clear();
     affiche_salles();
@@ -528,7 +541,7 @@ void Fen_ModificationEDT::changefiliere ()
     affiche_enseignants();
     listeGroupeOnglet->clear();
     affiche_groupe();
-    tableauEDT->clearContents();
+    tableauEDT->clearContents();*/
 
     listeGroupe->clear();
 
@@ -538,8 +551,27 @@ void Fen_ModificationEDT::changefiliere ()
          listeGroupe->addItem(QString::fromStdString(groupe));
       }
      layout->addWidget(listeGroupe);
+}
 
+void Fen_ModificationEDT::changegroupe()
+{
 
+    listeCoursOnglet->clear();
+    affiche_cours();
+
+    listeSalleOnglet->clear();
+    affiche_salles();
+
+    listeEnseignantOnglet->clear();
+    affiche_enseignants();
+
+    listeGroupeOnglet->clear();
+    affiche_groupe();
+
+    tableauEDT->clearContents();
+
+    if (f->get_edt()!=nullptr)
+        remplir_edt();
 
 }
 
@@ -550,5 +582,26 @@ void Fen_ModificationEDT::conv()
 
 Fen_ModificationEDT::~Fen_ModificationEDT()
 {
+    delete fenetre;
+    delete layout;
+    delete tableauEDT;
+    delete buttonressources;
+    delete buttonselection;
+    delete buttonsauvegarder;
+    delete listeGroupe;
+    delete listeFiliere;
+    delete onglets;
+    delete ongletPage1;
+    delete ongletPage2;
+    delete ongletPage4;
+    delete ongletPage3;
+    delete listeGroupeOnglet;
+    delete listeSalleOnglet;
+    delete listeEnseignantOnglet;
+    delete listeCoursOnglet;
+    delete vbox1;
+    delete vbox2;
+    delete vbox3;
+    delete vbox4;
 
 }

@@ -18,7 +18,7 @@ class Fen_ModificationEDT : public QWidget
 {
     Q_OBJECT
 public:
-    Fen_ModificationEDT(QWidget *parent,Universite* u);
+    Fen_ModificationEDT(Universite* u);
 
     //Fen_ModificationEDT(&filiere f, &universite u, int groupe);
    // ~Fen_ModificationEDT();
@@ -100,6 +100,7 @@ private slots:
     void cree_fen_ajout_cours();
     void celluleSelectionnee(int nRow, int nCol);
     void changefiliere();
+    void changegroupe();
     void exec_generationEDT();
     void conv();
 

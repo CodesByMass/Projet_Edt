@@ -24,8 +24,8 @@ class fen_creation : public QWidget
 
      private:
      Universite *u;
-     QVBoxLayout *layoutf;
      Filiere *f;
+     QVBoxLayout *layoutf;
      int nb_groupe;
      int* effectifs;
      QListView *vueliste;
