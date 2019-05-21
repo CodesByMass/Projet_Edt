@@ -399,7 +399,10 @@ int EvalueSoft(Universite* univ, EDT* edt, int debug)
 	pthread_t contrainte1, contrainte2, contrainte3, contrainte4, contrainte5;
 	
 	//creation de la strucure de donnée a donner en argument aux threads
-	contrainte_arg arg = {univ, edt, debug-1};
+	contrainte_arg arg;
+	arg.univ = univ;
+	arg.edt = edt;
+	arg.debug = debug-1;
 	
 	//lancer les threads 
 	if(Affiche_debug(debug))	cout << "debut lancement des contraintes soft" << endl;
@@ -456,7 +459,10 @@ int EvalueHard(Universite* univ, EDT* edt, int debug)
 	pthread_t contrainte1, contrainte2, contrainte3, contrainte4, contrainte5, contrainte6, contrainte7, contrainte8, contrainte9;
 	
 	//creation de la strucure de donnée a donner en argument aux threads
-	contrainte_arg arg = {univ, edt, debug-1};
+	contrainte_arg arg;
+	arg.univ = univ;
+	arg.edt = edt;
+	arg.debug = debug-1;
 	
 	//lancer les threads 
 	if(Affiche_debug(debug))	cout << "debut lancement des contraintes hard" << endl;
